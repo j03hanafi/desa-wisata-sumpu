@@ -36,7 +36,7 @@ class GallerySouvenirPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id');
+        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('gallery_souvenir_place');
         $this->db->enableForeignKeyChecks();
     }

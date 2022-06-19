@@ -39,7 +39,7 @@ class DetailSouvenirPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('souvenir_place_id');
-        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id');
+        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_souvenir_place');
         $this->db->enableForeignKeyChecks();
     }

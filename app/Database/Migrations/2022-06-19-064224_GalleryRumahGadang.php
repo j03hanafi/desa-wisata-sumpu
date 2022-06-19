@@ -36,7 +36,7 @@ class GalleryRumahGadang extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id');
+        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('gallery_rumah_gadang');
         $this->db->enableForeignKeyChecks();
     }

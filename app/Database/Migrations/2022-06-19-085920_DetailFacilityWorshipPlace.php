@@ -39,9 +39,9 @@ class DetailFacilityWorshipPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id');
-        $this->forge->addForeignKey('facility_id', 'facility_worship_place', 'id');
-        $this->forge->addForeignKey('condition_id', 'condition_worship_place', 'id');
+        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('facility_id', 'facility_worship_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('condition_id', 'condition_worship_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_facility_worship_place');
         $this->db->enableForeignKeyChecks();
     }

@@ -73,7 +73,7 @@ class Account extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('role_id', 'role', 'id');
+        $this->forge->addForeignKey('role_id', 'role', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('account');
         $this->db->enableForeignKeyChecks();
     }

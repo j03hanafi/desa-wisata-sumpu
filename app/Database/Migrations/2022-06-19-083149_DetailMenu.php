@@ -35,8 +35,8 @@ class DetailMenu extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id');
-        $this->forge->addForeignKey('menu_id', 'menu', 'id');
+        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('menu_id', 'menu', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_menu');
         $this->db->enableForeignKeyChecks();
     }

@@ -57,7 +57,7 @@ class Event extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('category_id', 'category_event', 'id');
+        $this->forge->addForeignKey('category_id', 'category_event', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('event');
         $this->db->enableForeignKeyChecks();
     }

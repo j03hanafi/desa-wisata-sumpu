@@ -44,7 +44,7 @@ class VideoCulinaryPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id');
+        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('video_culinary_place');
         $this->db->enableForeignKeyChecks();
     }

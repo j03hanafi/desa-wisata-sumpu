@@ -35,8 +35,8 @@ class DetailProduct extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id');
-        $this->forge->addForeignKey('product_id', 'product', 'id');
+        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('product_id', 'product', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_product');
         $this->db->enableForeignKeyChecks();
     }

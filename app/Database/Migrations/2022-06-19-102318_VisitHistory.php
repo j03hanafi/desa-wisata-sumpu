@@ -34,7 +34,7 @@ class VisitHistory extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('account_id', 'account', 'id');
+        $this->forge->addForeignKey('account_id', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('visit_history');
         $this->db->enableForeignKeyChecks();
     }

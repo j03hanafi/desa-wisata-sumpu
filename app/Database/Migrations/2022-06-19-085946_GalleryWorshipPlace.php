@@ -36,7 +36,7 @@ class GalleryWorshipPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id');
+        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('gallery_worship_place');
         $this->db->enableForeignKeyChecks();
     }

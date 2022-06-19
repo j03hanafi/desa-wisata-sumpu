@@ -35,8 +35,8 @@ class DetailFacilityCulinaryPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id');
-        $this->forge->addForeignKey('facility_id', 'facility_culinary_place', 'id');
+        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('facility_id', 'facility_culinary_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_facility_culinary_place');
         $this->db->enableForeignKeyChecks();
     }

@@ -64,7 +64,7 @@ class RumahGadang extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('recom', 'recommendation', 'id');
+        $this->forge->addForeignKey('recom', 'recommendation', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('rumah_gadang');
         $this->db->enableForeignKeyChecks();
     }

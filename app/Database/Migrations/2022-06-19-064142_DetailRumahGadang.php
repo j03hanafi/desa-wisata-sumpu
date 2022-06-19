@@ -39,7 +39,7 @@ class DetailRumahGadang extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('rumah_gadang_id');
-        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id');
+        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('detail_rumah_gadang');
         $this->db->enableForeignKeyChecks();
     }

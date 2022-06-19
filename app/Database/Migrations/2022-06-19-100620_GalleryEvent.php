@@ -36,7 +36,7 @@ class GalleryEvent extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('event_id', 'event', 'id');
+        $this->forge->addForeignKey('event_id', 'event', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('gallery_event');
         $this->db->enableForeignKeyChecks();
     }
