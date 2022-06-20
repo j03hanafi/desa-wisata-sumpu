@@ -1,0 +1,11 @@
+id,name,address,contact_person,capacity,open,close,employee,geom,owner
+CP001,Tempat Kuliner 1,Desa Wisata Kampuang Minang Nagari Sumpu,081731176001,16,07:00:00,13:00:00,3,,CP1
+CP002,Tempat Kuliner 2,Desa Wisata Kampuang Minang Nagari Sumpu,081322466841,30,08:00:00,14:00:00,2,,CP2
+CP003,Tempat Kuliner 3,Desa Wisata Kampuang Minang Nagari Sumpu,081184980336,45,09:00:00,15:00:00,10,,CP3
+CP004,Tempat Kuliner 4,Desa Wisata Kampuang Minang Nagari Sumpu,081355731801,15,10:00:00,16:00:00,1,,CP4
+CP005,Tempat Kuliner 5,Desa Wisata Kampuang Minang Nagari Sumpu,081434231289,12,11:00:00,17:00:00,10,,CP5
+CP006,Tempat Kuliner 6,Desa Wisata Kampuang Minang Nagari Sumpu,081735685596,38,12:00:00,18:00:00,3,,CP6
+CP007,Tempat Kuliner 7,Desa Wisata Kampuang Minang Nagari Sumpu,081827446754,36,13:00:00,19:00:00,9,,CP7
+CP008,Tempat Kuliner 8,Desa Wisata Kampuang Minang Nagari Sumpu,081360835904,14,14:00:00,20:00:00,8,,CP8
+CP009,Tempat Kuliner 9,Desa Wisata Kampuang Minang Nagari Sumpu,081829117011,24,15:00:00,21:00:00,2,,CP9
+CP010,Tempat Kuliner 10,Desa Wisata Kampuang Minang Nagari Sumpu,081169178115,9,16:00:00,22:00:00,10,,CP10
