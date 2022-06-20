@@ -17,6 +17,7 @@ class DetailMenuSeeder extends Seeder
                 'id' => $row[0],
                 'culinary_place_id' => $row[1],
                 'menu_id' => $row[2],
+                'price' => $row[3],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

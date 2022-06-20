@@ -17,7 +17,6 @@ class MenuSeeder extends Seeder
                 'id' => $row[0],
                 'name' => $row[1],
                 'photo' => $row[2],
-                'price' => $row[3],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

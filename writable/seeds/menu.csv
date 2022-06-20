@@ -1,5 +1,5 @@
-id,name,photo,price
-MN001,Menu 1,picsum.photos/200/300.jpg,30000
-MN002,Menu 2,picsum.photos/200/300.jpg,39500
-MN003,Menu 3,picsum.photos/200/300.jpg,23000
-MN004,Menu 4,picsum.photos/200/300.jpg,38500
+id,name,photo
+MN001,Menu 1,picsum.photos/200/300.jpg
+MN002,Menu 2,picsum.photos/200/300.jpg
+MN003,Menu 3,picsum.photos/200/300.jpg
+MN004,Menu 4,picsum.photos/200/300.jpg
