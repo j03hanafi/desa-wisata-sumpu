@@ -22,6 +22,9 @@ class DetailMenu extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 5,
             ],
+            'price' => [
+                'type' => 'INT',
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
