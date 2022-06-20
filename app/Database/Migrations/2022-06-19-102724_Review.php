@@ -66,11 +66,11 @@ class Review extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('event_id', 'event', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('event_id', 'event', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('account_id', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('review');
         $this->db->enableForeignKeyChecks();

@@ -27,6 +27,14 @@ class Village extends Migration
                 'type' => 'GEOMETRY',
                 'null' => true,
             ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
         ];
 
         $this->db->disableForeignKeyChecks();
