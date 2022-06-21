@@ -17,6 +17,7 @@ class DetailProductSeeder extends Seeder
                 'id' => $row[0],
                 'souvenir_place_id' => $row[1],
                 'product_id' => $row[2],
+                'price' => $row[3],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

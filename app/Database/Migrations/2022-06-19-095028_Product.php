@@ -23,9 +23,6 @@ class Product extends Migration
                 'constraint' => 255,
                 'null' => true,
             ],
-            'price' => [
-                'type' => 'INT',
-            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
