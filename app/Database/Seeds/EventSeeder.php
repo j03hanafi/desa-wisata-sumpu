@@ -22,6 +22,9 @@ class EventSeeder extends Seeder
                 'ticket_price' => $row[5],
                 'contact_person' => $row[6],
                 'category_id' => $row[7],
+                'owner' => $row[8],
+                'lat' => $row[9],
+                'long' => $row[10],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

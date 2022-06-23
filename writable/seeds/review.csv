@@ -1,45 +1,45 @@
-id,rumah_gadang_id,event_id,culinary_place_id,worship_place_id,souvenir_place_id,comment,date,rating,account_id
-RV0001,RG001,,,,,Rerum sed consectetur.,2021-11-14 16:05:23,3,ACC0003
-RV0002,RG002,,,,,Veritatis beatae a.,2021-11-25 16:29:14,3,ACC0004
-RV0003,RG003,,,,,Ducimus non laboriosam.,2022-01-28 06:52:16,4,ACC0002
-RV0004,RG004,,,,,Molestiae autem enim facere.,2022-01-18 04:44:37,3,ACC0001
-RV0005,RG005,,,,,Natus ipsa est molestiae.,2022-04-28 15:54:21,4,ACC0004
-RV0006,RG006,,,,,Iure dolorum molestiae debitis hic.,2021-11-21 21:00:42,3,ACC0003
-RV0007,RG007,,,,,Consectetur quod temporibus alias aliquid.,2021-10-01 15:46:02,4,ACC0001
-RV0008,RG008,,,,,Praesentium ipsam eius provident in.,2021-10-27 19:33:23,5,ACC0002
-RV0009,RG009,,,,,Natus soluta sed modi nisi in.,2021-11-07 15:15:21,4,ACC0002
-RV0010,RG010,,,,,Quo quo explicabo sint veritatis sit.,2022-04-14 16:18:26,5,ACC0002
-RV0011,,EV001,,,,Nisi ea qui.,2021-12-13 17:18:12,5,ACC0002
-RV0012,,EV002,,,,Enim sequi repellendus consequuntur quidem.,2022-06-01 18:12:25,3,ACC0003
-RV0013,,EV003,,,,Ut id voluptatem minima.,2022-05-03 04:45:51,3,ACC0006
-RV0014,,EV004,,,,Et et similique.,2022-01-22 18:06:26,3,ACC0006
-RV0015,,,CP001,,,Necessitatibus sunt beatae quis molestias nisi.,2022-01-25 11:19:55,5,ACC0002
-RV0016,,,CP002,,,Ab et aut rem.,2021-12-10 05:03:50,3,ACC0005
-RV0017,,,CP003,,,Et maxime ratione quam.,2021-11-14 16:05:23,3,ACC0002
-RV0018,,,CP004,,,Laboriosam expedita quia voluptatem et nostrum.,2021-11-25 16:29:14,3,ACC0002
-RV0019,,,CP005,,,Eos nemo nobis qui vero.,2022-01-28 06:52:16,5,ACC0006
-RV0020,,,CP006,,,Magnam nulla quia.,2022-01-18 04:44:37,4,ACC0004
-RV0021,,,CP007,,,Quod quia blanditiis quia.,2022-04-28 15:54:21,4,ACC0004
-RV0022,,,CP008,,,Magni quisquam inventore atque ea et.,2021-11-21 21:00:42,4,ACC0001
-RV0023,,,CP009,,,Culpa explicabo quo omnis numquam.,2021-10-01 15:46:02,3,ACC0004
-RV0024,,,CP010,,,Aspernatur iure voluptatem autem.,2021-10-27 19:33:23,3,ACC0003
-RV0025,,,,WP001,,Fugiat libero libero qui beatae.,2021-11-07 15:15:21,3,ACC0001
-RV0026,,,,WP002,,Voluptatem saepe sed magnam.,2022-04-14 16:18:26,4,ACC0001
-RV0027,,,,WP003,,Eligendi eius sequi tenetur.,2021-12-13 17:18:12,4,ACC0003
-RV0028,,,,WP004,,Rerum mollitia est et esse rerum.,2022-06-01 18:12:25,4,ACC0003
-RV0029,,,,WP005,,Dolorem ipsa libero porro et.,2022-05-03 04:45:51,3,ACC0001
-RV0030,,,,WP006,,Quod ut molestiae.,2022-01-22 18:06:26,4,ACC0001
-RV0031,,,,WP007,,Dolor veniam laboriosam expedita quod qui.,2022-01-25 11:19:55,4,ACC0002
-RV0032,,,,WP008,,Rem qui qui sed commodi.,2021-12-10 05:03:50,4,ACC0002
-RV0033,,,,WP009,,Culpa non deleniti ipsa.,2021-11-14 16:05:23,3,ACC0003
-RV0034,,,,WP010,,Omnis quia animi maxime.,2021-11-25 16:29:14,5,ACC0006
-RV0035,,,,,SP001,Vel tempora omnis.,2022-01-28 06:52:16,5,ACC0002
-RV0036,,,,,SP002,Asperiores corporis molestias reprehenderit neque unde.,2022-01-18 04:44:37,3,ACC0005
-RV0037,,,,,SP003,Officiis suscipit cumque quam.,2022-04-28 15:54:21,4,ACC0005
-RV0038,,,,,SP004,Facere minima illo dolores maiores.,2021-11-21 21:00:42,5,ACC0004
-RV0039,,,,,SP005,Accusantium animi qui alias.,2021-10-01 15:46:02,3,ACC0001
-RV0040,,,,,SP006,Adipisci debitis aut dolore in.,2021-10-27 19:33:23,4,ACC0004
-RV0041,,,,,SP007,Ea occaecati quia ipsum deserunt.,2021-11-07 15:15:21,4,ACC0006
-RV0042,,,,,SP008,Reiciendis pariatur animi consectetur totam animi.,2022-04-14 16:18:26,4,ACC0002
-RV0043,,,,,SP009,Mollitia numquam aperiam.,2021-12-13 17:18:12,4,ACC0005
-RV0044,,,,,SP010,Consequuntur eum quidem magni,2022-06-01 18:12:25,4,ACC0006
+id,status,rumah_gadang_id,event_id,culinary_place_id,worship_place_id,souvenir_place_id,comment,date,rating,account_id
+RV0001,1,RG001,,,,,Rerum sed consectetur.,2021-11-14 16:05:23,3,ACC0005
+RV0002,1,RG002,,,,,Veritatis beatae a.,2021-11-25 16:29:14,4,ACC0007
+RV0003,1,RG003,,,,,Ducimus non laboriosam.,2022-01-28 06:52:16,5,ACC0006
+RV0004,1,RG004,,,,,Molestiae autem enim facere.,2022-01-18 04:44:37,5,ACC0006
+RV0005,1,RG005,,,,,Natus ipsa est molestiae.,2022-04-28 15:54:21,5,ACC0007
+RV0006,1,RG006,,,,,Iure dolorum molestiae debitis hic.,2021-11-21 21:00:42,4,ACC0005
+RV0007,1,RG007,,,,,Consectetur quod temporibus alias aliquid.,2021-10-01 15:46:02,3,ACC0005
+RV0008,1,RG008,,,,,Praesentium ipsam eius provident in.,2021-10-27 19:33:23,4,ACC0006
+RV0009,1,RG009,,,,,Natus soluta sed modi nisi in.,2021-11-07 15:15:21,4,ACC0005
+RV0010,1,RG010,,,,,Quo quo explicabo sint veritatis sit.,2022-04-14 16:18:26,5,ACC0005
+RV0011,2,,EV001,,,,Nisi ea qui.,2021-12-13 17:18:12,4,ACC0001
+RV0012,2,,EV002,,,,Enim sequi repellendus consequuntur quidem.,2022-06-01 18:12:25,5,ACC0002
+RV0013,2,,EV003,,,,Ut id voluptatem minima.,2022-05-03 04:45:51,3,ACC0002
+RV0014,2,,EV004,,,,Et et similique.,2022-01-22 18:06:26,5,ACC0003
+RV0015,3,,,CP001,,,Necessitatibus sunt beatae quis molestias nisi.,2022-01-25 11:19:55,4,ACC0002
+RV0016,3,,,CP002,,,Ab et aut rem.,2021-12-10 05:03:50,3,ACC0005
+RV0017,3,,,CP003,,,Et maxime ratione quam.,2021-11-14 16:05:23,3,ACC0003
+RV0018,3,,,CP004,,,Laboriosam expedita quia voluptatem et nostrum.,2021-11-25 16:29:14,4,ACC0003
+RV0019,3,,,CP005,,,Eos nemo nobis qui vero.,2022-01-28 06:52:16,4,ACC0007
+RV0020,3,,,CP006,,,Magnam nulla quia.,2022-01-18 04:44:37,4,ACC0007
+RV0021,3,,,CP007,,,Quod quia blanditiis quia.,2022-04-28 15:54:21,3,ACC0005
+RV0022,3,,,CP008,,,Magni quisquam inventore atque ea et.,2021-11-21 21:00:42,3,ACC0002
+RV0023,3,,,CP009,,,Culpa explicabo quo omnis numquam.,2021-10-01 15:46:02,4,ACC0005
+RV0024,3,,,CP010,,,Aspernatur iure voluptatem autem.,2021-10-27 19:33:23,4,ACC0007
+RV0025,4,,,,WP001,,Fugiat libero libero qui beatae.,2021-11-07 15:15:21,4,ACC0007
+RV0026,4,,,,WP002,,Voluptatem saepe sed magnam.,2022-04-14 16:18:26,5,ACC0006
+RV0027,4,,,,WP003,,Eligendi eius sequi tenetur.,2021-12-13 17:18:12,5,ACC0006
+RV0028,4,,,,WP004,,Rerum mollitia est et esse rerum.,2022-06-01 18:12:25,3,ACC0007
+RV0029,4,,,,WP005,,Dolorem ipsa libero porro et.,2022-05-03 04:45:51,4,ACC0006
+RV0030,4,,,,WP006,,Quod ut molestiae.,2022-01-22 18:06:26,4,ACC0007
+RV0031,4,,,,WP007,,Dolor veniam laboriosam expedita quod qui.,2022-01-25 11:19:55,5,ACC0005
+RV0032,4,,,,WP008,,Rem qui qui sed commodi.,2021-12-10 05:03:50,5,ACC0007
+RV0033,4,,,,WP009,,Culpa non deleniti ipsa.,2021-11-14 16:05:23,3,ACC0003
+RV0034,4,,,,WP010,,Omnis quia animi maxime.,2021-11-25 16:29:14,4,ACC0002
+RV0035,5,,,,,SP001,Vel tempora omnis.,2022-01-28 06:52:16,3,ACC0001
+RV0036,5,,,,,SP002,Asperiores corporis molestias reprehenderit neque unde.,2022-01-18 04:44:37,3,ACC0005
+RV0037,5,,,,,SP003,Officiis suscipit cumque quam.,2022-04-28 15:54:21,4,ACC0001
+RV0038,5,,,,,SP004,Facere minima illo dolores maiores.,2021-11-21 21:00:42,4,ACC0003
+RV0039,5,,,,,SP005,Accusantium animi qui alias.,2021-10-01 15:46:02,4,ACC0002
+RV0040,5,,,,,SP006,Adipisci debitis aut dolore in.,2021-10-27 19:33:23,3,ACC0007
+RV0041,5,,,,,SP007,Ea occaecati quia ipsum deserunt.,2021-11-07 15:15:21,3,ACC0001
+RV0042,5,,,,,SP008,Reiciendis pariatur animi consectetur totam animi.,2022-04-14 16:18:26,5,ACC0006
+RV0043,5,,,,,SP009,Mollitia numquam aperiam.,2021-12-13 17:18:12,3,ACC0005
+RV0044,5,,,,,SP010,Consequuntur eum quidem magni,2022-06-01 18:12:25,5,ACC0003

@@ -22,6 +22,9 @@ class SouvenirPlaceSeeder extends Seeder
                 'employee' => $row[5],
                 'open' => $row[7],
                 'close' => $row[8],
+                'lat' => $row[9],
+                'long' => $row[10],
+                'description' => $row[11],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

@@ -18,6 +18,16 @@ class VisitHistory extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 7,
             ],
+            'object_id' => [
+                'type' => 'VARCHAR',
+                'constraint' => 5,
+                'null' => true,
+            ],
+            'category' => [
+                'type' => 'VARCHAR',
+                'constraint' => 5,
+                'default' => '0',
+            ],
             'date_visit' => [
                 'type' => 'DATETIME',
             ],

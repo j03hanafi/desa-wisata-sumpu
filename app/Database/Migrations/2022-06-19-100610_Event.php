@@ -44,6 +44,18 @@ class Event extends Migration
                 'constraint' => 5,
                 'null' => true,
             ],
+            'owner' => [
+                'type' => 'VARCHAR',
+                'constraint' => 7,
+            ],
+            'lat' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,8',
+            ],
+            'long' => [
+                'type' => 'DECIMAL',
+                'constraint' => '11,8',
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
@@ -58,6 +70,7 @@ class Event extends Migration
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('category_id', 'category_event', 'id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('owner', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('event');
         $this->db->enableForeignKeyChecks();
     }

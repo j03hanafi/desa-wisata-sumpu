@@ -50,7 +50,18 @@ class CulinaryPlace extends Migration
             ],
             'owner' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 7,
+            ],
+            'lat' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,8',
+            ],
+            'long' => [
+                'type' => 'DECIMAL',
+                'constraint' => '11,8',
+            ],
+            'description' => [
+                'type' => 'TEXT',
                 'null' => true,
             ],
             'created_at' => [
@@ -66,6 +77,7 @@ class CulinaryPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('owner', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('culinary_place');
         $this->db->enableForeignKeyChecks();
     }

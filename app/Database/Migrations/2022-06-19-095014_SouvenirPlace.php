@@ -30,8 +30,7 @@ class SouvenirPlace extends Migration
             ],
             'owner' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => true,
+                'constraint' => 7,
             ],
             'employee' => [
                 'type' => 'INT',
@@ -49,6 +48,18 @@ class SouvenirPlace extends Migration
                 'type' => 'TIME',
                 'null' => true,
             ],
+            'lat' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,8',
+            ],
+            'long' => [
+                'type' => 'DECIMAL',
+                'constraint' => '11,8',
+            ],
+            'description' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
@@ -62,6 +73,7 @@ class SouvenirPlace extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('owner', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('souvenir_place');
         $this->db->enableForeignKeyChecks();
     }

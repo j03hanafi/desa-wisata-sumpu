@@ -17,6 +17,8 @@ class VisitHistorySeeder extends Seeder
                 'id' => $row[0],
                 'account_id' => $row[1],
                 'date_visit' => $row[2],
+                'object_id' => $row[3],
+                'category' => $row[4],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

@@ -37,6 +37,25 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+// API
+$routes->resource('api/rumahGadang');
+$routes->get('api/recommendation', 'Api\RumahGadang::recommendation');
+$routes->post('api/rumahGadang/findByName', 'Api\RumahGadang::findByName');
+$routes->resource('api/event');
+$routes->resource('api/culinaryPlace');
+$routes->post('api/culinaryPlace/findByName', 'Api\CulinaryPlace::findByName');
+$routes->post('api/culinaryPlace/findByMenu', 'Api\CulinaryPlace::findByMenu');
+$routes->post('api/culinaryPlace/findByPrice', 'Api\CulinaryPlace::findByPrice');
+$routes->resource('api/worshipPlace');
+$routes->post('api/worshipPlace/findByName', 'Api\WorshipPlace::findByName');
+$routes->post('api/worshipPlace/findByCategory', 'Api\WorshipPlace::findByCategory');
+$routes->resource('api/souvenirPlace');
+$routes->post('api/souvenirPlace/findByName', 'Api\SouvenirPlace::findByName');
+$routes->post('api/souvenirPlace/findByProduct', 'Api\SouvenirPlace::findByProduct');
+$routes->resource('api/account');
+$routes->post('api/account/visitHistory', 'Api\Account::visitHistory');
+$routes->resource('api/review');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

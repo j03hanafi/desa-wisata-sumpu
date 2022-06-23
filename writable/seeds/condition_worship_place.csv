@@ -1,4 +1,7 @@
 id,condition
 CON01,Sangat Baik
 CON02,Baik
-CON03,Buruk
+CON03,Biasa
+CON04,Buruk
+CON05,Sangat Buruk
+CON06,Maintenance

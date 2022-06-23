@@ -1,5 +1,6 @@
 id,name
 REC01,Highly Recommended
 REC02,Recommended
-REC03,Not Recommended
-REC04,Maintenance
+REC03,Less Recommended
+REC04,Not Recommended
+REC05,Maintenance
