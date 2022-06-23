@@ -11,7 +11,6 @@ class BaseSeeder extends Seeder
         // Rumah Gadang Seed
         $this->call('RecommendationSeeder');
         $this->call('RumahGadangSeeder');
-        $this->call('DetailRumahGadangSeeder');
         $this->call('FacilityRumahGadangSeeder');
         $this->call('DetailFacilityRumahGadangSeeder');
         $this->call('GalleryRumahGadangSeeder');
@@ -19,7 +18,6 @@ class BaseSeeder extends Seeder
 
         // Culinary Place Seed
         $this->call('CulinaryPlaceSeeder');
-        $this->call('DetailCulinaryPlaceSeeder');
         $this->call('MenuSeeder');
         $this->call('DetailMenuSeeder');
         $this->call('FacilityCulinaryPlaceSeeder');
@@ -30,7 +28,6 @@ class BaseSeeder extends Seeder
         // Worship Place Seed
         $this->call('CategoryWorshipPlaceSeeder');
         $this->call('WorshipPlaceSeeder');
-        $this->call('DetailWorshipPlaceSeeder');
         $this->call('FacilityWorshipPlaceSeeder');
         $this->call('ConditionWorshipPlaceSeeder');
         $this->call('DetailFacilityWorshipPlaceSeeder');
@@ -39,7 +36,6 @@ class BaseSeeder extends Seeder
 
         // Souvenir Place Seed
         $this->call('SouvenirPlaceSeeder');
-        $this->call('DetailSouvenirPlaceSeeder');
         $this->call('ProductSeeder');
         $this->call('DetailProductSeeder');
         $this->call('FacilitySouvenirPlaceSeeder');
