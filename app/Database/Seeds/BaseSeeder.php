@@ -8,6 +8,11 @@ class BaseSeeder extends Seeder
 {
     public function run()
     {
+        // Account Seed
+        $this->call('RoleSeeder');
+        $this->call('AccountSeeder');
+        $this->call('VillageSeeder');
+
         // Rumah Gadang Seed
         $this->call('RecommendationSeeder');
         $this->call('RumahGadangSeeder');
@@ -50,11 +55,7 @@ class BaseSeeder extends Seeder
         $this->call('VideoEventSeeder');
 
         // Other Seed
-        $this->call('RoleSeeder');
-        $this->call('AccountSeeder');
         $this->call('VisitHistorySeeder');
         $this->call('ReviewSeeder');
-        $this->call('VillageSeeder');
-
     }
 }

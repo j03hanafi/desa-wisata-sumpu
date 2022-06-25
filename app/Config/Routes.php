@@ -40,21 +40,33 @@ $routes->get('/', 'Home::index');
 // API
 $routes->resource('api/rumahGadang');
 $routes->get('api/recommendation', 'Api\RumahGadang::recommendation');
+$routes->post('api/recommendationOwner', 'Api\RumahGadang::recommendationByOwner');
+$routes->post('api/recommendation', 'Api\RumahGadang::updateRecommendation');
+$routes->post('api/rumahGadangOwner', 'Api\RumahGadang::listByOwner');
 $routes->post('api/rumahGadang/findByName', 'Api\RumahGadang::findByName');
 $routes->resource('api/event');
+$routes->post('api/eventOwner', 'Api\Event::listByOwner');
+$routes->post('api/event/findByName', 'Api\Event::findByName');
 $routes->resource('api/culinaryPlace');
+$routes->post('api/culinaryPlaceOwner', 'Api\CulinaryPlace::listByOwner');
 $routes->post('api/culinaryPlace/findByName', 'Api\CulinaryPlace::findByName');
 $routes->post('api/culinaryPlace/findByMenu', 'Api\CulinaryPlace::findByMenu');
 $routes->post('api/culinaryPlace/findByPrice', 'Api\CulinaryPlace::findByPrice');
 $routes->resource('api/worshipPlace');
+$routes->post('api/worshipPlaceOwner', 'Api\WorshipPlace::listByOwner');
 $routes->post('api/worshipPlace/findByName', 'Api\WorshipPlace::findByName');
 $routes->post('api/worshipPlace/findByCategory', 'Api\WorshipPlace::findByCategory');
 $routes->resource('api/souvenirPlace');
+$routes->post('api/souvenirPlaceOwner', 'Api\SouvenirPlace::listByOwner');
 $routes->post('api/souvenirPlace/findByName', 'Api\SouvenirPlace::findByName');
 $routes->post('api/souvenirPlace/findByProduct', 'Api\SouvenirPlace::findByProduct');
 $routes->resource('api/account');
+$routes->post('api/account/changePassword', 'Api\Account::changePassword');
 $routes->post('api/account/visitHistory', 'Api\Account::visitHistory');
+$routes->post('api/account/newVisitHistory', 'Api\Account::newVisitHistory');
 $routes->resource('api/review');
+$routes->resource('api/admin/owner');
+$routes->resource('api/admin/user');
 
 /*
  * --------------------------------------------------------------------

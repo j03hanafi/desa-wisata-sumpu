@@ -42,6 +42,7 @@ class Review extends Migration
             'status' => [
                 'type' => 'VARCHAR',
                 'constraint' => 5,
+                'default' => 0,
             ],
             'comment' => [
                 'type' => 'TEXT',
