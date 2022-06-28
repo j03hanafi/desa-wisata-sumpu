@@ -75,10 +75,12 @@ class RumahGadang extends ResourceController
         }
 
         $list_review = $this->reviewModel->get_review_object_api('rumah_gadang_id', $id)->getResultArray();
+        $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
 
         $rumahGadang['facilities'] = $facilities;
         $rumahGadang['gallery'] = $galleries;
         $rumahGadang['video'] = $videos;
+        $rumahGadang['avg_rating'] = $avg_rating;
         $rumahGadang['reviews'] = $list_review;
 
         $response = [

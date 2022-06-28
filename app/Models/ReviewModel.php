@@ -68,4 +68,12 @@ class ReviewModel extends Model
             ->get();
         return $query;
     }
+    
+    public function get_rating($object = null, $id = null) {
+        $query = $this->db->table($this->table)
+            ->select('ceil(avg(rating)) as avg_rating')
+            ->where($object, $id)
+            ->get();
+        return $query;
+    }
 }
