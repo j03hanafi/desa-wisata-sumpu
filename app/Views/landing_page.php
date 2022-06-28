@@ -8,7 +8,7 @@
         <meta content="" name="description" />
 
         <!-- Favicon -->
-        <link href="<?= base_url('img/favicon.svg');?>" rel="icon" />
+        <link href="img/favicon.svg" rel="icon" />
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,15 +29,15 @@
         />
 
         <!-- Libraries Stylesheet -->
-        <link href="<?= base_url('lib/animate/animate.min.css'); ?>" rel="stylesheet" />
-        <link href="<?= base_url('lib/lightbox/css/lightbox.min.css'); ?>" rel="stylesheet" />
-        <link href="<?= base_url('lib/owlcarousel/assets/owl.carousel.min.css'); ?>" rel="stylesheet" />
+        <link href="lib/animate/animate.min.css" rel="stylesheet" />
+        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="<?= base_url('css/landing-page/bootstrap.min.css'); ?>" rel="stylesheet" />
+        <link href="css/landing-page/bootstrap.min.css" rel="stylesheet" />
 
         <!-- Template Stylesheet -->
-        <link href="<?= base_url('css/landing-page/style.css'); ?>" rel="stylesheet" />
+        <link href="css/landing-page/style.css" rel="stylesheet" />
     </head>
     <body>
 
@@ -61,8 +61,8 @@
             class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
             data-wow-delay="0.1s"
     >
-        <a href="<?= base_url(); ?>" class="navbar-brand p-0">
-            <img class="img-fluid me-3" src="<?= base_url('img/logo.svg'); ?>" alt="Icon" />
+        <a href="/" class="navbar-brand p-0">
+            <img class="img-fluid me-3" src="img/logo.svg" alt="Icon" />
             <h1 class="m-0 text-primary">Tourism Village</h1>
         </a>
         <button
@@ -76,7 +76,7 @@
         <div class="collapse navbar-collapse py-4 py-lg-0" id="navbarCollapse">
             <div class="navbar-nav ms-auto">
                 <a href="#home" class="nav-item nav-link active">Home</a>
-                <a href="/app" class="nav-item nav-link">Explore</a>
+                <a href="/web" class="nav-item nav-link">Explore</a>
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="#award" class="nav-item nav-link">Award</a>
             </div>
@@ -99,7 +99,7 @@
                         Desa Wisata Kampuang Minang Nagari Sumpu
                     </h1>
                     <div class="d-flex align-items-center pt-4 animated slideInDown">
-                        <a href="/app" class="btn btn-primary py-sm-3 px-3 px-sm-5 me-5"
+                        <a href="/web" class="btn btn-primary py-sm-3 px-3 px-sm-5 me-5"
                         >Explore</a
                         >
                         <button
@@ -118,13 +118,13 @@
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                 <div class="owl-carousel header-carousel">
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="<?= base_url('img/landing-page/carousel-1.jpg'); ?>" alt="" />
+                        <img class="img-fluid" src="img/landing-page/carousel-1.jpg" alt="" />
                     </div>
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="<?= base_url('img/landing-page/carousel-2.jpg'); ?>" alt="" />
+                        <img class="img-fluid" src="img/landing-page/carousel-2.jpg" alt="" />
                     </div>
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="<?= base_url('img/landing-page/carousel-3.jpg'); ?>" alt="" />
+                        <img class="img-fluid" src="img/landing-page/carousel-3.jpg" alt="" />
                     </div>
                 </div>
             </div>
@@ -194,11 +194,11 @@
                     <h5 class="mb-3">
                         <i class="far fa-check-circle text-primary me-3"></i>Wisata Edukasi
                     </h5>
-                    <a class="btn btn-primary py-3 px-5 mt-3" href="/app">Explore</a>
+                    <a class="btn btn-primary py-3 px-5 mt-3" href="/web">Explore</a>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="img-border  ">
-                        <img class="img-fluid" src="<?= base_url('img/landing-page/bg-about.jpg'); ?>" alt="" />
+                        <img class="img-fluid" src="img/landing-page/bg-about.jpg" alt="" />
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
                         class="col-md-6 col-lg-6 text-center wow fadeIn"
                         data-wow-delay="0.1s"
                 >
-                    <img src="<?= base_url('img/landing-page/trophy.png'); ?>" alt="" style="filter: invert(100%); max-width: 4em" class="mb-3">
+                    <img src="img/landing-page/trophy.png" alt="" style="filter: invert(100%); max-width: 4em" class="mb-3">
                     <h1 class="text-white mb-2" data-toggle="counter-up">50</h1>
                     <p class="text-white mb-0">Besar ADWI 2021</p>
                 </div>
@@ -226,7 +226,7 @@
                         class="col-md-6 col-lg-6 text-center wow fadeIn"
                         data-wow-delay="0.3s"
                 >
-                    <img src="<?= base_url('img/landing-page/rumah-gadang.png'); ?>" alt="" style="filter: invert(100%); max-width: 5em">
+                    <img src="img/landing-page/rumah-gadang.png" alt="" style="filter: invert(100%); max-width: 5em">
                     <h1 class="text-white mb-2" data-toggle="counter-up">70</h1>
                     <p class="text-white mb-0">Rumah Gadang</p>
                 </div>
@@ -266,7 +266,7 @@
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Links</h5>
                     <a class="btn btn-link" href="#home">Home</a>
-                    <a class="btn btn-link" href="/app">Explore</a>
+                    <a class="btn btn-link" href="/web">Explore</a>
                     <a class="btn btn-link" href="#about">About</a>
                     <a class="btn btn-link" href="#award">Award</a>
                     <a class="btn btn-link" href="">Login</a>
@@ -294,12 +294,12 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="<?= base_url('lib/wow/wow.min.js'); ?>"></script>
-    <script src="<?= base_url('lib/easing/easing.min.js'); ?>"></script>
-    <script src="<?= base_url('lib/waypoints/waypoints.min.js'); ?>"></script>
-    <script src="<?= base_url('lib/counterup/counterup.min.js'); ?>"></script>
-    <script src="<?= base_url('lib/owlcarousel/owl.carousel.min.js'); ?>"></script>
-    <script src="<?= base_url('lib/lightbox/js/lightbox.min.js'); ?>"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="<?= base_url('js/landing-page/main.js'); ?>"></script>

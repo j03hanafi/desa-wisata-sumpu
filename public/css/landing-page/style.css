@@ -1,8 +1,8 @@
 /********** Template CSS **********/
 :root {
-    --primary: #2EB872;
-    --light: #F3F4F5;
-    --dark: #282F34;
+    --primary: #435ebe;
+    --light: #f8f9fa;
+    --dark: #212529;
 }
 
 .back-to-top {
@@ -347,7 +347,7 @@
 }
 
 .visiting-hours {
-    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/bg-2.jpg) center center no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../../img/bg-2.jpg) center center no-repeat;
     background-size: cover;
 }
 

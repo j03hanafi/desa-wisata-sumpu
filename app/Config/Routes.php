@@ -36,38 +36,46 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'LandingPage::index');
-$routes->get('/app', 'Home::index');
+
+// App
+$routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
+    $routes->resource('rumahGadang');
+    $routes->get('/', 'RumahGadang::recommendation');
+    $routes->match(['get','post'], 'rumahGadang/findByName', 'RumahGadang::findByName');
+});
 
 // API
-$routes->resource('api/rumahGadang');
-$routes->get('api/recommendation', 'Api\RumahGadang::recommendation');
-$routes->post('api/recommendationOwner', 'Api\RumahGadang::recommendationByOwner');
-$routes->post('api/recommendation', 'Api\RumahGadang::updateRecommendation');
-$routes->post('api/rumahGadangOwner', 'Api\RumahGadang::listByOwner');
-$routes->post('api/rumahGadang/findByName', 'Api\RumahGadang::findByName');
-$routes->resource('api/event');
-$routes->post('api/eventOwner', 'Api\Event::listByOwner');
-$routes->post('api/event/findByName', 'Api\Event::findByName');
-$routes->resource('api/culinaryPlace');
-$routes->post('api/culinaryPlaceOwner', 'Api\CulinaryPlace::listByOwner');
-$routes->post('api/culinaryPlace/findByName', 'Api\CulinaryPlace::findByName');
-$routes->post('api/culinaryPlace/findByMenu', 'Api\CulinaryPlace::findByMenu');
-$routes->post('api/culinaryPlace/findByPrice', 'Api\CulinaryPlace::findByPrice');
-$routes->resource('api/worshipPlace');
-$routes->post('api/worshipPlaceOwner', 'Api\WorshipPlace::listByOwner');
-$routes->post('api/worshipPlace/findByName', 'Api\WorshipPlace::findByName');
-$routes->post('api/worshipPlace/findByCategory', 'Api\WorshipPlace::findByCategory');
-$routes->resource('api/souvenirPlace');
-$routes->post('api/souvenirPlaceOwner', 'Api\SouvenirPlace::listByOwner');
-$routes->post('api/souvenirPlace/findByName', 'Api\SouvenirPlace::findByName');
-$routes->post('api/souvenirPlace/findByProduct', 'Api\SouvenirPlace::findByProduct');
-$routes->resource('api/account');
-$routes->post('api/account/changePassword', 'Api\Account::changePassword');
-$routes->post('api/account/visitHistory', 'Api\Account::visitHistory');
-$routes->post('api/account/newVisitHistory', 'Api\Account::newVisitHistory');
-$routes->resource('api/review');
-$routes->resource('api/admin/owner');
-$routes->resource('api/admin/user');
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+    $routes->resource('rumahGadang');
+    $routes->get('recommendation', 'RumahGadang::recommendation');
+    $routes->post('recommendationOwner', 'RumahGadang::recommendationByOwner');
+    $routes->post('recommendation', 'RumahGadang::updateRecommendation');
+    $routes->post('rumahGadangOwner', 'RumahGadang::listByOwner');
+    $routes->post('rumahGadang/findByName', 'RumahGadang::findByName');
+    $routes->resource('event');
+    $routes->post('eventOwner', 'Event::listByOwner');
+    $routes->post('event/findByName', 'Event::findByName');
+    $routes->resource('culinaryPlace');
+    $routes->post('culinaryPlaceOwner', 'CulinaryPlace::listByOwner');
+    $routes->post('culinaryPlace/findByName', 'CulinaryPlace::findByName');
+    $routes->post('culinaryPlace/findByMenu', 'CulinaryPlace::findByMenu');
+    $routes->post('culinaryPlace/findByPrice', 'CulinaryPlace::findByPrice');
+    $routes->resource('worshipPlace');
+    $routes->post('worshipPlaceOwner', 'WorshipPlace::listByOwner');
+    $routes->post('worshipPlace/findByName', 'WorshipPlace::findByName');
+    $routes->post('worshipPlace/findByCategory', 'WorshipPlace::findByCategory');
+    $routes->resource('souvenirPlace');
+    $routes->post('souvenirPlaceOwner', 'SouvenirPlace::listByOwner');
+    $routes->post('souvenirPlace/findByName', 'SouvenirPlace::findByName');
+    $routes->post('souvenirPlace/findByProduct', 'SouvenirPlace::findByProduct');
+    $routes->resource('account');
+    $routes->post('account/changePassword', 'Account::changePassword');
+    $routes->post('account/visitHistory', 'Account::visitHistory');
+    $routes->post('account/newVisitHistory', 'Account::newVisitHistory');
+    $routes->resource('review');
+    $routes->resource('admin/owner');
+    $routes->resource('admin/user');
+});
 
 /*
  * --------------------------------------------------------------------
