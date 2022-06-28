@@ -20,6 +20,7 @@
 </head>
 <body onload="init()">
     <div id="app">
+        
         <!-- Sidebar -->
         <?php if(count($uri) > 2 && array_key_exists('id', $data)) { ?>
             <?= $this->include('web/layouts/visitor_detail_sidebar'); ?>

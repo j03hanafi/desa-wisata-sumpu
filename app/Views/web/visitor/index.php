@@ -30,7 +30,9 @@
                         <?php $i = 0; ?>
                         <?php foreach ($data as $item) : ?>
                             <div class="carousel-item<?= ($i == 0) ? ' active' : ''; ?>">
-                                <a href="<?= base_url('/web/rumahGadang/'.esc($item['id'])); ?>"><img src="<?= base_url('assets/images/samples/1.png'); ?>" class="d-block w-100" alt="..."></a>
+                                <a href="<?= base_url('/web/rumahGadang/'.esc($item['id'])); ?>">
+                                    <img src="<?= base_url('assets/images/samples/1.png'); ?>" class="d-block w-100" alt="...">
+                                </a>
                                 <div class="carousel-caption d-none d-md-block">
                                     <?php $i++; ?>
                                     <h5><?= esc($item['name']); ?></h5>

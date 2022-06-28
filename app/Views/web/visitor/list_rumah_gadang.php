@@ -11,7 +11,7 @@
             </div>
         </div>
         
-        <!--  -->
+        <!-- List Rumah Gadang -->
         <div class="col-md-5 col-12">
             <div class="card">
                 <div class="card-header">
@@ -34,8 +34,12 @@
                                     <td><?= esc($i); ?></td>
                                     <td class="fw-bold"><?= esc($item['name']); ?></td>
                                     <td>
-                                        <a target=”_blank” href="<?= base_url('/web/rumahGadang/' . esc($item['id'])); ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-primary mx-1"><span class="material-symbols-outlined">info</span></a>
-                                        <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Route" onclick="routeTo(<?= esc($item['lat']); ?>, <?= esc($item['long']); ?>)" class="btn icon btn-primary mx-1"><span class="material-symbols-outlined">directions_car</span></a>
+                                        <a target=”_blank” href="<?= base_url('/web/rumahGadang/' . esc($item['id'])); ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-primary mx-1">
+                                            <span class="material-symbols-outlined">info</span>
+                                        </a>
+                                        <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Route" onclick="routeTo(<?= esc($item['lat']); ?>, <?= esc($item['long']); ?>)" class="btn icon btn-primary mx-1">
+                                            <span class="material-symbols-outlined">directions_car</span>
+                                        </a>
                                     </td>
                                     <?php $i++ ?>
                                 </tr>

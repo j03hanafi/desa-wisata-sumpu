@@ -77,6 +77,8 @@ $uri3 = $uri[3] ?? '';
                 </div>
             
         </div>
+        
+        <!-- Sidebar -->
         <div class="sidebar-menu">
             <div class="d-flex flex-column">
                 <div class="d-flex justify-content-center avatar avatar-xl me-3">

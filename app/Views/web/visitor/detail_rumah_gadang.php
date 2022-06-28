@@ -4,15 +4,17 @@
 
 <section class="section">
     <div class="row">
+        
+        <!-- Object Detail Information -->
         <div class="col-md-6 col-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title text-center">Rumah Gadang Information</h4>
                     <div class="text-center">
-                        <?php for ($i = 0; $i < (int)$data['avg_rating']; $i++) { ?>
+                        <?php for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { ?>
                             <span class="material-symbols-outlined rating-color">star</span>
                         <?php } ?>
-                        <?php for ($i = 0; $i < (5 - (int)$data['avg_rating']); $i++) { ?>
+                        <?php for ($i = 0; $i < (5 - (int)esc($data['avg_rating'])); $i++) { ?>
                             <span class="material-symbols-outlined">star</span>
                         <?php } ?>
                     </div>
@@ -21,7 +23,7 @@
                     <div class="row">
                         <div class="col">
                             <p class="fw-bold">Description</p>
-                            <p><?= $data['description']; ?></p>
+                            <p><?= esc($data['description']); ?></p>
                         </div>
                     </div>
                     <div class="row">
@@ -30,27 +32,27 @@
                                 <tbody>
                                     <tr>
                                         <td class="fw-bold">Name</td>
-                                        <td><?= $data['name']; ?></td>
+                                        <td><?= esc($data['name']); ?></td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Address</td>
-                                        <td><?= $data['address']; ?></td>
+                                        <td><?= esc($data['address']); ?></td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Open</td>
-                                        <td><?= date('H:i', strtotime($data['open'])) . ' WIB'; ?></td>
+                                        <td><?= date('H:i', strtotime(esc($data['open']))) . ' WIB'; ?></td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Close</td>
-                                        <td><?= date('H:i', strtotime($data['close'])) . ' WIB'; ?></td>
+                                        <td><?= date('H:i', strtotime(esc($data['close']))) . ' WIB'; ?></td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Ticket Price</td>
-                                        <td><?= 'Rp ' . number_format($data['ticket_price'], 0, ',','.'); ?></td>
+                                        <td><?= 'Rp ' . number_format(esc($data['ticket_price']), 0, ',','.'); ?></td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">Contact Person</td>
-                                        <td><?= $data['contact_person']; ?></td>
+                                        <td><?= esc($data['contact_person']); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -61,7 +63,7 @@
                             <p class="fw-bold">Facilities</p>
                             <?php $i = 1; ?>
                             <?php foreach ($data['facilities'] as $facility) : ?>
-                                <p><?= "{$i}. {$facility}"; ?></p>
+                                <p><?= esc($i) . '. ' . esc($facility); ?></p>
                                 <?php $i++; ?>
                             <?php endforeach; ?>
                         </div>
@@ -69,7 +71,9 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-md-6 col-12">
+            <!-- Object Location on Map -->
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Google Maps</h5>
@@ -78,6 +82,7 @@
                     <div class="maps-detail" id="googlemaps"></div>
                 </div>
             </div>
+            <!-- Object Media -->
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid gap-2">
@@ -170,6 +175,8 @@
             </div>
         </div>
     </div>
+    
+    <!-- Object Rating and Review -->
     <div class="row">
         <div class="col-md-6 col-12">
             <div class="card">
