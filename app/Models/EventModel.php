@@ -64,6 +64,20 @@ class EventModel extends Model
             ->get();
         return $query;
     }
+    
+    public function get_ev_by_radius_api($data = null) {
+        $radius = (int)$data['radius'] / 1000;
+        $lat = $data['lat'];
+        $long = $data['long'];
+        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(lat)) * cos(radians(`long`) - radians({$long})) + sin(radians({$lat}))* sin(radians(lat))))";
+        $query = $this->db->table($this->table)
+            ->select('event.*, category_event.category, '. $jarak .' as jarak, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->join('category_event', 'event.category_id = category_event.id')
+            ->join('account', 'event.owner = account.id')
+            ->having(['jarak <=' => $radius])
+            ->get();
+        return $query;
+    }
 
     public function get_new_id_api() {
         $count = $this->db->table($this->table)->countAll();
@@ -96,4 +110,5 @@ class EventModel extends Model
             ->update($event);
         return $query;
     }
+    
 }

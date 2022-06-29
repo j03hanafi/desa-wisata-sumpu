@@ -7,6 +7,14 @@
         <!--map-->
         <div class="col-md-7 col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-md-auto">
+                            <h5 class="card-title">Google Maps with Location</h5>
+                        </div>
+                        <?= $this->include('web/layouts/header-map'); ?>
+                    </div>
+                </div>
                 <?= $this->include('web/layouts/main-map'); ?>
             </div>
         </div>
@@ -19,6 +27,7 @@
                 </div>
                 <div class="card-body">
                 <?php $i = 0; ?>
+                    <script>clearMarker();</script>
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <ol class="carousel-indicators">
                         <?php foreach ($data as $item) : ?>
@@ -30,7 +39,8 @@
                         <?php $i = 0; ?>
                         <?php foreach ($data as $item) : ?>
                             <div class="carousel-item<?= ($i == 0) ? ' active' : ''; ?>">
-                                <a href="<?= base_url('/web/rumahGadang/'.esc($item['id'])); ?>">
+                                <script>objectMarker(<?= esc($item['lat']); ?>, <?= esc($item['long']); ?>);</script>
+                                <a href="<?= base_url('/web/rumahGadang/'.esc($item['id'])); ?>" target="_blank">
                                     <img src="<?= base_url('assets/images/samples/1.png'); ?>" class="d-block w-100" alt="...">
                                 </a>
                                 <div class="carousel-caption d-none d-md-block">
@@ -55,12 +65,5 @@
     </div>
 </section>
 
-<?= $this->endSection() ?>
-
-<?= $this->section('javascript') ?>
-
-<script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY&callback=initMap">
-</script>
 <?= $this->endSection() ?>
 

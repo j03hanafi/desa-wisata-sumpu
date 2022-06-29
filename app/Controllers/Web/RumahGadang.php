@@ -157,16 +157,30 @@ class RumahGadang extends ResourceController
     
     public function findByName()
     {
-        $data = [];
+        $data = [
+            'title' => 'Rumah Gadang',
+        ];
         if ($this->request->getMethod() == 'post') {
             $request = $this->request->getPost();
             $name = $request['name'];
             $contents = $this->rumahGadangModel->get_rg_by_name_api($name)->getResultArray();
-            $data = [
-                'title' => 'Rumah Gadang',
-                'data' => $contents,
-            ];
+            $data['data'] = $contents;
         }
+        return view('web/visitor/list_rumah_gadang', $data);
+    }
+    
+    public function findByRadius()
+    {
+        $data = [
+            'title' => 'Rumah Gadang',
+        ];
+        if ($this->request->getMethod() == 'post') {
+            $request = $this->request->getPost();
+            $contents = $this->rumahGadangModel->get_rg_by_radius_api($request)->getResultArray();
+            $data['data'] = $contents;
+            $data['radius'] = [$request['lat'], $request['long'], $request['radius']];
+        }
+    
         return view('web/visitor/list_rumah_gadang', $data);
     }
 }

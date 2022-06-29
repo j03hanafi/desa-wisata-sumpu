@@ -331,6 +331,20 @@ class RumahGadang extends ResourceController
         ];
         return $this->respond($response);
     }
+    
+    public function findByRadius()
+    {
+        $request = $this->request->getPost();
+        $contents = $this->rumahGadangModel->get_rg_by_radius_api($request)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find Rumah Gadang by radius"
+            ]
+        ];
+        return $this->respond($response);
+    }
 
     public function listByOwner() {
         $request = $this->request->getPost();

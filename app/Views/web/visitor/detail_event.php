@@ -6,10 +6,10 @@
     <div class="row">
         
         <!-- Object Detail Information -->
-        <div class="col-md-6 col-12">
+        <div class="col-md-6 col-12 order-md-first order-first">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title text-center">Rumah Gadang Information</h4>
+                    <h4 class="card-title text-center">Event Information</h4>
                     <div class="text-center">
                         <?php for ($i = 0; $i < (int)esc($data['avg_rating']); $i++) { ?>
                             <span class="material-symbols-outlined rating-color">star</span>
@@ -30,47 +30,37 @@
                         <div class="col table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr>
-                                        <td class="fw-bold">Name</td>
-                                        <td><?= esc($data['name']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Address</td>
-                                        <td><?= esc($data['address']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Open</td>
-                                        <td><?= date('H:i', strtotime(esc($data['open']))) . ' WIB'; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Close</td>
-                                        <td><?= date('H:i', strtotime(esc($data['close']))) . ' WIB'; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Ticket Price</td>
-                                        <td><?= 'Rp ' . number_format(esc($data['ticket_price']), 0, ',','.'); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">Contact Person</td>
-                                        <td><?= esc($data['contact_person']); ?></td>
-                                    </tr>
+                                <tr>
+                                    <td class="fw-bold">Name</td>
+                                    <td><?= esc($data['name']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Category</td>
+                                    <td><?= esc($data['category']); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Start</td>
+                                    <td><?= date('d F Y', strtotime(esc($data['date_start']))); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">End</td>
+                                    <td><?= date('d F Y', strtotime(esc($data['date_end']))) . ' WIB'; ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Ticket Price</td>
+                                    <td><?= 'Rp ' . number_format(esc($data['ticket_price']), 0, ',','.'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Contact Person</td>
+                                    <td><?= esc($data['contact_person']); ?></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="fw-bold">Facilities</p>
-                            <?php $i = 1; ?>
-                            <?php foreach ($data['facilities'] as $facility) : ?>
-                                <p><?= esc($i) . '. ' . esc($facility); ?></p>
-                                <?php $i++; ?>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
                 </div>
             </div>
-
+            
             <!-- Object Rating and Review -->
             <div class="card">
                 <div class="card-header text-center">
@@ -106,9 +96,10 @@
                 </div>
             </div>
         </div>
+
         
+    <!-- Object Location on Map -->
         <div class="col-md-6 col-12">
-            <!-- Object Location on Map -->
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Google Maps</h5>
@@ -117,6 +108,7 @@
                 <script>initMap(<?= esc($data['lat']); ?>, <?= esc($data['long']); ?>)</script>
                 <script>objectMarker(<?= esc($data['lat']); ?>, <?= esc($data['long']); ?>);</script>
             </div>
+
             <!-- Object Media -->
             <div class="card">
                 <div class="card-body">
@@ -149,10 +141,10 @@
                                             <div class="carousel-inner">
                                                 <?php $i = 0; ?>
                                                 <?php foreach ($data['gallery'] as $gallery) : ?>
-                                                <div class="carousel-item<?= ($i == 0) ? ' active' : ''; ?>">
-                                                    <img src="<?= base_url('assets/images/samples/banana.jpg'); ?>" class="d-block w-100" alt="...">
-                                                </div>
-                                                <?php $i++; ?>
+                                                    <div class="carousel-item<?= ($i == 0) ? ' active' : ''; ?>">
+                                                        <img src="<?= base_url('assets/images/samples/banana.jpg'); ?>" class="d-block w-100" alt="...">
+                                                    </div>
+                                                    <?php $i++; ?>
                                                 <?php endforeach; ?>
                                             </div>
                                             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
@@ -215,22 +207,21 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
-    (function ($) {
-        // Modal Video
-        var $videoSrc;
-        $('.btn-play').click(function () {
-            $videoSrc = $(this).data("src");
-        });
-        console.log($videoSrc);
-        $('#videoModal').on('shown.bs.modal', function (e) {
-            $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-        })
-        $('#videoModal').on('hide.bs.modal', function (e) {
-            $("#video").attr('src', $videoSrc);
-        })
-    })(jQuery);
-</script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        (function ($) {
+            // Modal Video
+            var $videoSrc;
+            $('.btn-play').click(function () {
+                $videoSrc = $(this).data("src");
+            });
+            console.log($videoSrc);
+            $('#videoModal').on('shown.bs.modal', function (e) {
+                $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
+            })
+            $('#videoModal').on('hide.bs.modal', function (e) {
+                $("#video").attr('src', $videoSrc);
+            })
+        })(jQuery);
+    </script>
 <?= $this->endSection() ?>
-

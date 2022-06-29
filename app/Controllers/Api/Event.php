@@ -238,6 +238,20 @@ class Event extends ResourceController
         ];
         return $this->respond($response);
     }
+    
+    public function findByRadius()
+    {
+        $request = $this->request->getPost();
+        $contents = $this->eventModel->get_ev_by_radius_api($request)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find event by radius"
+            ]
+        ];
+        return $this->respond($response);
+    }
 
     public function listByOwner()
     {

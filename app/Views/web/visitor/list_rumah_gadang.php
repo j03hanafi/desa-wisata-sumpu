@@ -2,11 +2,19 @@
 
 <?= $this->section('content') ?>
 
-<section class="section">
+<section class="section"">
     <div class="row">
         <!--map-->
         <div class="col-md-7 col-12">
             <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-md-auto">
+                            <h5 class="card-title">Google Maps with Location</h5>
+                        </div>
+                        <?= $this->include('web/layouts/header-map'); ?>
+                    </div>
+                </div>
                 <?= $this->include('web/layouts/main-map'); ?>
             </div>
         </div>
@@ -18,7 +26,8 @@
                     <h5 class="card-title text-center">List Rumah Gadang</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive overflow-auto" id="table-user">
+                    <div class="table-responsive overflow-auto" id="<?= (isset($data)) ? 'table-user' : ''; ?>">
+                        <script>clearMarker();</script>
                         <table class="table table-hover mb-0 table-lg">
                             <thead>
                                 <tr>
@@ -28,9 +37,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php if (isset($data)): ?>
                             <?php $i = 1; ?>
                             <?php foreach ($data as $item) : ?>
                                 <tr>
+                                    <script>objectMarker(<?= esc($item['lat']); ?>, <?= esc($item['long']); ?>);</script>
                                     <td><?= esc($i); ?></td>
                                     <td class="fw-bold"><?= esc($item['name']); ?></td>
                                     <td>
@@ -44,7 +55,11 @@
                                     <?php $i++ ?>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php endif; ?>
                             </tbody>
+                            <?php if (isset($radius)) : ?>
+                                <script>radiusSearch({postfix: 'RG', oldLat: '<?= $radius[0]; ?>', oldLng: '<?= $radius[1]; ?>', oldRad:'<?= $radius[2]; ?>'})</script>
+                            <?php endif; ?>
                         </table>
                     </div>
                 </div>
@@ -53,11 +68,4 @@
     </div>
 </section>
 
-<?= $this->endSection() ?>
-
-<?= $this->section('javascript') ?>
-
-<script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY&callback=initMap">
-</script>
 <?= $this->endSection() ?>

@@ -39,9 +39,13 @@ $routes->get('/', 'LandingPage::index');
 
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
+    $routes->match(['get','post'], 'rumahGadang/findByName', 'RumahGadang::findByName');
+    $routes->match(['get','post'], 'rumahGadang/findByRadius', 'RumahGadang::findByRadius');
     $routes->resource('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
-    $routes->match(['get','post'], 'rumahGadang/findByName', 'RumahGadang::findByName');
+    $routes->match(['get','post'], 'event/findByName', 'Event::findByName');
+    $routes->match(['get','post'], 'event/findByRadius', 'Event::findByRadius');
+    $routes->resource('event');
 });
 
 // API
@@ -52,9 +56,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->post('recommendation', 'RumahGadang::updateRecommendation');
     $routes->post('rumahGadangOwner', 'RumahGadang::listByOwner');
     $routes->post('rumahGadang/findByName', 'RumahGadang::findByName');
+    $routes->post('rumahGadang/findByRadius', 'RumahGadang::findByRadius');
     $routes->resource('event');
     $routes->post('eventOwner', 'Event::listByOwner');
     $routes->post('event/findByName', 'Event::findByName');
+    $routes->post('event/findByRadius', 'Event::findByRadius');
     $routes->resource('culinaryPlace');
     $routes->post('culinaryPlaceOwner', 'CulinaryPlace::listByOwner');
     $routes->post('culinaryPlace/findByName', 'CulinaryPlace::findByName');

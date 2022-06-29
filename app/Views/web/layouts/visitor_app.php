@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title; ?> - Desa Wisata Kampuang Minang Nagari Sumpu</title>
+    <title><?= esc($title); ?> - Desa Wisata Kampuang Minang Nagari Sumpu</title>
 
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app-dark.css'); ?>">
@@ -16,17 +16,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="<?= base_url('assets/js/extensions/sweetalert2.js'); ?>"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY"></script>
     <script src="<?= base_url('assets/js/map.js'); ?>"></script>
 </head>
-<body onload="init()">
+<body>
     <div id="app">
         
         <!-- Sidebar -->
-        <?php if(count($uri) > 2 && array_key_exists('id', $data)) { ?>
+        <?php if (array_key_exists('id', $data)): ?>
             <?= $this->include('web/layouts/visitor_detail_sidebar'); ?>
-        <?php } else { ?>
+        <?php else: ?>
             <?= $this->include('web/layouts/visitor_sidebar'); ?>
-        <?php } ?>
+        <?php endif; ?>
         <!-- End Sidebar -->
         
         <!-- Main -->

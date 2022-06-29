@@ -94,6 +94,7 @@ $uri3 = $uri[3] ?? '';
                         </a>
                     </li>
 
+                    <!-- Rumah Gadang -->
                     <li class="sidebar-item <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?> has-sub">
                         <a href="#" class="sidebar-link">
                             <span>Rumah Gadang</span>
@@ -104,8 +105,12 @@ $uri3 = $uri[3] ?? '';
                                 <a href="<?= base_url('/web/rumahGadang'); ?>">List Rumah Gadang</a>
                             </li>
                             <li class="submenu-item <?= ($uri2 == 'findByName') ? 'active' : '' ?>">
-                                <a data-bs-toggle="collapse" href="#searchForm" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
-                                <div class="collapse mb-3" id="searchForm">
+                                <?php if ($uri2 == 'findByName') : ?>
+                                <a data-bs-toggle="collapse" href="#searchName" role="button" aria-expanded="true" aria-controls="collapseExample">Search by Name</a>
+                                <?php else : ?>
+                                <a data-bs-toggle="collapse" href="#searchName" role="button" aria-expanded="false" aria-controls="collapseExample">Search by Name</a>
+                                <?php endif; ?>
+                                <div class="collapse mb-3 <?= ($uri2 == 'findByName') ? 'show' : '' ?>" id="searchName">
                                     <form action="<?= base_url('/web/rumahGadang/findByName'); ?>" method="post">
                                         <?= csrf_field() ?>
                                         <div class="input-group">
@@ -117,17 +122,82 @@ $uri3 = $uri[3] ?? '';
                                     </form>
                                 </div>
                             </li>
+                            <li class="submenu-item <?= ($uri2 == 'findByRadius') ? 'active' : '' ?>">
+                                <?php if ($uri2 == 'findByRadius') : ?>
+                                    <a data-bs-toggle="collapse" href="#searchRadius" role="button" aria-expanded="true" aria-controls="collapseExample">Search by Radius</a>
+                                <?php else : ?>
+                                    <a data-bs-toggle="collapse" href="#searchRadius" role="button" aria-expanded="false" aria-controls="collapseExample">Search by Radius</a>
+                                <?php endif; ?>
+                                <div class="collapse mb-3 <?= ($uri2 == 'findByRadius') ? 'show' : '' ?>" id="searchRadius">
+                                    <form action="<?= base_url('/web/rumahGadang/findByRadius'); ?>" method="post">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" id="inputLatRG" name="lat">
+                                        <input type="hidden" id="inputLngRG" name="long">
+                                        <input type="hidden" id="radiusRG" name="radius">
+                                        <label for="inputRadius" class="form-label">Radius: </label>
+                                        <label id="radiusValueRG" class="form-label">0 m</label>
+                                        <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusRG" name="inputRadius" onchange="updateRadius('RG'); radiusSearch({postfix: 'RG'});">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
                         </ul>
                     </li>
 
+                    <!-- Event -->
                     <li class="sidebar-item <?= ($uri1 == 'event') ? 'active' : '' ?> has-sub">
                         <a href="#" class="sidebar-link">
                             <span>Event</span>
                         </a>
 
                         <ul class="submenu <?= ($uri1 == 'event') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri2 == 'list') ? 'active' : '' ?>">
-                                <a href="">List Event</a>
+                            <li class="submenu-item <?= ($uri1 == 'event' && $uri2 == '') ? 'active' : '' ?>">
+                                <a href="<?= base_url('/web/event'); ?>">List Event</a>
+                            </li>
+                            <li class="submenu-item <?= ($uri2 == 'findByName') ? 'active' : '' ?>">
+                                <?php if ($uri2 == 'findByName') : ?>
+                                    <a data-bs-toggle="collapse" href="#searchName" role="button" aria-expanded="true" aria-controls="collapseExample">Search by Name</a>
+                                <?php else : ?>
+                                    <a data-bs-toggle="collapse" href="#searchName" role="button" aria-expanded="false" aria-controls="collapseExample">Search by Name</a>
+                                <?php endif; ?>
+                                <div class="collapse mb-3 <?= ($uri2 == 'findByName') ? 'show' : '' ?>" id="searchName">
+                                    <form action="<?= base_url('/web/event/findByName'); ?>" method="post">
+                                        <?= csrf_field() ?>
+                                        <div class="input-group">
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="submenu-item <?= ($uri2 == 'findByRadius') ? 'active' : '' ?>">
+                                <?php if ($uri2 == 'findByRadius') : ?>
+                                    <a data-bs-toggle="collapse" href="#searchRadius" role="button" aria-expanded="true" aria-controls="collapseExample">Search by Radius</a>
+                                <?php else : ?>
+                                    <a data-bs-toggle="collapse" href="#searchRadius" role="button" aria-expanded="false" aria-controls="collapseExample">Search by Radius</a>
+                                <?php endif; ?>
+                                <div class="collapse mb-3 <?= ($uri2 == 'findByRadius') ? 'show' : '' ?>" id="searchRadius">
+                                    <form action="<?= base_url('/web/event/findByRadius'); ?>" method="post">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" id="inputLatEV" name="lat">
+                                        <input type="hidden" id="inputLngEV" name="long">
+                                        <input type="hidden" id="radiusEV" name="radius">
+                                        <label for="inputRadius" class="form-label">Radius: </label>
+                                        <label id="radiusValueEV" class="form-label">0 m</label>
+                                        <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusEV" name="inputRadius" onchange="updateRadius('EV'); radiusSearch({postfix: 'EV'});">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </li>
                         </ul>
                     </li>

@@ -81,6 +81,19 @@ class RumahGadangModel extends Model
             ->get();
         return $query;
     }
+    
+    public function get_rg_by_radius_api($data = null) {
+        $radius = (int)$data['radius'] / 1000;
+        $lat = $data['lat'];
+        $long = $data['long'];
+        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(lat)) * cos(radians(`long`) - radians({$long})) + sin(radians({$lat}))* sin(radians(lat))))";
+        $query = $this->db->table($this->table)
+            ->select('rumah_gadang.*,'. $jarak .' as jarak, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->join('account', 'rumah_gadang.owner = account.id')
+            ->having(['jarak <=' => $radius])
+            ->get();
+        return $query;
+    }
 
     public function get_new_id_api() {
         $count = $this->db->table($this->table)->countAll();
