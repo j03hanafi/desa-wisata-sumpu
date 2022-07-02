@@ -24,21 +24,6 @@ class Review extends Migration
                 'constraint' => 5,
                 'null' => true,
             ],
-            'culinary_place_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => 5,
-                'null' => true,
-            ],
-            'worship_place_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => 5,
-                'null' => true,
-            ],
-            'souvenir_place_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => 5,
-                'null' => true,
-            ],
             'status' => [
                 'type' => 'VARCHAR',
                 'constraint' => 5,
@@ -73,9 +58,6 @@ class Review extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('event_id', 'event', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('culinary_place_id', 'culinary_place', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('worship_place_id', 'worship_place', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('souvenir_place_id', 'souvenir_place', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('account_id', 'account', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('review');
         $this->db->enableForeignKeyChecks();

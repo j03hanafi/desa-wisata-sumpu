@@ -22,15 +22,13 @@ class CulinaryPlaceSeeder extends Seeder
                 'open' => $row[5],
                 'close' => $row[6],
                 'employee' => $row[7],
-                'owner' => $row[9],
-                'lat' => $row[10],
-                'long' => $row[11],
-                'description' => $row[12],
+                'description' => $row[9],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
 
             $this->db->table('culinary_place')->insert($data);
+            $this->db->table('culinary_place')->set('geom', $row[8], false)->where('id', $row[0])->update();
         }
     }
 }

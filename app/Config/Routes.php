@@ -46,6 +46,9 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
     $routes->match(['get','post'], 'event/findByName', 'Event::findByName');
     $routes->match(['get','post'], 'event/findByRadius', 'Event::findByRadius');
     $routes->resource('event');
+    $routes->match(['get','post'], 'culinaryPlace/findByName', 'CulinaryPlace::findByName');
+    $routes->match(['get','post'], 'culinaryPlace/findByRadius', 'CulinaryPlace::findByRadius');
+    $routes->resource('culinaryPlace');
 });
 
 // API

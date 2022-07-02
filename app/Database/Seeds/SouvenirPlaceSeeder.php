@@ -18,18 +18,16 @@ class SouvenirPlaceSeeder extends Seeder
                 'name' => $row[1],
                 'address' => $row[4],
                 'contact_person' => $row[2],
-                'owner' => $row[3],
-                'employee' => $row[5],
-                'open' => $row[7],
-                'close' => $row[8],
-                'lat' => $row[9],
-                'long' => $row[10],
-                'description' => $row[11],
+                'employee' => $row[4],
+                'open' => $row[6],
+                'close' => $row[7],
+                'description' => $row[8],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
 
             $this->db->table('souvenir_place')->insert($data);
+            $this->db->table('souvenir_place')->set('geom', $row[5], false)->where('id', $row[0])->update();
         }
     }
 }

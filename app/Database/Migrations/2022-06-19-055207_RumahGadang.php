@@ -46,6 +46,11 @@ class RumahGadang extends Migration
                 'constraint' => 13,
                 'null' => true,
             ],
+            'status' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+            ],
             'recom' => [
                 'type' => 'VARCHAR',
                 'constraint' => 5,
@@ -56,16 +61,13 @@ class RumahGadang extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 7,
             ],
-            'lat' => [
-                'type' => 'DECIMAL',
-                'constraint' => '10,8',
-            ],
-            'long' => [
-                'type' => 'DECIMAL',
-                'constraint' => '11,8',
-            ],
             'description' => [
                 'type' => 'TEXT',
+                'null' => true,
+            ],
+            'video_url' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
                 'null' => true,
             ],
             'created_at' => [

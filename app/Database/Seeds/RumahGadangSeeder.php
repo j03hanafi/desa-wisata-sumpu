@@ -22,16 +22,17 @@ class RumahGadangSeeder extends Seeder
                 'close' => $row[4],
                 'ticket_price' => $row[5],
                 'contact_person' => $row[7],
-                'recom' => $row[8],
-                'owner' => $row[9],
-                'lat' => $row[10],
-                'long' => $row[11],
-                'description' => $row[12],
+                'status' => $row[8],
+                'recom' => $row[9],
+                'owner' => $row[10],
+                'description' => $row[11],
+                'video_url' => $row[12],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
 
             $this->db->table('rumah_gadang')->insert($data);
+            $this->db->table('rumah_gadang')->set('geom', $row[6], false)->where('id', $row[0])->update();
         }
 
     }

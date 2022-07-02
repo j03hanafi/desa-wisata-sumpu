@@ -1,11 +1,5 @@
 id,souvenir_place_id,url
-IMG0001,SP001,picsum.photos/200/300.jpg
-IMG0002,SP002,picsum.photos/200/300.jpg
-IMG0003,SP003,picsum.photos/200/300.jpg
-IMG0004,SP004,picsum.photos/200/300.jpg
-IMG0005,SP005,picsum.photos/200/300.jpg
-IMG0006,SP006,picsum.photos/200/300.jpg
-IMG0007,SP007,picsum.photos/200/300.jpg
-IMG0008,SP008,picsum.photos/200/300.jpg
-IMG0009,SP009,picsum.photos/200/300.jpg
-IMG0010,SP010,picsum.photos/200/300.jpg
+IMG0001,SP001,sp001.jpg
+IMG0002,SP002,sp002.jpg
+IMG0003,SP003,sp003.jpg
+IMG0004,SP004,sp004.jpg

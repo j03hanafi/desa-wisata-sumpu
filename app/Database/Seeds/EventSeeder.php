@@ -23,13 +23,13 @@ class EventSeeder extends Seeder
                 'contact_person' => $row[6],
                 'category_id' => $row[7],
                 'owner' => $row[8],
-                'lat' => $row[9],
-                'long' => $row[10],
+                'video_url' => $row[10],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
 
             $this->db->table('event')->insert($data);
+            $this->db->table('event')->set('geom', $row[9], false)->where('id', $row[0])->update();
         }
     }
 }

@@ -165,6 +165,7 @@ class RumahGadang extends ResourceController
             $name = $request['name'];
             $contents = $this->rumahGadangModel->get_rg_by_name_api($name)->getResultArray();
             $data['data'] = $contents;
+            $data['input'] = $name;
         }
         return view('web/visitor/list_rumah_gadang', $data);
     }

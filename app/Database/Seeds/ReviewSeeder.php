@@ -16,10 +16,10 @@ class ReviewSeeder extends Seeder
             $data = [
                 'id' => $row[0],
                 'status' => $row[1],
-                'comment' => $row[7],
-                'date' => $row[8],
-                'rating' => $row[9],
-                'account_id' => $row[10],
+                'comment' => $row[4],
+                'date' => $row[5],
+                'rating' => $row[6],
+                'account_id' => $row[7],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
@@ -29,15 +29,6 @@ class ReviewSeeder extends Seeder
             }
             if(!empty($row[3])){
                 $data += array('event_id' => $row[3]);
-            }
-            if(!empty($row[4])){
-                $data += array('culinary_place_id' => $row[4]);
-            }
-            if(!empty($row[5])){
-                $data += array('worship_place_id' => $row[5]);
-            }
-            if(!empty($row[6])){
-                $data += array('souvenir_place_id' => $row[6]);
             }
 
             $this->db->table('review')->insert($data);

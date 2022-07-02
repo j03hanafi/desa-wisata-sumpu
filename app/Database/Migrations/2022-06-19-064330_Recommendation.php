@@ -16,7 +16,7 @@ class Recommendation extends Migration
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 25,
+                'constraint' => 255,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',

@@ -136,6 +136,7 @@ class Event extends ResourceController
             $name = $request['name'];
             $contents = $this->eventModel->get_ev_by_name_api($name)->getResultArray();
             $data['data'] = $contents;
+            $data['input'] = $name;
         }
         return view('web/visitor/list_event', $data);
     }

@@ -21,16 +21,13 @@ class WorshipPlaceSeeder extends Seeder
                 'building_size' => $row[4],
                 'capacity' => $row[5],
                 'last_renovation' => $row[6],
-                'category_id' => $row[8],
-                'owner' => $row[9],
-                'lat' => $row[10],
-                'long' => $row[11],
-                'description' => $row[12],
+                'description' => $row[8],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
 
             $this->db->table('worship_place')->insert($data);
+            $this->db->table('worship_place')->set('geom', $row[7], false)->where('id', $row[0])->update();
         }
     }
 }

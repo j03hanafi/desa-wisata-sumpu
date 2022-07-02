@@ -48,13 +48,14 @@ class Event extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 7,
             ],
-            'lat' => [
-                'type' => 'DECIMAL',
-                'constraint' => '10,8',
+            'geom' => [
+                'type' => 'GEOMETRY',
+                'null' => true,
             ],
-            'long' => [
-                'type' => 'DECIMAL',
-                'constraint' => '11,8',
+            'video_url' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
