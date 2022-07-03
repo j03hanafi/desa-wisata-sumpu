@@ -2,14 +2,9 @@
 
 namespace App\Controllers\Api;
 
-use App\Database\Migrations\DetailMenu;
 use App\Models\CulinaryPlaceModel;
-use App\Models\DetailFacilityCulinaryPlaceModel;
-use App\Models\DetailMenuModel;
 use App\Models\GalleryCulinaryPlaceModel;
-use App\Models\MenuModel;
 use App\Models\ReviewModel;
-use App\Models\VideoCulinaryPlaceModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -19,18 +14,12 @@ class CulinaryPlace extends ResourceController
 
     protected $culinaryPlaceModel;
     protected $galleryCulinaryPlaceModel;
-    protected $videoCulinaryPlaceModel;
-    protected $detailMenuModel;
-    protected $detailFacilityCulinaryPlaceModel;
     protected $reviewModel;
 
     public function __construct()
     {
         $this->culinaryPlaceModel = new CulinaryPlaceModel();
         $this->galleryCulinaryPlaceModel = new GalleryCulinaryPlaceModel();
-        $this->videoCulinaryPlaceModel = new VideoCulinaryPlaceModel();
-        $this->detailMenuModel = new DetailMenuModel();
-        $this->detailFacilityCulinaryPlaceModel = new DetailFacilityCulinaryPlaceModel();
         $this->reviewModel = new ReviewModel();
     }
 
@@ -66,28 +55,8 @@ class CulinaryPlace extends ResourceController
         foreach ($list_gallery as $gallery) {
             $galleries[] = $gallery['url'];
         }
-
-        $list_video = $this->videoCulinaryPlaceModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-
-        $list_facility = $this->detailFacilityCulinaryPlaceModel->get_facility_by_id_api($id)->getResultArray();
-        $facilities = array();
-        foreach ($list_facility as $facility) {
-            $facilities[] = $facility['facility'];
-        }
-
-        $list_menu = $this->detailMenuModel->get_menu_by_id_api($id)->getResultArray();
-
-        $list_review = $this->reviewModel->get_review_object_api('culinary_place_id', $id)->getResultArray();
-
-        $culinary_place['facilities'] = $facilities;
+        
         $culinary_place['gallery'] = $galleries;
-        $culinary_place['video'] = $videos;
-        $culinary_place['menus'] = $list_menu;
-        $culinary_place['reviews'] = $list_review;
 
         $response = [
             'data' => $culinary_place,
@@ -258,60 +227,16 @@ class CulinaryPlace extends ResourceController
             return $this->failNotFound($response);
         }
     }
-
-    public function findByName()
+    
+    public function findByRadius()
     {
         $request = $this->request->getPost();
-        $name = $request['name'];
-        $contents = $this->culinaryPlaceModel->get_cp_by_name_api($name)->getResult();
+        $contents = $this->culinaryPlaceModel->get_cp_by_radius_api($request)->getResult();
         $response = [
             'data' => $contents,
             'status' => 200,
             'message' => [
-                "Success find Culinary Place by name"
-            ]
-        ];
-        return $this->respond($response);
-    }
-
-    public function findByMenu()
-    {
-        $request = $this->request->getPost();
-        $menu_filter = $request['menu'];
-        $list_menu = $this->detailMenuModel->get_menu_by_name_api($menu_filter)->getResultArray();
-        $culinary_place_id = array();
-        foreach ($list_menu as $menu) {
-            $culinary_place_id[] = $menu['culinary_place_id'];
-        }
-        $contents =$this->culinaryPlaceModel->get_cp_in_id_api($culinary_place_id)->getResult();
-        $response = [
-            'data' => $contents,
-            'status' => 200,
-            'message' => [
-                "Success find Culinary Place by menu"
-            ]
-        ];
-        return $this->respond($response);
-    }
-
-    public function findByPrice()
-    {
-        $request = $this->request->getPost();
-        $min_limit = !empty($request['price_min']) ? $request['price_min'] : null;
-        $max_limit = !empty($request['price_max']) ? $request['price_max'] : null;
-        $list_menu = $this->detailMenuModel->get_menu_by_price_api($min_limit, $max_limit)->getResultArray();
-        $culinary_place_id = array();
-        foreach ($list_menu as $menu) {
-            if(!in_array($menu['culinary_place_id'], $culinary_place_id)) {
-                $culinary_place_id[] = $menu['culinary_place_id'];
-            }
-        }
-        $contents =$this->culinaryPlaceModel->get_cp_in_id_api($culinary_place_id)->getResult();
-        $response = [
-            'data' => $contents,
-            'status' => 200,
-            'message' => [
-                "Success find Culinary Place by price"
+                "Success find Rumah Gadang by radius"
             ]
         ];
         return $this->respond($response);

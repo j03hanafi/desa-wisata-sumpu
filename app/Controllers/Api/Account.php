@@ -200,5 +200,18 @@ class Account extends ResourceController
         return $this->respondCreated($response);
     }
 
+    public function profile() {
+        $request = $this->request->getPost();
+        $id = $request['id'];
+        $owner = $this->accountModel->get_account_by_id_api($id)->getRowArray();
+        $response = [
+            'data' => $owner,
+            'status' => 200,
+            'message' => [
+                "Success display detail information of User"
+            ]
+        ];
+        return $this->respond($response);
+    }
 
 }

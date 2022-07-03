@@ -22,6 +22,7 @@ class VillageSeeder extends Seeder
             ];
 
             $this->db->table('village')->insert($data);
+            $this->db->table('village')->set('geom', $row[3], false)->where('id', $row[0])->update();
         }
     }
 }

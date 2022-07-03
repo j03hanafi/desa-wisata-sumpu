@@ -66,7 +66,6 @@ class AccountModel extends Model
     public function get_list_user_api() {
         $query = $this->db->table($this->table)
             ->select('*')
-            ->where('role_id', 'USR')
             ->get();
         return $query;
     }

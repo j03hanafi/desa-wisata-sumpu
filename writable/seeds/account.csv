@@ -2,6 +2,6 @@ id,username,first_name,last_name,email,address,phone,password,avatar,last_login,
 ACC0001,accuser1,User 1,Account,accuser1@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081757868389,accuser1,picsum.photos/200/300.jpg,2022-07-02 00:49:36,USR
 ACC0002,accuser2,User 2,Account,accuser2@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081858926598,accuser2,picsum.photos/200/300.jpg,2022-07-02 00:49:36,USR
 ACC0003,accuser3,User 3,Account,accuser3@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081563947049,accuser3,picsum.photos/200/300.jpg,2022-07-02 00:49:36,USR
-ACC0005,accowner1,Owner 1,Account,accowner1@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081763407571,accowner1,picsum.photos/200/300.jpg,2022-07-02 00:49:36,OWNR
-ACC0006,accowner2,Owner 2,Account,accowner2@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081947208265,accowner2,picsum.photos/200/300.jpg,2022-07-02 00:49:36,OWNR
-ACC0007,accadmin1,Admin 1,Account,accadmin1@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081299419029,accadmin1,picsum.photos/200/300.jpg,2022-07-02 00:49:36,ADMN
+ACC0004,accowner1,Owner 1,Account,accowner1@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081763407571,accowner1,picsum.photos/200/300.jpg,2022-07-02 00:49:36,OWNR
+ACC0005,accowner2,Owner 2,Account,accowner2@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081947208265,accowner2,picsum.photos/200/300.jpg,2022-07-02 00:49:36,OWNR
+ACC0006,accadmin1,Admin 1,Account,accadmin1@email.com,Desa Wisata Kampuang Minang Nagari Sumpu,081299419029,accadmin1,picsum.photos/200/300.jpg,2022-07-02 00:49:36,ADMN

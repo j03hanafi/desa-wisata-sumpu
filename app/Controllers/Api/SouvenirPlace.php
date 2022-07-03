@@ -2,12 +2,9 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\DetailFacilitySouvenirPlaceModel;
-use App\Models\DetailProductModel;
 use App\Models\GallerySouvenirPlaceModel;
 use App\Models\ReviewModel;
 use App\Models\SouvenirPlaceModel;
-use App\Models\VideoSouvenirPlaceModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -17,18 +14,12 @@ class SouvenirPlace extends ResourceController
 
     protected $souvenirPlaceModel;
     protected $gallerySouvenirPlaceModel;
-    protected $videoSouvenirPlaceModel;
-    protected $detailFacilitySouvenirPlaceModel;
-    protected $detailProductModel;
     protected $reviewModel;
 
     public function __construct()
     {
         $this->souvenirPlaceModel = new SouvenirPlaceModel();
         $this->gallerySouvenirPlaceModel = new GallerySouvenirPlaceModel();
-        $this->videoSouvenirPlaceModel = new VideoSouvenirPlaceModel();
-        $this->detailFacilitySouvenirPlaceModel = new DetailFacilitySouvenirPlaceModel();
-        $this->detailProductModel = new DetailProductModel();
         $this->reviewModel = new ReviewModel();
 
     }
@@ -66,27 +57,7 @@ class SouvenirPlace extends ResourceController
             $galleries[] = $gallery['url'];
         }
 
-        $list_video = $this->videoSouvenirPlaceModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-
-        $list_facility = $this->detailFacilitySouvenirPlaceModel->get_facility_by_id_api($id)->getResultArray();
-        $facilities = array();
-        foreach ($list_facility as $facility) {
-            $facilities[] = $facility['facility'];
-        }
-
-        $list_product = $this->detailProductModel->get_product_by_id_api($id)->getResultArray();
-
-        $list_review = $this->reviewModel->get_review_object_api('souvenir_place_id', $id)->getResultArray();
-
-        $souvenir_place['facilities'] = $facilities;
         $souvenir_place['gallery'] = $galleries;
-        $souvenir_place['video'] = $videos;
-        $souvenir_place['products'] = $list_product;
-        $souvenir_place['reviews'] = $list_review;
 
         $response = [
             'data' => $souvenir_place,
@@ -254,42 +225,21 @@ class SouvenirPlace extends ResourceController
             return $this->failNotFound($response);
         }
     }
-
-    public function findByName()
+    
+    public function findByRadius()
     {
         $request = $this->request->getPost();
-        $name = $request['name'];
-        $contents = $this->souvenirPlaceModel->get_sp_by_name_api($name)->getResult();
+        $contents = $this->souvenirPlaceModel->get_sp_by_radius_api($request)->getResult();
         $response = [
             'data' => $contents,
             'status' => 200,
             'message' => [
-                "Success find Souvenir Place by name"
+                "Success find Rumah Gadang by radius"
             ]
         ];
         return $this->respond($response);
     }
-
-    public function findByProduct()
-    {
-        $request = $this->request->getPost();
-        $product_filter = $request['product'];
-        $list_product = $this->detailProductModel->get_product_by_name_api($product_filter)->getResultArray();
-        $souvenir_place_id = array();
-        foreach ($list_product as $product) {
-            $souvenir_place_id[] = $product['souvenir_place_id'];
-        }
-        $contents =$this->souvenirPlaceModel->get_sp_in_id_api($souvenir_place_id)->getResult();
-        $response = [
-            'data' => $contents,
-            'status' => 200,
-            'message' => [
-                "Success find Souvenir Place by product"
-            ]
-        ];
-        return $this->respond($response);
-    }
-
+    
     public function listByOwner()
     {
         $request = $this->request->getPost();

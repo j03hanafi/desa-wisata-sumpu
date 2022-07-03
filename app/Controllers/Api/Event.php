@@ -5,7 +5,6 @@ namespace App\Controllers\Api;
 use App\Models\EventModel;
 use App\Models\GalleryEventModel;
 use App\Models\ReviewModel;
-use App\Models\VideoEventModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -15,14 +14,12 @@ class Event extends ResourceController
 
     protected $eventModel;
     protected $galleryEventModel;
-    protected $videoEventModel;
     protected $reviewModel;
 
     public function __construct()
     {
         $this->eventModel = new EventModel();
         $this->galleryEventModel = new GalleryEventModel();
-        $this->videoEventModel = new VideoEventModel();
         $this->reviewModel = new ReviewModel();
     }
 
@@ -59,16 +56,9 @@ class Event extends ResourceController
             $galleries[] = $gallery['url'];
         }
 
-        $list_video = $this->videoEventModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-
         $list_review = $this->reviewModel->get_review_object_api('event_id', $id)->getResultArray();
 
         $event['gallery'] = $galleries;
-        $event['video'] = $videos;
         $event['reviews'] = $list_review;
 
         $response = [
@@ -248,6 +238,61 @@ class Event extends ResourceController
             'status' => 200,
             'message' => [
                 "Success find event by radius"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByRating()
+    {
+        $request = $this->request->getPost();
+        $rating = $request['rating'];
+        $list_rating = $this->reviewModel->get_object_by_rating_api('event_id', $rating)->getResultArray();
+        $event_id = array();
+        foreach ($list_rating as $rat) {
+            $event_id[] = $rat['event_id'];
+        }
+        if (count($event_id) > 0) {
+            $contents = $this->eventModel->get_ev_in_id_api($event_id)->getResult();
+        } else {
+            $contents = [];
+        }
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find event by rating"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByCategory()
+    {
+        $request = $this->request->getPost();
+        $category = $request['category'];
+        $contents = $this->eventModel->get_ev_by_category_api($category)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find event by category"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByDate()
+    {
+        
+        $request = $this->request->getPost();
+        $date = $request['date']; // YYYY-MM-DD
+        $contents = $this->eventModel->get_ev_by_date_api($date)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find event by date"
             ]
         ];
         return $this->respond($response);

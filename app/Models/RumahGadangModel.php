@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
+use CodeIgniter\Validation\ValidationInterface;
 
 class RumahGadangModel extends Model
 {
@@ -11,7 +13,7 @@ class RumahGadangModel extends Model
     protected $table            = 'rumah_gadang';
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'name', 'address', 'open', 'close', 'ticket_price', 'geom', 'contact_person', 'recom', 'owner', 'lat', 'long', 'description'];
+    protected $allowedFields    = ['id', 'name', 'address', 'open', 'close', 'ticket_price', 'geom', 'contact_person', 'status', 'recom', 'owner', 'description', 'video_url'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,57 +29,92 @@ class RumahGadangModel extends Model
 
     // API
     public function get_recommendation_api() {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, recommendation.name as recommendation, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->select("rumah_gadang.id, rumah_gadang.name, {$coords}")
+            ->from('village')
             ->where('recom', 'REC01')
-            ->join('recommendation', 'rumah_gadang.recom = recommendation.id')
-            ->join('account', 'rumah_gadang.owner = account.id')
+            ->where($vilGeom)
             ->get();
         return $query;
     }
 
     public function recommendation_by_owner_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, recommendation.name as recommendation, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->select("{$columns}, {$coords}, recommendation.name as recommendation")
+            ->from('village')
+            ->where($vilGeom)
             ->where('recom', 'REC01')
             ->where('owner', $id)
             ->join('recommendation', 'rumah_gadang.recom = recommendation.id')
-            ->join('account', 'rumah_gadang.owner = account.id')
             ->get();
         return $query;
     }
 
     public function get_list_rg_api() {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'rumah_gadang.owner = account.id')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->get();
         return $query;
     }
 
     public function list_by_owner_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'rumah_gadang.owner = account.id')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->where('owner', $id)
             ->get();
         return $query;
     }
 
     public function get_rg_by_id_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
             ->where('rumah_gadang.id', $id)
-            ->join('account', 'rumah_gadang.owner = account.id')
+            ->where($vilGeom)
             ->get();
         return $query;
     }
 
     public function get_rg_by_name_api($name = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'rumah_gadang.owner = account.id')
-            ->like('name', $name)
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->like("{$this->table}.name", $name)
+            ->where($vilGeom)
+            ->get();
+        return $query;
+    }
+    
+    public function get_rg_by_status_api($status = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $query = $this->db->table($this->table)
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where("{$this->table}.status", $status)
+            ->where($vilGeom)
             ->get();
         return $query;
     }
@@ -86,11 +123,28 @@ class RumahGadangModel extends Model
         $radius = (int)$data['radius'] / 1000;
         $lat = $data['lat'];
         $long = $data['long'];
-        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(lat)) * cos(radians(`long`) - radians({$long})) + sin(radians({$lat}))* sin(radians(lat))))";
+        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(ST_Y(ST_CENTROID({$this->table}.geom)))) * cos(radians(ST_X(ST_CENTROID({$this->table}.geom))) - radians({$long})) + sin(radians({$lat}))* sin(radians(ST_Y(ST_CENTROID({$this->table}.geom))))))";
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('rumah_gadang.*,'. $jarak .' as jarak, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'rumah_gadang.owner = account.id')
+            ->select("{$columns}, {$coords}, {$jarak} as jarak")
+            ->from('village')
+            ->where($vilGeom)
             ->having(['jarak <=' => $radius])
+            ->get();
+        return $query;
+    }
+    
+    public function get_rg_in_id_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $query = $this->db->table($this->table)
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->whereIn('rumah_gadang.id', $id)
+            ->where($vilGeom)
             ->get();
         return $query;
     }
@@ -101,7 +155,7 @@ class RumahGadangModel extends Model
         return $id;
     }
 
-    public function add_rg_api($rumah_gadang = null) {
+    public function add_rg_api($rumah_gadang = null, $geojson = null) {
         foreach ($rumah_gadang as $key => $value) {
             if(empty($value)) {
                 unset($rumah_gadang[$key]);
@@ -109,12 +163,16 @@ class RumahGadangModel extends Model
         }
         $rumah_gadang['created_at'] = Time::now();
         $rumah_gadang['updated_at'] = Time::now();
-        $query = $this->db->table($this->table)
+        $insert = $this->db->table($this->table)
             ->insert($rumah_gadang);
-        return $query;
+        $update = $this->db->table($this->table)
+            ->set('geom', "ST_GeomFromGeoJSON('{$geojson}')", false)
+            ->where('id', $rumah_gadang['id'])
+            ->update();
+        return $insert && $update;
     }
 
-    public function update_rg_api($id = null, $rumah_gadang = null) {
+    public function update_rg_api($id = null, $rumah_gadang = null, $geojson = null) {
         foreach ($rumah_gadang as $key => $value) {
             if(empty($value)) {
                 unset($rumah_gadang[$key]);
@@ -124,7 +182,11 @@ class RumahGadangModel extends Model
         $query = $this->db->table($this->table)
             ->where('id', $id)
             ->update($rumah_gadang);
-        return $query;
+        $update = $this->db->table($this->table)
+            ->set('geom', "ST_GeomFromGeoJSON('{$geojson}')", false)
+            ->where('id', $id)
+            ->update();
+        return $query && $update;
     }
 
     public function update_recom_api($data = null) {

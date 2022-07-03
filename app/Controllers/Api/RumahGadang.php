@@ -6,7 +6,6 @@ use App\Models\DetailFacilityRumahGadangModel;
 use App\Models\GalleryRumahGadangModel;
 use App\Models\ReviewModel;
 use App\Models\RumahGadangModel;
-use App\Models\VideoRumahGadangModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -16,7 +15,6 @@ class RumahGadang extends ResourceController
 
     protected $rumahGadangModel;
     protected $galleryRumahGadangModel;
-    protected $videoRumahGadangModel;
     protected $detailFacilityRumahGadangModel;
     protected $reviewModel;
 
@@ -24,7 +22,6 @@ class RumahGadang extends ResourceController
     {
         $this->rumahGadangModel = new RumahGadangModel();
         $this->galleryRumahGadangModel = new GalleryRumahGadangModel();
-        $this->videoRumahGadangModel = new VideoRumahGadangModel();
         $this->detailFacilityRumahGadangModel = new DetailFacilityRumahGadangModel();
         $this->reviewModel = new ReviewModel();
     }
@@ -62,13 +59,7 @@ class RumahGadang extends ResourceController
             $galleries[] = $gallery['url'];
         }
 
-        $list_video = $this->videoRumahGadangModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-
-        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_id_api($id)->getResultArray();
+        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
         $facilities = array();
         foreach ($list_facility as $facility) {
             $facilities[] = $facility['facility'];
@@ -79,7 +70,6 @@ class RumahGadang extends ResourceController
 
         $rumahGadang['facilities'] = $facilities;
         $rumahGadang['gallery'] = $galleries;
-        $rumahGadang['video'] = $videos;
         $rumahGadang['avg_rating'] = $avg_rating;
         $rumahGadang['reviews'] = $list_review;
 
@@ -120,22 +110,20 @@ class RumahGadang extends ResourceController
             'open' => $request['open'],
             'close' => $request['close'],
             'ticket_price' => $request['ticket_price'],
-            'geom' => $request['geom'],
             'contact_person' => $request['contact_person'],
+            'status' => $request['status'],
             'recom' => $request['recom'],
             'owner' => $request['owner'],
-            'lat' => $request['lat'],
-            'long' => $request['long'],
             'description' => $request['description'],
+            'video_url' => $request['video_url'],
         ];
-        $addRG = $this->rumahGadangModel->add_rg_api($requestData);
+        $geojson = $request['geojson'];
+        $addRG = $this->rumahGadangModel->add_rg_api($requestData, $geojson);
         $facilities = $request['facilities'];
         $addFacilities = $this->detailFacilityRumahGadangModel->add_facility_api($id, $facilities);
         $gallery = $request['gallery'];
         $addGallery = $this->galleryRumahGadangModel->add_gallery_api($id, $gallery);
-        $video = $request['video'];
-        $addVideo = $this->videoRumahGadangModel->add_video_api($id, array($video));
-        if($addRG && $addFacilities && $addGallery && $addVideo) {
+        if($addRG && $addFacilities && $addGallery) {
             $response = [
                 'status' => 201,
                 'message' => [
@@ -151,7 +139,6 @@ class RumahGadang extends ResourceController
                     "Add Rumah Gadang: {$addRG}",
                     "Add Facilities: {$addFacilities}",
                     "Add Gallery: {$addGallery}",
-                    "Add Video: {$addVideo}",
                 ]
             ];
             return $this->respond($response, 400);
@@ -182,22 +169,20 @@ class RumahGadang extends ResourceController
             'open' => $request['open'],
             'close' => $request['close'],
             'ticket_price' => $request['ticket_price'],
-            'geom' => $request['geom'],
             'contact_person' => $request['contact_person'],
+            'status' => $request['status'],
             'recom' => $request['recom'],
             'owner' => $request['owner'],
-            'lat' => $request['lat'],
-            'long' => $request['long'],
             'description' => $request['description'],
+            'video_url' => $request['video_url'],
         ];
-        $updateRG = $this->rumahGadangModel->update_rg_api($id, $requestData);
+        $geojson = $request['geojson'];
+        $updateRG = $this->rumahGadangModel->update_rg_api($id, $requestData, $geojson);
         $facilities = $request['facilities'];
         $updateFacilities = $this->detailFacilityRumahGadangModel->update_facility_api($id, $facilities);
         $gallery = $request['gallery'];
         $updateGallery = $this->galleryRumahGadangModel->update_gallery_api($id, $gallery);
-        $video = $request['video'];
-        $updateVideo = $this->videoRumahGadangModel->update_video_api($id, array($video));
-        if($updateRG && $updateFacilities && $updateGallery && $updateVideo) {
+        if($updateRG && $updateFacilities && $updateGallery) {
             $response = [
                 'status' => 200,
                 'message' => [
@@ -213,7 +198,6 @@ class RumahGadang extends ResourceController
                     "Update Rumah Gadang: {$updateRG}",
                     "Update Facilities: {$updateFacilities}",
                     "Update Gallery: {$updateGallery}",
-                    "Update Video: {$updateVideo}",
                 ]
             ];
             return $this->respond($response, 400);
@@ -341,6 +325,66 @@ class RumahGadang extends ResourceController
             'status' => 200,
             'message' => [
                 "Success find Rumah Gadang by radius"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByFacility()
+    {
+        $request = $this->request->getPost();
+        $facility = $request['facility'];
+        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_fc_api($facility)->getResultArray();
+        $rumah_gadang_id = array();
+        foreach ($list_facility as $facil) {
+            $rumah_gadang_id[] = $facil['rumah_gadang_id'];
+        }
+        $contents = $this->rumahGadangModel->get_rg_in_id_api($rumah_gadang_id)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find Rumah Gadang by facility"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByRating()
+    {
+        $request = $this->request->getPost();
+        $rating = $request['rating'];
+        $list_rating = $this->reviewModel->get_object_by_rating_api('rumah_gadang_id', $rating)->getResultArray();
+        $rumah_gadang_id = array();
+        foreach ($list_rating as $rat) {
+            $rumah_gadang_id[] = $rat['rumah_gadang_id'];
+        }
+        if (count($rumah_gadang_id) > 0) {
+            $contents = $this->rumahGadangModel->get_rg_in_id_api($rumah_gadang_id)->getResult();
+        } else {
+            $contents = [];
+        }
+        
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find Rumah Gadang by rating"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function findByStatus()
+    {
+        $request = $this->request->getPost();
+        $status = $request['status'];
+        $contents = $this->rumahGadangModel->get_rg_by_status_api($status)->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success find Rumah Gadang by status"
             ]
         ];
         return $this->respond($response);

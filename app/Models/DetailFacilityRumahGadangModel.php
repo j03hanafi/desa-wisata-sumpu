@@ -26,7 +26,7 @@ class DetailFacilityRumahGadangModel extends Model
     protected $cleanValidationRules = true;
 
     // API
-    public function get_facility_by_id_api($rumah_gadang_id = null) {
+    public function get_facility_by_rg_api($rumah_gadang_id = null) {
         $query = $this->db->table($this->table)
             ->select('facility_rumah_gadang.facility')
             ->where('rumah_gadang_id', $rumah_gadang_id)
@@ -34,7 +34,16 @@ class DetailFacilityRumahGadangModel extends Model
             ->get();
         return $query;
     }
-
+    
+    public function get_facility_by_fc_api($facility_id = null) {
+        $query = $this->db->table($this->table)
+            ->select('*')
+            ->where('facility_id', $facility_id)
+            ->get();
+        return $query;
+    }
+    
+    
     public function get_new_id_api() {
         $count = $this->db->table($this->table)->countAll();
         $id = sprintf('DFC%03d', $count + 1);

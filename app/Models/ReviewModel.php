@@ -11,7 +11,7 @@ class ReviewModel extends Model
     protected $table            = 'review';
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'rumah_gadang_id', 'event_id', 'culinary_place_id', 'worship_place_id', 'souvenir_place_id', 'comment', 'date', 'rating', 'account_id', 'status'];
+    protected $allowedFields    = ['id', 'status', 'rumah_gadang_id', 'event_id', 'comment', 'date', 'rating', 'account_id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -44,12 +44,6 @@ class ReviewModel extends Model
                 $status = 1;
             } elseif ($key == 'event_id') {
                 $status = 2;
-            } elseif ($key == 'culinary_place_id') {
-                $status = 3;
-            } elseif ($key == 'worship_place_id') {
-                $status = 4;
-            } elseif ($key == 'souvenir_place_ids') {
-                $status = 5;
             }
         }
         $review['status'] = $status;
@@ -73,6 +67,16 @@ class ReviewModel extends Model
         $query = $this->db->table($this->table)
             ->select('ceil(avg(rating)) as avg_rating')
             ->where($object, $id)
+            ->get();
+        return $query;
+    }
+    
+    public function get_object_by_rating_api($object = null, $rating = null) {
+        $query = $this->db->table($this->table)
+            ->select("ceil(avg(rating)) as avg_rating, {$object}")
+            ->where("{$object} IS NOT NULL")
+            ->groupBy($object)
+            ->having("avg_rating = {$rating}")
             ->get();
         return $query;
     }

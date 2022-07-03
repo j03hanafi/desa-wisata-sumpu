@@ -11,7 +11,7 @@ class SouvenirPlaceModel extends Model
     protected $table            = 'souvenir_place';
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'name', 'address', 'contact_person', 'owner', 'employee', 'geom', 'open', 'close', 'lat', 'long', 'description'];
+    protected $allowedFields    = ['id', 'name', 'address', 'contact_person', 'employee', 'geom', 'open', 'close', 'description'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,9 +27,13 @@ class SouvenirPlaceModel extends Model
 
     // API
     public function get_list_sp_api() {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.contact_person,{$this->table}.employee,{$this->table}.open,{$this->table}.close,{$this->table}.description";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('souvenir_place.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'souvenir_place.owner = account.id')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->get();
         return $query;
     }
@@ -44,19 +48,31 @@ class SouvenirPlaceModel extends Model
     }
 
     public function get_sp_by_id_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.contact_person,{$this->table}.employee,{$this->table}.open,{$this->table}.close,{$this->table}.description";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('souvenir_place.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->where('souvenir_place.id', $id)
-            ->join('account', 'souvenir_place.owner = account.id')
             ->get();
         return $query;
     }
-
-    public function get_sp_by_name_api($name = null) {
+    
+    public function get_sp_by_radius_api($data = null) {
+        $radius = (int)$data['radius'] / 1000;
+        $lat = $data['lat'];
+        $long = $data['long'];
+        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(ST_Y(ST_CENTROID({$this->table}.geom)))) * cos(radians(ST_X(ST_CENTROID({$this->table}.geom))) - radians({$long})) + sin(radians({$lat}))* sin(radians(ST_Y(ST_CENTROID({$this->table}.geom))))))";
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.contact_person,{$this->table}.employee,{$this->table}.open,{$this->table}.close,{$this->table}.description";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('souvenir_place.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'souvenir_place.owner = account.id')
-            ->like('name', $name)
+            ->select("{$columns}, {$coords}, {$jarak} as jarak")
+            ->from('village')
+            ->where($vilGeom)
+            ->having(['jarak <=' => $radius])
             ->get();
         return $query;
     }

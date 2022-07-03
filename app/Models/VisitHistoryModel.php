@@ -56,27 +56,6 @@ class VisitHistoryModel extends Model
                     ->get()->getRowArray();
                 $data['object_name'] = $query['name'];
             }
-            elseif ($data['category'] == '3') {
-                $query = $this->db->table('culinary_place')
-                    ->select('name')
-                    ->where('id', $data['object_id'])
-                    ->get()->getRowArray();
-                $data['object_name'] = $query['name'];
-            }
-            elseif ($data['category'] == '4') {
-                $query = $this->db->table('worship_place')
-                    ->select('name')
-                    ->where('id', $data['object_id'])
-                    ->get()->getRowArray();
-                $data['object_name'] = $query['name'];
-            }
-            elseif ($data['category'] == '5') {
-                $query = $this->db->table('souvenir_place')
-                    ->select('name')
-                    ->where('id', $data['object_id'])
-                    ->get()->getRowArray();
-                $data['object_name'] = $query['name'];
-            }
             $new_data[] = $data;
         }
 

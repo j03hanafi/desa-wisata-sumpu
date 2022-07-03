@@ -2,10 +2,8 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\DetailFacilityWorshipPlaceModel;
 use App\Models\GalleryWorshipPlaceModel;
 use App\Models\ReviewModel;
-use App\Models\VideoWorshipPlaceModel;
 use App\Models\WorshipPlaceModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
@@ -16,16 +14,12 @@ class WorshipPlace extends ResourceController
 
     protected $worshipPlaceModel;
     protected $galleryWorshipPlaceModel;
-    protected $videoWorshipPlaceModel;
-    protected $detailFacilityWorshipPlaceModel;
     protected $reviewModel;
 
     public function __construct()
     {
         $this->worshipPlaceModel = new WorshipPlaceModel();
         $this->galleryWorshipPlaceModel = new GalleryWorshipPlaceModel();
-        $this->videoWorshipPlaceModel = new VideoWorshipPlaceModel();
-        $this->detailFacilityWorshipPlaceModel = new DetailFacilityWorshipPlaceModel();
         $this->reviewModel = new ReviewModel();
     }
 
@@ -61,21 +55,8 @@ class WorshipPlace extends ResourceController
         foreach ($list_gallery as $gallery) {
             $galleries[] = $gallery['url'];
         }
-
-        $list_video = $this->videoWorshipPlaceModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-
-        $list_facility = $this->detailFacilityWorshipPlaceModel->get_facility_by_id_api($id)->getResultArray();
-
-        $list_review = $this->reviewModel->get_review_object_api('worship_place_id', $id)->getResultArray();
-
-        $worship_place['facilities'] = $list_facility;
+        
         $worship_place['gallery'] = $galleries;
-        $worship_place['video'] = $videos;
-        $worship_place['reviews'] = $list_review;
 
         $response = [
             'data' => $worship_place,
@@ -240,32 +221,16 @@ class WorshipPlace extends ResourceController
             return $this->failNotFound($response);
         }
     }
-
-    public function findByName()
+    
+    public function findByRadius()
     {
         $request = $this->request->getPost();
-        $name = $request['name'];
-        $contents = $this->worshipPlaceModel->get_wp_by_name_api($name)->getResult();
+        $contents = $this->worshipPlaceModel->get_wp_by_radius_api($request)->getResult();
         $response = [
             'data' => $contents,
             'status' => 200,
             'message' => [
-                "Success find Worship Place by name"
-            ]
-        ];
-        return $this->respond($response);
-    }
-
-    public function findByCategory()
-    {
-        $request = $this->request->getPost();
-        $name = $request['category'];
-        $contents = $this->worshipPlaceModel->get_wp_by_category_api($name)->getResult();
-        $response = [
-            'data' => $contents,
-            'status' => 200,
-            'message' => [
-                "Success find Worship Place by category"
+                "Success find Rumah Gadang by radius"
             ]
         ];
         return $this->respond($response);

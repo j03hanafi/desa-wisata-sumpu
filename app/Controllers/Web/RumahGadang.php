@@ -53,7 +53,7 @@ class RumahGadang extends ResourceController
         $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
         $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
     
-        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_id_api($id)->getResultArray();
+        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
         $facilities = array();
         foreach ($list_facility as $facility) {
             $facilities[] = $facility['facility'];
