@@ -15,9 +15,39 @@
 }
 
 #table-user {
-    height: 600px;
+    max-height: 600px;
+}
+
+#table-result-nearby {
+    max-height: 320px;
 }
 
 .rating-color {
     color:#fbc634 !important;
+}
+
+.submenu-marker::marker{
+    content: none;
+}
+
+.star-checked{
+    color: gold;
+}
+
+.datepicker td,th{
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 1rem;
+}
+
+#legend {
+    background: #fff;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #000;
+}
+
+#legend img {
+    max-height: 25px;
+    vertical-align: middle;
 }

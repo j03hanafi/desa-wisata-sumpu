@@ -4,9 +4,9 @@
 
 <section class="section">
     <div class="row">
-        
+        <script>currentUrl = '<?= current_url(); ?>';</script>
         <!-- Object Detail Information -->
-        <div class="col-md-6 col-12 order-md-first order-first">
+        <div class="col-md-6 col-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title text-center">Event Information</h4>
@@ -20,12 +20,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <p class="fw-bold">Description</p>
-                            <p><?= esc($data['description']); ?></p>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col table-responsive">
                             <table class="table table-borderless">
@@ -44,7 +38,7 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">End</td>
-                                    <td><?= date('d F Y', strtotime(esc($data['date_end']))) . ' WIB'; ?></td>
+                                    <td><?= date('d F Y', strtotime(esc($data['date_end']))); ?></td>
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Ticket Price</td>
@@ -56,6 +50,12 @@
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="fw-bold">Description</p>
+                            <p><?= esc($data['description']); ?></p>
                         </div>
                     </div>
                 </div>
@@ -96,19 +96,17 @@
                 </div>
             </div>
         </div>
-
         
-    <!-- Object Location on Map -->
         <div class="col-md-6 col-12">
+            <!-- Object Location on Map -->
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Google Maps</h5>
                 </div>
                 <?= $this->include('web/layouts/main-map'); ?>
-                <script>initMap(<?= esc($data['lat']); ?>, <?= esc($data['long']); ?>)</script>
-                <script>objectMarker(<?= esc($data['lat']); ?>, <?= esc($data['long']); ?>);</script>
+                <script>initMap(<?= esc($data['lat']); ?>, <?= esc($data['lng']); ?>)</script>
+                <script>objectMarker("<?= esc($data['id']); ?>", <?= esc($data['lat']); ?>, <?= esc($data['lng']); ?>);</script>
             </div>
-
             <!-- Object Media -->
             <div class="card">
                 <div class="card-body">
@@ -116,10 +114,10 @@
                         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#gallery">
                             <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">image</span> Open Gallery
                         </button>
-                        <button type="button" class="btn-play btn btn-outline-primary" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/PlpqhZiumDM" data-bs-target="#videoModal">
+                        <button type="button" class="btn-play btn btn-outline-primary" data-bs-toggle="modal" data-src="<?= base_url('media/videos/'. esc($data['video_url'])); ?>" data-bs-target="#videoModal">
                             <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">play_circle</span> Play Video
                         </button>
-
+                        
                         <div class="modal fade text-left" id="gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
                                 <div class="modal-content">
@@ -142,7 +140,7 @@
                                                 <?php $i = 0; ?>
                                                 <?php foreach ($data['gallery'] as $gallery) : ?>
                                                     <div class="carousel-item<?= ($i == 0) ? ' active' : ''; ?>">
-                                                        <img src="<?= base_url('assets/images/samples/banana.jpg'); ?>" class="d-block w-100" alt="...">
+                                                        <img src="<?= base_url('media/photos/'. esc($gallery)); ?>" class="d-block w-100" alt="<?= esc($data['name']); ?>">
                                                     </div>
                                                     <?php $i++; ?>
                                                 <?php endforeach; ?>
@@ -178,14 +176,12 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="ratio ratio-16x9">
-                                            <iframe
-                                                    class="embed-responsive-item"
+                                            <video
                                                     src=""
+                                                    class="embed-responsive-item"
                                                     id="video"
-                                                    allowfullscreen
-                                                    allowscriptaccess="always"
-                                                    allow="autoplay"
-                                            ></iframe>
+                                                    controls
+                                            >Sorry, your browser doesn't support embedded videos</video>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -207,21 +203,16 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-        (function ($) {
-            // Modal Video
-            var $videoSrc;
-            $('.btn-play').click(function () {
-                $videoSrc = $(this).data("src");
-            });
-            console.log($videoSrc);
-            $('#videoModal').on('shown.bs.modal', function (e) {
-                $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-            })
-            $('#videoModal').on('hide.bs.modal', function (e) {
-                $("#video").attr('src', $videoSrc);
-            })
-        })(jQuery);
-    </script>
+<script>
+    const myModal = document.getElementById('videoModal');
+    const videoSrc = document.getElementById('video-play').getAttribute('data-src');
+
+    myModal.addEventListener('shown.bs.modal', () => {
+        console.log(videoSrc);
+        document.getElementById('video').setAttribute('src', videoSrc);
+    });
+    myModal.addEventListener('hide.bs.modal', () => {
+        document.getElementById('video').setAttribute('src', '');
+    });
+</script>
 <?= $this->endSection() ?>

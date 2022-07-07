@@ -106,7 +106,7 @@
                                 type="button"
                                 class="btn-play"
                                 data-bs-toggle="modal"
-                                data-src="https://www.youtube.com/embed/PlpqhZiumDM"
+                                data-src="<?= base_url('media/videos/landing_page.mp4'); ?>"
                                 data-bs-target="#videoModal"
                         >
                             <span></span>
@@ -154,14 +154,13 @@
                 <div class="modal-body">
                     <!-- 16:9 aspect ratio -->
                     <div class="ratio ratio-16x9">
-                        <iframe
-                                class="embed-responsive-item"
+                        <video
                                 src=""
+                                class="embed-responsive-item"
                                 id="video"
-                                allowfullscreen
-                                allowscriptaccess="always"
-                                allow="autoplay"
-                        ></iframe>
+                                controls
+                                autoplay
+                        >Sorry, your browser doesn't support embedded videos</video>
                     </div>
                 </div>
             </div>

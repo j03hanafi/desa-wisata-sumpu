@@ -5,21 +5,18 @@ namespace App\Controllers\Web;
 use App\Models\EventModel;
 use App\Models\GalleryEventModel;
 use App\Models\ReviewModel;
-use App\Models\VideoEventModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class Event extends ResourceController
 {
     protected $eventModel;
     protected $galleryEventModel;
-    protected $videoEventModel;
     protected $reviewModel;
     
     public function __construct()
     {
         $this->eventModel = new EventModel();
         $this->galleryEventModel = new GalleryEventModel();
-        $this->videoEventModel = new VideoEventModel();
         $this->reviewModel = new ReviewModel();
     }
     
@@ -54,17 +51,10 @@ class Event extends ResourceController
             $galleries[] = $gallery['url'];
         }
     
-        $list_video = $this->videoEventModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
-    
         $list_review = $this->reviewModel->get_review_object_api('event_id', $id)->getResultArray();
     
         $event['avg_rating'] = $avg_rating;
         $event['gallery'] = $galleries;
-        $event['video'] = $videos;
         $event['reviews'] = $list_review;
     
         $data = [

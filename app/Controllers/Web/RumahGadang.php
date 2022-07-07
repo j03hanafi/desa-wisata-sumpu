@@ -6,14 +6,12 @@ use App\Models\DetailFacilityRumahGadangModel;
 use App\Models\GalleryRumahGadangModel;
 use App\Models\ReviewModel;
 use App\Models\RumahGadangModel;
-use App\Models\VideoRumahGadangModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class RumahGadang extends ResourceController
 {
     protected $rumahGadangModel;
     protected $galleryRumahGadangModel;
-    protected $videoRumahGadangModel;
     protected $detailFacilityRumahGadangModel;
     protected $reviewModel;
     
@@ -21,7 +19,6 @@ class RumahGadang extends ResourceController
     {
         $this->rumahGadangModel = new RumahGadangModel();
         $this->galleryRumahGadangModel = new GalleryRumahGadangModel();
-        $this->videoRumahGadangModel = new VideoRumahGadangModel();
         $this->detailFacilityRumahGadangModel = new DetailFacilityRumahGadangModel();
         $this->reviewModel = new ReviewModel();
     }
@@ -67,17 +64,11 @@ class RumahGadang extends ResourceController
             $galleries[] = $gallery['url'];
         }
     
-        $list_video = $this->videoRumahGadangModel->get_video_api($id)->getResultArray();
-        $videos = array();
-        foreach ($list_video as $video) {
-            $videos[] = $video['url'];
-        }
     
         $rumahGadang['avg_rating'] = $avg_rating;
         $rumahGadang['facilities'] = $facilities;
         $rumahGadang['reviews'] = $list_review;
         $rumahGadang['gallery'] = $galleries;
-        $rumahGadang['video'] = $videos;
         
         $data = [
             'title' => 'Rumah Gadang',

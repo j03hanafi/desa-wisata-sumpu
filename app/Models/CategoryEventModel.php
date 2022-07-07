@@ -25,5 +25,10 @@ class CategoryEventModel extends Model
     protected $cleanValidationRules = true;
 
     // API
-
+    public function get_list_cat_api() {
+        $query = $this->db->table($this->table)
+            ->select('id, category')
+            ->get();
+        return $query;
+    }
 }

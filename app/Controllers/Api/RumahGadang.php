@@ -375,10 +375,10 @@ class RumahGadang extends ResourceController
         return $this->respond($response);
     }
     
-    public function findByStatus()
+    public function findByCategory()
     {
         $request = $this->request->getPost();
-        $status = $request['status'];
+        $status = $request['category'];
         $contents = $this->rumahGadangModel->get_rg_by_status_api($status)->getResult();
         $response = [
             'data' => $contents,

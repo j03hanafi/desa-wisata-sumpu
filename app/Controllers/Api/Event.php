@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\CategoryEventModel;
 use App\Models\EventModel;
 use App\Models\GalleryEventModel;
 use App\Models\ReviewModel;
@@ -15,12 +16,14 @@ class Event extends ResourceController
     protected $eventModel;
     protected $galleryEventModel;
     protected $reviewModel;
+    protected $categoryModel;
 
     public function __construct()
     {
         $this->eventModel = new EventModel();
         $this->galleryEventModel = new GalleryEventModel();
         $this->reviewModel = new ReviewModel();
+        $this->categoryModel = new CategoryEventModel();
     }
 
     /**
@@ -307,6 +310,18 @@ class Event extends ResourceController
             'status' => 200,
             'message' => [
                 "Success get list of Event"
+            ]
+        ];
+        return $this->respond($response);
+    }
+    
+    public function category() {
+        $contents = $this->categoryModel->get_list_cat_api()->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success get list of category"
             ]
         ];
         return $this->respond($response);

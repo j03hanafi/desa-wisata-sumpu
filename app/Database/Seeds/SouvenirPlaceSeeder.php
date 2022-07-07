@@ -16,8 +16,8 @@ class SouvenirPlaceSeeder extends Seeder
             $data = [
                 'id' => $row[0],
                 'name' => $row[1],
-                'address' => $row[4],
-                'contact_person' => $row[2],
+                'address' => $row[2],
+                'contact_person' => $row[3],
                 'employee' => $row[4],
                 'open' => $row[6],
                 'close' => $row[7],

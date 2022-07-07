@@ -86,7 +86,6 @@ $uri3 = $uri[3] ?? '';
                 </div>
                 <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>
                 <ul class="menu">
-                    <li class="sidebar-title">Main Attraction</li>
 
                     <li class="sidebar-item <?= ($uri1 == 'index') ? 'active' : '' ?>">
                         <a href="/web" class="sidebar-link">
@@ -101,49 +100,87 @@ $uri3 = $uri[3] ?? '';
                         </a>
 
                         <ul class="submenu <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri1 == 'rumahGadang' && $uri2 == '') ? 'active' : '' ?>">
+                            <!-- List Rumah Gadang -->
+                            <li class="submenu-item" id="rg-list">
                                 <a href="<?= base_url('/web/rumahGadang'); ?>">List Rumah Gadang</a>
                             </li>
-                            <li class="submenu-item <?= ($uri2 == 'findByName') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByName') : ?>
-                                <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="true" aria-controls="searchNameRG">Search by Name</a>
-                                <?php else : ?>
-                                <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="false" aria-controls="searchNameRG">Search by Name</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByName') ? 'show' : '' ?>" id="searchNameRG">
-                                    <form action="<?= base_url('/web/rumahGadang/findByName'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <div class="input-group">
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2" value="<?= $input ?? ''; ?>" <?= isset($input) ? 'autofocus' : ''; ?>>
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
-                                        </div>
-                                    </form>
+                            <!-- Rumah Gadang Around You -->
+                            <li class="submenu-item" id="rg-around-you">
+                                    <a data-bs-toggle="collapse" href="#searchRadiusRG" role="button" aria-expanded="false" aria-controls="searchRadiusRG">Rumah Gadang Around You</a>
+                                <div class="collapse mb-3" id="searchRadiusRG">
+                                    <label for="inputRadiusRG" class="form-label">Radius: </label>
+                                    <label id="radiusValueRG" class="form-label">0 m</label>
+                                    <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusRG" name="inputRadius" onchange="updateRadius('RG'); radiusSearch({postfix: 'RG'});">
                                 </div>
                             </li>
-                            <li class="submenu-item <?= ($uri2 == 'findByRadius') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByRadius') : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusRG" role="button" aria-expanded="true" aria-controls="searchRadiusRG">Search by Radius</a>
-                                <?php else : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusRG" role="button" aria-expanded="false" aria-controls="searchRadiusRG">Search by Radius</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByRadius') ? 'show' : '' ?>" id="searchRadiusRG">
-                                    <form action="<?= base_url('/web/rumahGadang/findByRadius'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <input type="hidden" id="inputLatRG" name="lat">
-                                        <input type="hidden" id="inputLngRG" name="long">
-                                        <input type="hidden" id="radiusRG" name="radius">
-                                        <label for="inputRadiusRG" class="form-label">Radius: </label>
-                                        <label id="radiusValueRG" class="form-label">0 m</label>
-                                        <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusRG" name="inputRadius" onchange="updateRadius('RG'); radiusSearch({postfix: 'RG'});">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
+                            <li class="submenu-item has-sub" id="rg-search">
+                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse">Search Rumah Gadang</a>
+                                <ul class="subsubmenu collapse" id="subsubmenu">
+                                    <!-- Rumah Gadang by Name -->
+                                    <li class="submenu-item submenu-marker" id="rg-by-name">
+                                        <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="false" aria-controls="searchNameRG">By Name</a>
+                                        <div class="collapse mb-3" id="searchNameRG">
+                                            <div class="d-grid gap-2">
+                                                <input type="text" name="nameRG" id="nameRG" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByName('RG')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
+                                    </li>
+                                    <!-- Rumah Gadang by Rating -->
+                                    <li class="submenu-item submenu-marker" id="rg-by-rating">
+                                        <a data-bs-toggle="collapse" href="#searchRatingRG" role="button" aria-expanded="false" aria-controls="searchRatingRG">By Rating</a>
+                                        <div class="collapse mb-3" id="searchRatingRG">
+                                            <div class="d-grid gap-2">
+                                                <div class="star-containter">
+                                                    <i class="fa-solid fa-star" id="star-1" onclick="setStar('star-1');"></i>
+                                                    <i class="fa-solid fa-star" id="star-2" onclick="setStar('star-2');"></i>
+                                                    <i class="fa-solid fa-star" id="star-3" onclick="setStar('star-3');"></i>
+                                                    <i class="fa-solid fa-star" id="star-4" onclick="setStar('star-4');"></i>
+                                                    <i class="fa-solid fa-star" id="star-5" onclick="setStar('star-5');"></i>
+                                                    <input type="hidden" id="star-rating" value="0">
+                                                </div>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByRating('RG')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Rumah Gadang by Facility -->
+                                    <li class="submenu-item submenu-marker" id="rg-by-facility">
+                                        <a data-bs-toggle="collapse" href="#searchFacilityRG" role="button" aria-expanded="false" aria-controls="searchFacilityRG">By Facility</a>
+                                        <div class="collapse mb-3" id="searchFacilityRG">
+                                            <div class="d-grid">
+                                                <script>getFacility();</script>
+                                                <fieldset class="form-group">
+                                                    <select class="form-select" id="facilitySelect">
+                                                    </select>
+                                                </fieldset>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByFacility()">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- Rumah Gadang by Type -->
+                                    <li class="submenu-item submenu-marker" id="rg-by-category">
+                                        <a data-bs-toggle="collapse" href="#searchCategoryRG" role="button" aria-expanded="false" aria-controls="searchCategoryRG">By Category</a>
+                                        <div class="collapse mb-3" id="searchCategoryRG">
+                                            <div class="d-grid">
+                                                <fieldset class="form-group">
+                                                    <select class="form-select" id="categoryRGSelect">
+                                                        <option value="Homestay">Homestay</option>
+                                                        <option value="Tidak Homestay">Tidak Homestay</option>
+                                                    </select>
+                                                </fieldset>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByCategory('RG')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
@@ -155,128 +192,87 @@ $uri3 = $uri[3] ?? '';
                         </a>
 
                         <ul class="submenu <?= ($uri1 == 'event') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri1 == 'event' && $uri2 == '') ? 'active' : '' ?>">
+                            <!-- List Event -->
+                            <li class="submenu-item" id="ev-list">
                                 <a href="<?= base_url('/web/event'); ?>">List Event</a>
                             </li>
-                            <li class="submenu-item <?= ($uri2 == 'findByName') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByName') : ?>
-                                    <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="true" aria-controls="searchNameEV">Search by Name</a>
-                                <?php else : ?>
-                                    <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="false" aria-controls="searchNameEV">Search by Name</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByName') ? 'show' : '' ?>" id="searchNameEV">
-                                    <form action="<?= base_url('/web/event/findByName'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <div class="input-group">
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2" value="<?= $input ?? ''; ?>" <?= isset($input) ? 'autofocus' : ''; ?>>
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
-                                        </div>
-                                    </form>
+                            <!-- Event Around You -->
+                            <li class="submenu-item" id="ev-around-you">
+                                <a data-bs-toggle="collapse" href="#searchRadiusEV" role="button" aria-expanded="false" aria-controls="searchRadiusEV">Event Around You</a>
+                                <div class="collapse mb-3" id="searchRadiusEV">
+                                    <label for="inputRadiusEV" class="form-label">Radius: </label>
+                                    <label id="radiusValueEV" class="form-label">0 m</label>
+                                    <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusEV" name="inputRadius" onchange="updateRadius('EV'); radiusSearch({postfix: 'EV'});">
                                 </div>
                             </li>
-                            <li class="submenu-item <?= ($uri2 == 'findByRadius') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByRadius') : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusEV" role="button" aria-expanded="true" aria-controls="searchRadiusEV">Search by Radius</a>
-                                <?php else : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusEV" role="button" aria-expanded="false" aria-controls="searchRadiusEV">Search by Radius</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByRadius') ? 'show' : '' ?>" id="searchRadiusEV">
-                                    <form action="<?= base_url('/web/event/findByRadius'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <input type="hidden" id="inputLatEV" name="lat">
-                                        <input type="hidden" id="inputLngEV" name="long">
-                                        <input type="hidden" id="radiusEV" name="radius">
-                                        <label for="inputRadiusEV" class="form-label">Radius: </label>
-                                        <label id="radiusValueEV" class="form-label">0 m</label>
-                                        <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusEV" name="inputRadius" onchange="updateRadius('EV'); radiusSearch({postfix: 'EV'});">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
+                            <li class="submenu-item has-sub" id="ev-search">
+                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse">Search Event</a>
+                                <ul class="subsubmenu collapse" id="subsubmenu">
+                                    <!-- Event by Name -->
+                                    <li class="submenu-item submenu-marker" id="ev-by-name">
+                                        <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="false" aria-controls="searchNameEV">By Name</a>
+                                        <div class="collapse mb-3" id="searchNameEV">
+                                            <div class="d-grid gap-2">
+                                                <input type="text" name="nameEV" id="nameEV" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByName('EV')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="sidebar-title">Supporting Objects</li>
-
-                    <li class="sidebar-item <?= ($uri1 == 'culinaryPlace') ? 'active' : '' ?> has-sub">
-                        <a href="" class="sidebar-link">
-                            <span>Culinary Place</span>
-                        </a>
-
-                        <ul class="submenu <?= ($uri1 == 'culinaryPlace') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri1 == 'culinaryPlace' && $uri2 == '') ? 'active' : '' ?>">
-                                <a href="<?= base_url('/web/culinaryPlace'); ?>">List Culinary Place</a>
-                            </li>
-                            <li class="submenu-item <?= ($uri2 == 'findByName') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByName') : ?>
-                                    <a data-bs-toggle="collapse" href="#searchNameCP" role="button" aria-expanded="true" aria-controls="searchNameCP">Search by Name</a>
-                                <?php else : ?>
-                                    <a data-bs-toggle="collapse" href="#searchNameCP" role="button" aria-expanded="false" aria-controls="searchNameCP">Search by Name</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByName') ? 'show' : '' ?>" id="searchNameCP">
-                                    <form action="<?= base_url('/web/culinaryPlace/findByName'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <div class="input-group">
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2" value="<?= $input ?? ''; ?>" <?= isset($input) ? 'autofocus' : ''; ?>>
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
+                                    </li>
+                                    <!-- Event by Rating -->
+                                    <li class="submenu-item submenu-marker" id="ev-by-rating">
+                                        <a data-bs-toggle="collapse" href="#searchRatingEV" role="button" aria-expanded="false" aria-controls="searchRatingEV">By Rating</a>
+                                        <div class="collapse mb-3" id="searchRatingEV">
+                                            <div class="d-grid gap-2">
+                                                <div class="star-containter">
+                                                    <i class="fa-solid fa-star" id="star-1" onclick="setStar('star-1');"></i>
+                                                    <i class="fa-solid fa-star" id="star-2" onclick="setStar('star-2');"></i>
+                                                    <i class="fa-solid fa-star" id="star-3" onclick="setStar('star-3');"></i>
+                                                    <i class="fa-solid fa-star" id="star-4" onclick="setStar('star-4');"></i>
+                                                    <i class="fa-solid fa-star" id="star-5" onclick="setStar('star-5');"></i>
+                                                    <input type="hidden" id="star-rating" value="0">
+                                                </div>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByRating('EV')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                            <li class="submenu-item <?= ($uri2 == 'findByRadius') ? 'active' : '' ?>">
-                                <?php if ($uri2 == 'findByRadius') : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusCP" role="button" aria-expanded="true" aria-controls="searchRadiusCP">Search by Radius</a>
-                                <?php else : ?>
-                                    <a data-bs-toggle="collapse" href="#searchRadiusCP" role="button" aria-expanded="false" aria-controls="searchRadiusCP">Search by Radius</a>
-                                <?php endif; ?>
-                                <div class="collapse mb-3 <?= ($uri2 == 'findByRadius') ? 'show' : '' ?>" id="searchRadiusCP">
-                                    <form action="<?= base_url('/web/culinaryPlace/findByRadius'); ?>" method="post">
-                                        <?= csrf_field() ?>
-                                        <input type="hidden" id="inputLatCP" name="lat">
-                                        <input type="hidden" id="inputLngCP" name="long">
-                                        <input type="hidden" id="radiusCP" name="radius">
-                                        <label for="inputRadiusCP" class="form-label">Radius: </label>
-                                        <label id="radiusValueCP" class="form-label">0 m</label>
-                                        <input type="range" class="form-range" min="0" max="20" value="0" id="inputRadiusCP" name="inputRadius" onchange="updateRadius('CP'); radiusSearch({postfix: 'CP'});">
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                                                <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
-                                            </button>
+                                    </li>
+                                    <!-- Event by Category -->
+                                    <li class="submenu-item submenu-marker" id="ev-by-category">
+                                        <a data-bs-toggle="collapse" href="#searchCategoryEV" role="button" aria-expanded="false" aria-controls="searchCategoryEV">By Category</a>
+                                        <div class="collapse mb-3" id="searchCategoryEV">
+                                            <div class="d-grid">
+                                                <script>getCategory();</script>
+                                                <fieldset class="form-group">
+                                                    <select class="form-select" id="categoryEVSelect">
+                                                    </select>
+                                                </fieldset>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByCategory('EV')">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </li>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="sidebar-item <?= ($uri1 == 'worshipPlace') ? 'active' : '' ?> has-sub">
-                        <a href="" class="sidebar-link">
-                            <span>Worship Place</span>
-                        </a>
-
-                        <ul class="submenu <?= ($uri1 == 'worshipPlace') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri2 == 'list') ? 'active' : '' ?>">
-                                <a href="">List Worship Place</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="sidebar-item <?= ($uri1 == 'souvenirPlace') ? 'active' : '' ?> has-sub">
-                        <a href="" class="sidebar-link">
-                            <span>Souvenir Place</span>
-                        </a>
-
-                        <ul class="submenu <?= ($uri1 == 'souvenirPlace') ? 'active' : '' ?>">
-                            <li class="submenu-item <?= ($uri2 == 'list') ? 'active' : '' ?>">
-                                <a href="">List Souvenir Place</a>
+                                    </li>
+                                    <!-- Event by Date -->
+                                    <li class="submenu-item submenu-marker" id="ev-by-date">
+                                        <a data-bs-toggle="collapse" href="#searchDateEV" role="button" aria-expanded="false" aria-controls="searchDateEV">By Date</a>
+                                        <div class="collapse mb-3" id="searchDateEV">
+                                            <div class="d-grid gap-2">
+                                                <div class="input-group date" id="datepicker">
+                                                    <input type="text" class="form-control" id="eventDate">
+                                                    <div class="input-group-addon ms-2">
+                                                        <i class="fa-solid fa-calendar-days" style="font-size: 1.5rem; vertical-align: bottom"></i>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="findByDate()">
+                                                    <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
