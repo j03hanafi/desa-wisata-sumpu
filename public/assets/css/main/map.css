@@ -51,3 +51,9 @@
     max-height: 25px;
     vertical-align: middle;
 }
+
+#avatar-sidebar img{
+    width: 150px;
+    height: auto;
+    max-height: 125px;
+}

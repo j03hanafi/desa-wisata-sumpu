@@ -10,7 +10,7 @@ $uri3 = $uri[3] ?? '';
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                     <div class="logo">
-                        <a href="/web"
+                        <a href="<?= base_url(); ?>"
                         ><img src="<?= base_url('assets/images/logo/logo.svg'); ?>" alt="Logo" srcset=""
                             /></a>
                     </div>
@@ -79,10 +79,13 @@ $uri3 = $uri[3] ?? '';
         </div>
         <div class="sidebar-menu">
             <div class="d-flex flex-column">
-                <div class="d-flex justify-content-center avatar avatar-xl me-3">
-                    <img src="<?= base_url('assets/images/faces/3.jpg'); ?>" alt="" srcset="">
+                <div class="d-flex justify-content-center avatar avatar-xl me-3" id="avatar-sidebar">
+                    <img src="<?= base_url('media/photos/pesona_sumpu.png'); ?>" alt="" srcset="">
                 </div>
-                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>
+<!--                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>-->
+                <div class="p-2 text-center">
+                    Hello, <span class="fw-bold">John Duck</span> <br> <span class="text-muted mb-0">@johnducky</span>
+                </div>
                 <ul class="menu">
                     <li class="sidebar-item">
                         <a href="" onclick="self.close()" class="sidebar-link">

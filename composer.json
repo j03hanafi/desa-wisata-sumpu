@@ -4,10 +4,13 @@
     "description": "CodeIgniter4 starter app",
     "homepage": "https://codeigniter.com",
     "license": "MIT",
+    "minimum-stability": "beta",
+    "prefer-stable": true,
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
-      "ext-json": "*"
+      "ext-json": "*",
+        "myth/auth": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

@@ -10,7 +10,7 @@ $uri3 = $uri[3] ?? '';
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                     <div class="logo">
-                        <a href="/web"
+                        <a href="<?= base_url(); ?>"
                         ><img src="<?= base_url('assets/images/logo/logo.svg'); ?>" alt="Logo" srcset=""
                             /></a>
                     </div>
@@ -81,32 +81,35 @@ $uri3 = $uri[3] ?? '';
         <!-- Sidebar -->
         <div class="sidebar-menu">
             <div class="d-flex flex-column">
-                <div class="d-flex justify-content-center avatar avatar-xl me-3">
-                    <img src="<?= base_url('assets/images/faces/3.jpg'); ?>" alt="" srcset="">
+                <div class="d-flex justify-content-center avatar avatar-xl me-3" id="avatar-sidebar">
+                    <img src="<?= base_url('media/photos/pesona_sumpu.png'); ?>" alt="" srcset="">
                 </div>
-                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>
+<!--                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>-->
+                <div class="p-2 text-center">
+                    Hello, <span class="fw-bold">John Duck</span> <br> <span class="text-muted mb-0">@johnducky</span>
+                </div>
                 <ul class="menu">
 
                     <li class="sidebar-item <?= ($uri1 == 'index') ? 'active' : '' ?>">
                         <a href="/web" class="sidebar-link">
-                            <span>Recommendation</span>
+                            <i class="fa-solid fa-house"></i><span>Recommendation</span>
                         </a>
                     </li>
 
                     <!-- Rumah Gadang -->
                     <li class="sidebar-item <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?> has-sub">
                         <a href="" class="sidebar-link">
-                            <span>Rumah Gadang</span>
+                            <i class="fa-solid fa-campground"></i><span>Rumah Gadang</span>
                         </a>
 
                         <ul class="submenu <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?>">
                             <!-- List Rumah Gadang -->
                             <li class="submenu-item" id="rg-list">
-                                <a href="<?= base_url('/web/rumahGadang'); ?>">List Rumah Gadang</a>
+                                <a href="<?= base_url('/web/rumahGadang'); ?>"><i class="fa-solid fa-list me-3"></i>List</a>
                             </li>
                             <!-- Rumah Gadang Around You -->
                             <li class="submenu-item" id="rg-around-you">
-                                    <a data-bs-toggle="collapse" href="#searchRadiusRG" role="button" aria-expanded="false" aria-controls="searchRadiusRG">Rumah Gadang Around You</a>
+                                    <a data-bs-toggle="collapse" href="#searchRadiusRG" role="button" aria-expanded="false" aria-controls="searchRadiusRG"><i class="fa-solid fa-compass me-3"></i>Around You</a>
                                 <div class="collapse mb-3" id="searchRadiusRG">
                                     <label for="inputRadiusRG" class="form-label">Radius: </label>
                                     <label id="radiusValueRG" class="form-label">0 m</label>
@@ -114,11 +117,11 @@ $uri3 = $uri[3] ?? '';
                                 </div>
                             </li>
                             <li class="submenu-item has-sub" id="rg-search">
-                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse">Search Rumah Gadang</a>
+                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
                                 <ul class="subsubmenu collapse" id="subsubmenu">
                                     <!-- Rumah Gadang by Name -->
                                     <li class="submenu-item submenu-marker" id="rg-by-name">
-                                        <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="false" aria-controls="searchNameRG">By Name</a>
+                                        <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="false" aria-controls="searchNameRG"><i class="fa-solid fa-arrow-down-a-z me-3"></i>By Name</a>
                                         <div class="collapse mb-3" id="searchNameRG">
                                             <div class="d-grid gap-2">
                                                 <input type="text" name="nameRG" id="nameRG" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -130,7 +133,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Rumah Gadang by Rating -->
                                     <li class="submenu-item submenu-marker" id="rg-by-rating">
-                                        <a data-bs-toggle="collapse" href="#searchRatingRG" role="button" aria-expanded="false" aria-controls="searchRatingRG">By Rating</a>
+                                        <a data-bs-toggle="collapse" href="#searchRatingRG" role="button" aria-expanded="false" aria-controls="searchRatingRG"><i class="fa-regular fa-star me-3"></i>By Rating</a>
                                         <div class="collapse mb-3" id="searchRatingRG">
                                             <div class="d-grid gap-2">
                                                 <div class="star-containter">
@@ -149,7 +152,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Rumah Gadang by Facility -->
                                     <li class="submenu-item submenu-marker" id="rg-by-facility">
-                                        <a data-bs-toggle="collapse" href="#searchFacilityRG" role="button" aria-expanded="false" aria-controls="searchFacilityRG">By Facility</a>
+                                        <a data-bs-toggle="collapse" href="#searchFacilityRG" role="button" aria-expanded="false" aria-controls="searchFacilityRG"><i class="fa-solid fa-house-circle-check me-3"></i>By Facility</a>
                                         <div class="collapse mb-3" id="searchFacilityRG">
                                             <div class="d-grid">
                                                 <script>getFacility();</script>
@@ -165,7 +168,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Rumah Gadang by Type -->
                                     <li class="submenu-item submenu-marker" id="rg-by-category">
-                                        <a data-bs-toggle="collapse" href="#searchCategoryRG" role="button" aria-expanded="false" aria-controls="searchCategoryRG">By Category</a>
+                                        <a data-bs-toggle="collapse" href="#searchCategoryRG" role="button" aria-expanded="false" aria-controls="searchCategoryRG"><i class="fa-solid fa-bed me-3"></i>By Category</a>
                                         <div class="collapse mb-3" id="searchCategoryRG">
                                             <div class="d-grid">
                                                 <fieldset class="form-group">
@@ -188,17 +191,17 @@ $uri3 = $uri[3] ?? '';
                     <!-- Event -->
                     <li class="sidebar-item <?= ($uri1 == 'event') ? 'active' : '' ?> has-sub">
                         <a href="" class="sidebar-link">
-                            <span>Event</span>
+                            <i class="fa-solid fa-bullhorn"></i><span>Event</span>
                         </a>
 
                         <ul class="submenu <?= ($uri1 == 'event') ? 'active' : '' ?>">
                             <!-- List Event -->
                             <li class="submenu-item" id="ev-list">
-                                <a href="<?= base_url('/web/event'); ?>">List Event</a>
+                                <a href="<?= base_url('/web/event'); ?>"><i class="fa-solid fa-list me-3"></i>List</a>
                             </li>
                             <!-- Event Around You -->
                             <li class="submenu-item" id="ev-around-you">
-                                <a data-bs-toggle="collapse" href="#searchRadiusEV" role="button" aria-expanded="false" aria-controls="searchRadiusEV">Event Around You</a>
+                                <a data-bs-toggle="collapse" href="#searchRadiusEV" role="button" aria-expanded="false" aria-controls="searchRadiusEV"><i class="fa-solid fa-compass me-3"></i>Around You</a>
                                 <div class="collapse mb-3" id="searchRadiusEV">
                                     <label for="inputRadiusEV" class="form-label">Radius: </label>
                                     <label id="radiusValueEV" class="form-label">0 m</label>
@@ -206,11 +209,11 @@ $uri3 = $uri[3] ?? '';
                                 </div>
                             </li>
                             <li class="submenu-item has-sub" id="ev-search">
-                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse">Search Event</a>
+                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
                                 <ul class="subsubmenu collapse" id="subsubmenu">
                                     <!-- Event by Name -->
                                     <li class="submenu-item submenu-marker" id="ev-by-name">
-                                        <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="false" aria-controls="searchNameEV">By Name</a>
+                                        <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="false" aria-controls="searchNameEV"><i class="fa-solid fa-arrow-down-a-z me-3"></i>By Name</a>
                                         <div class="collapse mb-3" id="searchNameEV">
                                             <div class="d-grid gap-2">
                                                 <input type="text" name="nameEV" id="nameEV" class="form-control" placeholder="Name" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -222,7 +225,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Event by Rating -->
                                     <li class="submenu-item submenu-marker" id="ev-by-rating">
-                                        <a data-bs-toggle="collapse" href="#searchRatingEV" role="button" aria-expanded="false" aria-controls="searchRatingEV">By Rating</a>
+                                        <a data-bs-toggle="collapse" href="#searchRatingEV" role="button" aria-expanded="false" aria-controls="searchRatingEV"><i class="fa-regular fa-star me-3"></i>By Rating</a>
                                         <div class="collapse mb-3" id="searchRatingEV">
                                             <div class="d-grid gap-2">
                                                 <div class="star-containter">
@@ -241,7 +244,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Event by Category -->
                                     <li class="submenu-item submenu-marker" id="ev-by-category">
-                                        <a data-bs-toggle="collapse" href="#searchCategoryEV" role="button" aria-expanded="false" aria-controls="searchCategoryEV">By Category</a>
+                                        <a data-bs-toggle="collapse" href="#searchCategoryEV" role="button" aria-expanded="false" aria-controls="searchCategoryEV"><i class="fa-solid fa-check-to-slot me-3"></i>By Category</a>
                                         <div class="collapse mb-3" id="searchCategoryEV">
                                             <div class="d-grid">
                                                 <script>getCategory();</script>
@@ -257,7 +260,7 @@ $uri3 = $uri[3] ?? '';
                                     </li>
                                     <!-- Event by Date -->
                                     <li class="submenu-item submenu-marker" id="ev-by-date">
-                                        <a data-bs-toggle="collapse" href="#searchDateEV" role="button" aria-expanded="false" aria-controls="searchDateEV">By Date</a>
+                                        <a data-bs-toggle="collapse" href="#searchDateEV" role="button" aria-expanded="false" aria-controls="searchDateEV"><i class="fa-solid fa-calendar-days me-3"></i>By Date</a>
                                         <div class="collapse mb-3" id="searchDateEV">
                                             <div class="d-grid gap-2">
                                                 <div class="input-group date" id="datepicker">
@@ -276,9 +279,13 @@ $uri3 = $uri[3] ?? '';
                             </li>
                         </ul>
                     </li>
+                    <li class="sidebar-item <?= ($uri1 == 'visitHistory') ? 'active' : '' ?>">
+                        <a href="<?= base_url('web/visitHistory'); ?>" class="sidebar-link">
+                            <i class="fa-solid fa-clock-rotate-left"></i><span>Visit History</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            
         </div>
     </div>
 </div>

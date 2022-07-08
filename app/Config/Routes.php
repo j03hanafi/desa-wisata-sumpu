@@ -36,12 +36,20 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'LandingPage::index');
+$routes->get('/login', 'Home::index');
+$routes->get('/register', 'Home::register');
+$routes->get('/web/visitHistory', 'Home::visitHistory');
+$routes->get('/web/visitHistory/add', 'Home::addVisitHistory');
 
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
     $routes->resource('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
     $routes->resource('event');
+    $routes->get('profile', 'Profile::profile');
+    $routes->post('profile', 'Profile::update');
+    $routes->get('profile/update', 'Profile::updateProfile');
+    $routes->get('changePassword', 'Profile::changePassword');
 });
 
 // API
@@ -81,6 +89,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->resource('review');
     $routes->resource('user');
     $routes->resource('facility');
+    $routes->post('village', 'Village::getData');
 });
 
 /*

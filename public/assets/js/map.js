@@ -28,6 +28,31 @@ function initMap(lat = -0.5242972, lng = 100.492333) {
         map: map
     }
     directionsRenderer = new google.maps.DirectionsRenderer(rendererOptions);
+    digitVillage();
+}
+
+// Display tourism village digitizing
+function digitVillage() {
+    const village = new google.maps.Data();
+    $.ajax({
+        url: baseUrl + '/api/village',
+        type: 'POST',
+        data: {
+            village: 'VIL02'
+        },
+        dataType: 'json',
+        success: function (response) {
+            const data = response.data;
+            village.addGeoJson(data);
+            village.setStyle({
+                fillColor:'#00b300',
+                strokeWeight:0.5,
+                strokeColor:'#ffffff',
+                fillOpacity: 0.1,
+            });
+            village.setMap(map);
+        }
+    });
 }
 
 // Remove user location
@@ -1056,5 +1081,46 @@ function viewLegend() {
         $('#legend').show();
     } else {
         $('#legend').hide();
+    }
+}
+
+// list object for new visit history
+function getObjectByCategory(){
+    const category = document.getElementById('category').value;
+    $('#object').empty();
+    if (category === 'None') {
+        return Swal.fire({
+            icon: 'warning',
+            title: 'Please Choose a Object Category!'
+        });
+    }
+    if (category === 'RG') {
+        $.ajax({
+            url: baseUrl + '/api/rumahGadang',
+            dataType: 'json',
+            success: function (response) {
+                let data = response.data;
+                for (i in data) {
+                    let item = data[i];
+                    object =
+                        '<option value="'+ item.id +'">'+ item.name +'</option>';
+                    $('#object').append(object);
+                }
+            }
+        });
+    } else if (category === 'EV') {
+        $.ajax({
+            url: baseUrl + '/api/event',
+            dataType: 'json',
+            success: function (response) {
+                let data = response.data;
+                for (i in data) {
+                    let item = data[i];
+                    object =
+                        '<option value="'+ item.id +'">'+ item.name +'</option>';
+                    $('#object').append(object);
+                }
+            }
+        });
     }
 }

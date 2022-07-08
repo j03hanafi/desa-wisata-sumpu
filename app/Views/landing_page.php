@@ -80,7 +80,7 @@
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="#award" class="nav-item nav-link">Award</a>
             </div>
-            <a href="" class="btn btn-primary">Login</a>
+            <a href="<?= base_url('login'); ?>" class="btn btn-primary">Login</a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -268,7 +268,7 @@
                     <a class="btn btn-link" href="/web">Explore</a>
                     <a class="btn btn-link" href="#about">About</a>
                     <a class="btn btn-link" href="#award">Award</a>
-                    <a class="btn btn-link" href="">Login</a>
+                    <a class="btn btn-link" href="<?= base_url('login'); ?>">Login</a>
                 </div>
             </div>
         </div>

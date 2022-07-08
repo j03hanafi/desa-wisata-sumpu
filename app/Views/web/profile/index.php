@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app-dark.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main/map.css'); ?>">
-
+    
     <?= $this->renderSection('styles') ?>
     <link rel="shortcut icon" href="<?= base_url('assets/images/logo/favicon.svg'); ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= base_url('assets/css/shared/iconly.css'); ?>">
@@ -25,15 +25,10 @@
 </head>
 <body>
     <div id="app">
-        
         <!-- Sidebar -->
-        <?php if (isset($data) && array_key_exists('id', $data)): ?>
-            <?= $this->include('web/layouts/visitor_detail_sidebar'); ?>
-        <?php else: ?>
-            <?= $this->include('web/layouts/visitor_sidebar'); ?>
-        <?php endif; ?>
+        <?= $this->include('web/profile/sidebar'); ?>
         <!-- End Sidebar -->
-        
+
         <!-- Main -->
         <div id="main">
             <?= $this->include('web/layouts/visitor_header'); ?>
@@ -46,27 +41,7 @@
             <!-- End Footer -->
         </div>
         <!-- End Main -->
-    
     </div>
-
-    <?= $this->renderSection('javascript') ?>
     <script src="<?= base_url('assets/js/app.js'); ?>"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
-        }, false);
-
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            startDate: '-3d'
-        });
-        $('#datepickerVH').datepicker({
-            format: 'yyyy-mm-dd',
-            startDate: '-3d'
-        });
-    </script>
 </body>
 </html>
