@@ -38,7 +38,7 @@ class RumahGadang extends ResourceController
             'data' => $contents,
         ];
     
-        return view('web/visitor/list_rumah_gadang', $data);
+        return view('web/list_rumah_gadang', $data);
         
     }
 
@@ -81,7 +81,7 @@ class RumahGadang extends ResourceController
             'data' => $rumahGadang,
         ];
     
-        return view('web/visitor/detail_rumah_gadang', $data);
+        return view('web/detail_rumah_gadang', $data);
     }
 
     /**
@@ -150,7 +150,7 @@ class RumahGadang extends ResourceController
             'data' => $contents,
         ];
         
-        return view('web/visitor/index', $data);
+        return view('web/recommendation', $data);
     }
     
 }

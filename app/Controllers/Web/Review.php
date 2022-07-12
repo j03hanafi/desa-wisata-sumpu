@@ -24,15 +24,15 @@ class Review extends BaseController
             'rating' => $request['rating'],
             'user_id' => user()->id,
         ];
-        if (isset($request['rumah_gadang_id'])) {
-            $requestData['rumah_gadang_id'] = $request['rumah_gadang_id'];
+        if (substr($request['object_id'], 0, 2) == 'RG') {
+            $requestData['rumah_gadang_id'] = $request['object_id'];
             $addReview = $this->reviewModel->add_review_api($requestData);
             if ($addReview) {
                 return redirect()->to(base_url('web/rumahGadang') . '/' . $request['rumah_gadang_id'] . '#reviews');
             }
         }
         
-        $requestData['event_id'] = $request['event_id'];
+        $requestData['event_id'] = $request['object_id'];
         $addReview = $this->reviewModel->add_review_api($requestData);
         if ($addReview) {
             return redirect()->to(base_url('web/event') . '/' . $request['event_id'] . '#reviews');

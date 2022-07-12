@@ -1,4 +1,4 @@
-<?= $this->extend('web/layouts/visitor_app'); ?>
+<?= $this->extend('web/layouts/main'); ?>
 
 <?= $this->section('content') ?>
     

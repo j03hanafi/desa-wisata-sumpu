@@ -45,7 +45,7 @@ class Profile extends BaseController
             'title' => 'Login',
             'config' => $this->config,
         ];
-        return view('web/auth/login', $data);
+        return view('auth/login', $data);
     }
     
     public function register()
@@ -54,7 +54,7 @@ class Profile extends BaseController
             'title' => 'Register',
             'config' => $this->config,
         ];
-        return view('web/auth/register', $data);
+        return view('auth/register', $data);
     }
     
     public function profile()
@@ -63,7 +63,7 @@ class Profile extends BaseController
             'title' => 'My Profile',
             'datas' => [],
         ];
-        return view('web/profile/manage_profile', $data);
+        return view('profile/manage_profile', $data);
     }
     public function updateProfile()
     {
@@ -71,7 +71,7 @@ class Profile extends BaseController
             'title' => 'My Profile',
             'errors' => [],
         ];
-        return view('web/profile/update_profile', $data);
+        return view('profile/update_profile', $data);
     }
     
     public function changePassword()
@@ -91,7 +91,7 @@ class Profile extends BaseController
             if (! $this->validate($rules))
             {
                 $data['errors'] = $this->validator->getErrors();
-                return view('web/profile/change_password', $data);
+                return view('profile/change_password', $data);
             }
     
             $requestData = [
@@ -104,13 +104,13 @@ class Profile extends BaseController
             if ($query) {
                 $data['errors'] = ['Password is changed'];
                 $data['success'] = true;
-                return view('web/profile/change_password', $data);
+                return view('profile/change_password', $data);
             }
             $data['errors'] = ['Failed change password'];
-            return view('web/profile/change_password', $data);
+            return view('profile/change_password', $data);
             
         }
-        return view('web/profile/change_password', $data);
+        return view('profile/change_password', $data);
     }
     
     public function update() {
@@ -140,7 +140,7 @@ class Profile extends BaseController
                 'errors' => ['Error update']
             ];
     
-            return view('web/profile/update_profile', $data);
+            return view('profile/update_profile', $data);
         } else {
             $validationRule = [
                 'avatar' => [
@@ -156,7 +156,7 @@ class Profile extends BaseController
                     'errors' => $this->validator->getErrors()
                 ];
         
-                return view('web/profile/update_profile', $data);
+                return view('profile/update_profile', $data);
             }
     
             if (!$img->hasMoved()) {
@@ -175,7 +175,7 @@ class Profile extends BaseController
                     'errors' => ['Error update. ' . $query]
                 ];
         
-                return view('web/profile/update_profile', $data);
+                return view('profile/update_profile', $data);
         
             }
         }
@@ -185,7 +185,7 @@ class Profile extends BaseController
             'errors' => ['The file has already been moved.']
         ];
     
-        return view('web/profile/update_profile', $data);
+        return view('profile/update_profile', $data);
     }
     
     public function visitHistory()
@@ -209,7 +209,7 @@ class Profile extends BaseController
         $list_visit = $this->visitHistoryModel->get_visit_history_by_id_api(user()->id)->getResultArray();
         $list_object = $this->visitHistoryModel->get_visited_object_api($list_visit);
         $data['data'] = $list_object;
-        return view('web/visitor/visit_history', $data);
+        return view('web/visit_history', $data);
     }
     
     public function addVisitHistory()
@@ -217,6 +217,6 @@ class Profile extends BaseController
         $data = [
             'title' => 'Visit History',
         ];
-        return view('web/visitor/add_visit_history', $data);
+        return view('web/add_visit_history', $data);
     }
 }

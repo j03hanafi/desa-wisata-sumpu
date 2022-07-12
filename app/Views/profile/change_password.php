@@ -1,4 +1,4 @@
-<?= $this->extend('web/profile/index'); ?>
+<?= $this->extend('profile/index'); ?>
 
 <?= $this->section('content') ?>
 <section class="section">

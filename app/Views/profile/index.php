@@ -26,18 +26,18 @@
 <body>
     <div id="app">
         <!-- Sidebar -->
-        <?= $this->include('web/profile/sidebar'); ?>
+        <?= $this->include('profile/sidebar'); ?>
         <!-- End Sidebar -->
 
         <!-- Main -->
         <div id="main">
-            <?= $this->include('web/layouts/visitor_header'); ?>
+            <?= $this->include('web/layouts/header'); ?>
             <!-- Content -->
             <?= $this->renderSection('content') ?>
             <!-- End Content -->
 
             <!-- Footer -->
-            <?= $this->include('web/layouts/visitor_footer') ?>
+            <?= $this->include('web/layouts/footer') ?>
             <!-- End Footer -->
         </div>
         <!-- End Main -->

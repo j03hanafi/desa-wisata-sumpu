@@ -52,7 +52,7 @@ class Home extends BaseController
         $data = [
             'title' => 'Visit History',
         ];
-        return view('web/visitor/visit_history', $data);
+        return view('web/web/visit_history', $data);
     }
     
     public function addVisitHistory()
@@ -60,7 +60,7 @@ class Home extends BaseController
         $data = [
             'title' => 'Visit History',
         ];
-        return view('web/visitor/add_visit_history', $data);
+        return view('web/web/add_visit_history', $data);
     }
     
     public function error403()

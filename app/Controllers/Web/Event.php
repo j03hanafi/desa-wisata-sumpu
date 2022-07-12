@@ -33,7 +33,7 @@ class Event extends ResourceController
             'title' => 'Event',
             'data' => $contents,
         ];
-        return view('web/visitor/list_event', $data);
+        return view('web/list_event', $data);
     }
 
     /**
@@ -67,7 +67,7 @@ class Event extends ResourceController
             'data' => $event,
         ];
     
-        return view('web/visitor/detail_event', $data);
+        return view('web/detail_event', $data);
     
     }
 
@@ -119,35 +119,5 @@ class Event extends ResourceController
     public function delete($id = null)
     {
         //
-    }
-    
-    public function findByName()
-    {
-        $data = [
-            'title' => 'Event',
-        ];
-        if ($this->request->getMethod() == 'post') {
-            $request = $this->request->getPost();
-            $name = $request['name'];
-            $contents = $this->eventModel->get_ev_by_name_api($name)->getResultArray();
-            $data['data'] = $contents;
-            $data['input'] = $name;
-        }
-        return view('web/visitor/list_event', $data);
-    }
-    
-    public function findByRadius()
-    {
-        $data = [
-            'title' => 'Event',
-        ];
-        if ($this->request->getMethod() == 'post') {
-            $request = $this->request->getPost();
-            $contents = $this->eventModel->get_ev_by_radius_api($request)->getResultArray();
-            $data['data'] = $contents;
-            $data['radius'] = [$request['lat'], $request['long'], $request['radius']];
-        }
-    
-        return view('web/visitor/list_event', $data);
     }
 }

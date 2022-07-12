@@ -1,5 +1,5 @@
 <?= $this->extend($config->viewLayout) ?>
-<?= $this->extend('web/auth/index'); ?>
+<?= $this->extend('auth/index'); ?>
 
 <?= $this->section('content'); ?>
     <div class="row justify-content-center align-items-center h-100" style="background-color: #2d499d">

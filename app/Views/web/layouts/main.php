@@ -28,29 +28,29 @@
         
         <!-- Sidebar -->
         <?php if (isset($data) && array_key_exists('id', $data)): ?>
-            <?= $this->include('web/layouts/visitor_detail_sidebar'); ?>
+            <?= $this->include('web/layouts/sidebar_detail'); ?>
         <?php else: ?>
-            <?= $this->include('web/layouts/visitor_sidebar'); ?>
+            <?= $this->include('web/layouts/sidebar'); ?>
         <?php endif; ?>
         <!-- End Sidebar -->
         
         <!-- Main -->
         <div id="main">
-            <?= $this->include('web/layouts/visitor_header'); ?>
+            <?= $this->include('web/layouts/header'); ?>
             <!-- Content -->
             <?= $this->renderSection('content') ?>
             <!-- End Content -->
 
             <!-- Footer -->
-            <?= $this->include('web/layouts/visitor_footer') ?>
+            <?= $this->include('web/layouts/footer') ?>
             <!-- End Footer -->
         </div>
         <!-- End Main -->
     
     </div>
-
-    <?= $this->renderSection('javascript') ?>
+    
     <script src="<?= base_url('assets/js/app.js'); ?>"></script>
+    <?= $this->renderSection('javascript') ?>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
