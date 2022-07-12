@@ -26,11 +26,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="text-center">
-                            <td>1</td>
-                            <td>22 Juni 2022</td>
-                            <td class="fw-bold">Name</td>
-                        </tr>
+                        <?php if (isset($data)): ?>
+                            <?php $i = 1; ?>
+                            <?php foreach ($data as $item) : ?>
+                            <tr class="text-center">
+                                <td><?= esc($i); ?></td>
+                                <td><?= date('Y-m-d', strtotime(esc($item['date_visit']))); ?></td>
+                                <td class="fw-bold"><?= esc($item['object_name']); ?></td>
+                            </tr>
+                            <?php $i++ ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

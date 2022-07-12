@@ -19,7 +19,7 @@ class ReviewSeeder extends Seeder
                 'comment' => $row[4],
                 'date' => $row[5],
                 'rating' => $row[6],
-                'users_id' => $row[7],
+                'user_id' => $row[7],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

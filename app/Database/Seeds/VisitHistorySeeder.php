@@ -15,7 +15,7 @@ class VisitHistorySeeder extends Seeder
         foreach ($rows as $row) {
             $data = [
                 'id' => $row[0],
-                'users_id' => $row[1],
+                'user_id' => $row[1],
                 'date_visit' => $row[2],
                 'object_id' => $row[3],
                 'category' => $row[4],

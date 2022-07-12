@@ -1089,12 +1089,15 @@ function getObjectByCategory(){
     const category = document.getElementById('category').value;
     $('#object').empty();
     if (category === 'None') {
+        object =
+            '<option value="None">Select Category First</option>';
+        $('#object').append(object);
         return Swal.fire({
             icon: 'warning',
             title: 'Please Choose a Object Category!'
         });
     }
-    if (category === 'RG') {
+    if (category === '1') {
         $.ajax({
             url: baseUrl + '/api/rumahGadang',
             dataType: 'json',
@@ -1108,7 +1111,7 @@ function getObjectByCategory(){
                 }
             }
         });
-    } else if (category === 'EV') {
+    } else if (category === '2') {
         $.ajax({
             url: baseUrl + '/api/event',
             dataType: 'json',

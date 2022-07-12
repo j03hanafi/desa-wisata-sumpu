@@ -304,7 +304,7 @@ class Account extends ResourceController
         $request = $this->request->getPost();
         $requestData = [
             'id' => $this->visitHistoryModel->get_new_id_api(),
-            'account_id' => $request['account_id'],
+            'user_id' => $request['user_id'],
             'object_id' => $request['object_id'],
             'category' => $request['category'],
             'date_visit' => $request['date_visit'],

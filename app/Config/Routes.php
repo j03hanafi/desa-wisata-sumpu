@@ -46,6 +46,9 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
     $routes->get('/', 'RumahGadang::recommendation');
     $routes->resource('event');
     $routes->get('visitHistory', 'Profile::visitHistory', ['filter' => 'role:user']);
+    $routes->get('visitHistory/add', 'Profile::addVisitHistory', ['filter' => 'role:user']);
+    $routes->post('visitHistory', 'Profile::visitHistory', ['filter' => 'role:user']);
+    $routes->post('review', 'Review::add', [['filter' => 'role:user']]);
     
     
     // Profile

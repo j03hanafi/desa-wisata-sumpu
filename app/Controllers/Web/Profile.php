@@ -193,6 +193,30 @@ class Profile extends BaseController
         $data = [
             'title' => 'Visit History',
         ];
+        if ($this->request->getMethod() == 'post') {
+            $request = $this->request->getPost();
+            $request = $this->request->getPost();
+            $requestData = [
+                'id' => $this->visitHistoryModel->get_new_id_api(),
+                'user_id' => user()->id,
+                'object_id' => $request['object_id'],
+                'category' => $request['category'],
+                'date_visit' => $request['date_visit'],
+            ];
+            $this->visitHistoryModel->insert($requestData);
+            return redirect()->to(base_url('web/visitHistory'));
+        }
+        $list_visit = $this->visitHistoryModel->get_visit_history_by_id_api(user()->id)->getResultArray();
+        $list_object = $this->visitHistoryModel->get_visited_object_api($list_visit);
+        $data['data'] = $list_object;
         return view('web/visitor/visit_history', $data);
+    }
+    
+    public function addVisitHistory()
+    {
+        $data = [
+            'title' => 'Visit History',
+        ];
+        return view('web/visitor/add_visit_history', $data);
     }
 }

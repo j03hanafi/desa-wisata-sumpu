@@ -14,7 +14,7 @@ class VisitHistory extends Migration
                 'constraint' => 5,
                 'unique' => true,
             ],
-            'users_id' => [
+            'user_id' => [
                 'type' => 'int',
                 'constraint' => 11,
                 'unsigned' => true
@@ -30,7 +30,7 @@ class VisitHistory extends Migration
                 'default' => '0',
             ],
             'date_visit' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
@@ -45,7 +45,7 @@ class VisitHistory extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('visit_history');
         $this->db->enableForeignKeyChecks();
     }

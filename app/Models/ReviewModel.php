@@ -58,7 +58,8 @@ class ReviewModel extends Model
         $query = $this->db->table($this->table)
             ->select('review.*, users.first_name, users.last_name')
             ->where($object, $id)
-            ->join('users', 'review.users_id = users.id')
+            ->join('users', 'review.user_id = users.id')
+            ->orderBy('date', 'DESC')
             ->get();
         return $query;
     }

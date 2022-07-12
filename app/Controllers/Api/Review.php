@@ -65,7 +65,7 @@ class Review extends ResourceController
             'comment' => $request['comment'],
             'date' => Time::now(),
             'rating' => $request['rating'],
-            'account_id' => $request['account_id'],
+            'user_id' => $request['user_id'],
         ];
         $addReview = $this->reviewModel->add_review_api($requestData);
         if($addReview) {

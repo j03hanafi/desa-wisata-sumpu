@@ -10,7 +10,7 @@ class VisitHistoryModel extends Model
     protected $table            = 'visit_history';
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'users_id', 'date_visit', 'category', 'object_id'];
+    protected $allowedFields    = ['id', 'user_id', 'date_visit', 'category', 'object_id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -34,7 +34,7 @@ class VisitHistoryModel extends Model
     public function get_visit_history_by_id_api($id = null) {
         $query = $this->db->table($this->table)
             ->select('visit_history.*')
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->orderBy('date_visit', 'DESC')
             ->get();
         return $query;
