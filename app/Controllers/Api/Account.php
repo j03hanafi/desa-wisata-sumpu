@@ -5,7 +5,12 @@ namespace App\Controllers\Api;
 use App\Models\AccountModel;
 use App\Models\VisitHistoryModel;
 use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\Files\File;
 use CodeIgniter\RESTful\ResourceController;
+use Myth\Auth\Config\Auth as AuthConfig;
+use Myth\Auth\Entities\User;
+use Myth\Auth\Models\UserModel;
+use Myth\Auth\Password;
 
 class Account extends ResourceController
 {
@@ -13,11 +18,18 @@ class Account extends ResourceController
 
     protected $accountModel;
     protected $visitHistoryModel;
+    protected $auth;
+    /**
+     * @var AuthConfig
+     */
+    protected $config;
 
     public function __construct()
     {
         $this->accountModel = new AccountModel();
         $this->visitHistoryModel = new VisitHistoryModel();
+        $this->config = config('Auth');
+        $this->auth = service('authentication');
     }
 
     /**
@@ -58,20 +70,55 @@ class Account extends ResourceController
      */
     public function create()
     {
-        $request = $this->request->getPost();
-        $requestData = [
-            'id'=> $this->accountModel->get_new_id_api(),
-            'username' => $request['username'],
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'email' => $request['email'],
-            'address' => $request['address'],
-            'phone' => $request['phone'],
-            'password' => $request['password'],
-            'avatar' => $request['avatar'],
-            'role_id' => $request['role_id'],
+        $users = model(UserModel::class);
+    
+        // Validate basics first since some password rules rely on these fields
+        $rules = [
+            'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
+            'email'    => 'required|valid_email|is_unique[users.email]',
         ];
-        $this->accountModel->insert($requestData);
+    
+        if (! $this->validate($rules))
+        {
+            $response = [
+                'status' => 400,
+                'message' => $this->validator->getErrors()
+            ];
+            return $this->respond($response, 400);
+        }
+    
+        // Validate passwords since they can only be validated properly here
+        $rules = [
+            'password'     => 'required|strong_password',
+            'pass_confirm' => 'required|matches[password]',
+        ];
+    
+        if (! $this->validate($rules))
+        {
+            $response = [
+                'status' => 400,
+                'message' => $this->validator->getErrors()
+            ];
+            return $this->respond($response, 400);
+        }
+    
+        // Save the user
+        $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
+        $user = new User($this->request->getPost($allowedPostFields));
+    
+        // Ensure default group gets assigned if set
+        if (! empty($this->config->defaultUserGroup)) {
+            $users = $users->withGroup($this->config->defaultUserGroup);
+        }
+    
+        if (! $users->save($user))
+        {
+            $response = [
+                'status' => 400,
+                'message' => $users->errors()
+            ];
+            return $this->respond($response, 400);
+        }
         $response = [
             'status' => 201,
             'message' => [
@@ -98,7 +145,7 @@ class Account extends ResourceController
      */
     public function update($id = null)
     {
-        $request = $this->request->getRawInput();
+        $request = $this->request->getPost();
         $requestData = [
             'username' => $request['username'],
             'first_name' => $request['first_name'],
@@ -106,19 +153,24 @@ class Account extends ResourceController
             'email' => $request['email'],
             'address' => $request['address'],
             'phone' => $request['phone'],
-            'password' => $request['password'],
-            'avatar' => $request['avatar'],
         ];
-        $updateAccount = $this->accountModel->update_account_api($id, $requestData);
-        if($updateAccount){
-            $response = [
-                'status' => 200,
-                'message' => [
-                    "Success update account"
-                ]
-            ];
-            return $this->respond($response);
-        } else {
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
+        $img = $this->request->getFile('avatar');
+        if ($img == null) {
+            $query = $this->accountModel->update_account_users($id, $requestData);
+            if ($query) {
+                $response = [
+                    'status' => 200,
+                    'message' => [
+                        "Success update account avatar"
+                    ]
+                ];
+                return $this->respond($response);
+            }
             $response = [
                 'status' => 400,
                 'message' => [
@@ -126,7 +178,58 @@ class Account extends ResourceController
                 ]
             ];
             return $this->respond($response, 400);
+        } else {
+            $validationRule = [
+                'avatar' => [
+                    'label' => 'Image File',
+                    'rules' => 'uploaded[avatar]'
+                        . '|is_image[avatar]'
+                        . '|mime_in[avatar,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                ],
+            ];
+            if (!$this->validate($validationRule)) {
+                $response = [
+                    'status' => 400,
+                    'message' => [
+                        "Fail update account"
+                    ]
+                ];
+                return $this->respond($response, 400);
+            }
+    
+            if (!$img->hasMoved()) {
+                $filepath = WRITEPATH . 'uploads/' . $img->store();
+                $avatar = new File($filepath);
+                $avatar->move(FCPATH . 'media/photos');
+                $requestData['avatar'] = $avatar->getFilename();
+        
+                $query = $this->accountModel->update_account_users($id, $requestData);
+                if ($query) {
+                    $response = [
+                        'status' => 200,
+                        'message' => [
+                            "Success update account w avatar"
+                        ]
+                    ];
+                    return $this->respond($response);
+                }
+                $response = [
+                    'status' => 400,
+                    'message' => [
+                        "Fail update account"
+                    ]
+                ];
+                return $this->respond($response, 400);
+        
+            }
         }
+        $response = [
+            'status' => 400,
+            'message' => [
+                "Fail update account"
+            ]
+        ];
+        return $this->respond($response, 400);
 
     }
 
@@ -141,12 +244,28 @@ class Account extends ResourceController
     }
 
     public function changePassword() {
+        $rules = [
+            'password'     => 'required',
+            'pass_confirm' => 'required|matches[password]',
+        ];
+    
+        if (! $this->validate($rules))
+        {
+            $response = [
+                'status' => 400,
+                'message' => $this->validator->getErrors()
+            ];
+            return $this->respond($response, 400);
+        }
+    
         $request = $this->request->getPost();
         $requestData = [
-            'current_password' => $request['current_password'],
-            'new_password' => $request['new_password'],
+            'password_hash' => Password::hash($request['password']),
+            'reset_hash' => null,
+            'reset_at' => null,
+            'reset_expires' => null,
         ];
-        $changePassword = $this->accountModel->change_password_api($request['id'], $requestData);
+        $changePassword = $this->accountModel->change_password_user($request['id'], $requestData);
         if($changePassword){
             $response = [
                 'status' => 200,

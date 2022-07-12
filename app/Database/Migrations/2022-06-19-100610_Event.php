@@ -45,8 +45,9 @@ class Event extends Migration
                 'null' => true,
             ],
             'owner' => [
-                'type' => 'VARCHAR',
-                'constraint' => 7,
+                'type' => 'int',
+                'constraint' => 11,
+                'unsigned' => true
             ],
             'geom' => [
                 'type' => 'GEOMETRY',
@@ -71,7 +72,7 @@ class Event extends Migration
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('category_id', 'category_event', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('owner', 'account', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('owner', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('event');
         $this->db->enableForeignKeyChecks();
     }

@@ -5,29 +5,71 @@ namespace App\Controllers\Web;
 use App\Controllers\BaseController;
 use App\Models\AccountModel;
 use App\Models\VisitHistoryModel;
+use CodeIgniter\Session\Session;
+use CodeIgniter\Files\File;
+use Myth\Auth\Config\Auth as AuthConfig;
+use Myth\Auth\Models\UserModel;
+use Myth\Auth\Password;
 
 class Profile extends BaseController
 {
     protected $accountModel;
     protected $visitHistoryModel;
+    protected $auth;
+    
+    /**
+     * @var AuthConfig
+     */
+    protected $config;
+    
+    /**
+     * @var Session
+     */
+    protected $session;
     
     public function __construct()
     {
         $this->accountModel = new AccountModel();
         $this->visitHistoryModel = new VisitHistoryModel();
+    
+        // Most services in this controller require
+        // the session to be started - so fire it up!
+        $this->session = service('session');
+    
+        $this->config = config('Auth');
+        $this->auth = service('authentication');
+    }
+    
+    public function login() {
+        $data = [
+            'title' => 'Login',
+            'config' => $this->config,
+        ];
+        return view('web/auth/login', $data);
+    }
+    
+    public function register()
+    {
+        $data = [
+            'title' => 'Register',
+            'config' => $this->config,
+        ];
+        return view('web/auth/register', $data);
     }
     
     public function profile()
     {
         $data = [
-            'title' => 'My Profile'
+            'title' => 'My Profile',
+            'datas' => [],
         ];
         return view('web/profile/manage_profile', $data);
     }
     public function updateProfile()
     {
         $data = [
-            'title' => 'My Profile'
+            'title' => 'My Profile',
+            'errors' => [],
         ];
         return view('web/profile/update_profile', $data);
     }
@@ -35,8 +77,39 @@ class Profile extends BaseController
     public function changePassword()
     {
         $data = [
-            'title' => 'Change Password'
+            'title' => 'Change Password',
+            'errors' => [],
+            'success' => false
         ];
+    
+        if ($this->request->getMethod() == 'post') {
+            $rules = [
+                'password'     => 'required|strong_password',
+                'pass_confirm' => 'required|matches[password]',
+            ];
+    
+            if (! $this->validate($rules))
+            {
+                $data['errors'] = $this->validator->getErrors();
+                return view('web/profile/change_password', $data);
+            }
+    
+            $requestData = [
+                'password_hash' => Password::hash($this->request->getPost()['password']),
+                'reset_hash' => null,
+                'reset_at' => null,
+                'reset_expires' => null,
+            ];
+            $query = $this->accountModel->change_password_user(user()->id, $requestData);
+            if ($query) {
+                $data['errors'] = ['Password is changed'];
+                $data['success'] = true;
+                return view('web/profile/change_password', $data);
+            }
+            $data['errors'] = ['Failed change password'];
+            return view('web/profile/change_password', $data);
+            
+        }
         return view('web/profile/change_password', $data);
     }
     
@@ -49,12 +122,77 @@ class Profile extends BaseController
             'email' => $request['email'],
             'address' => $request['address'],
             'phone' => $request['phone'],
-            'avatar' => $request['avatar'],
         ];
-        $this->accountModel->insert($requestData);
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
+        $img = $this->request->getFile('avatar');
+        
+        if ($img == null) {
+            $query = $this->accountModel->update_account_users(user()->id, $requestData);
+            if ($query) {
+                return redirect()->to('web/profile');
+            }
+            $data = [
+                'title' => 'Update Profile',
+                'errors' => ['Error update']
+            ];
+    
+            return view('web/profile/update_profile', $data);
+        } else {
+            $validationRule = [
+                'avatar' => [
+                    'label' => 'Image File',
+                    'rules' => 'uploaded[avatar]'
+                        . '|is_image[avatar]'
+                        . '|mime_in[avatar,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                ],
+            ];
+            if (!$this->validate($validationRule)) {
+                $data = [
+                    'title' => 'Update Profile',
+                    'errors' => $this->validator->getErrors()
+                ];
+        
+                return view('web/profile/update_profile', $data);
+            }
+    
+            if (!$img->hasMoved()) {
+                $filepath = WRITEPATH . 'uploads/' . $img->store();
+                $avatar = new File($filepath);
+                $avatar->move(FCPATH . 'media/photos');
+                $requestData['avatar'] = $avatar->getFilename();
+    
+                $query = $this->accountModel->update_account_users(user()->id, $requestData);
+                if ($query) {
+                    
+                    return redirect()->to('web/profile');
+                }
+                $data = [
+                    'title' => 'Update Profile',
+                    'errors' => ['Error update. ' . $query]
+                ];
+        
+                return view('web/profile/update_profile', $data);
+        
+            }
+        }
+        
         $data = [
-            'title' => 'Change Password'
+            'title' => 'Update Profile',
+            'errors' => ['The file has already been moved.']
         ];
-        return view('web/profile/change_password', $data);
+    
+        return view('web/profile/update_profile', $data);
+    }
+    
+    public function visitHistory()
+    {
+        $data = [
+            'title' => 'Visit History',
+        ];
+        return view('web/visitor/visit_history', $data);
     }
 }

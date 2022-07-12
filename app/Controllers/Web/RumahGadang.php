@@ -15,6 +15,8 @@ class RumahGadang extends ResourceController
     protected $detailFacilityRumahGadangModel;
     protected $reviewModel;
     
+    protected $helpers = ['auth'];
+    
     public function __construct()
     {
         $this->rumahGadangModel = new RumahGadangModel();
@@ -48,6 +50,10 @@ class RumahGadang extends ResourceController
     public function show($id = null)
     {
         $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
+        if (empty($rumahGadang)) {
+            return redirect()->to(base_url('web/rumahGadang'));
+        }
+        
         $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
     
         $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
@@ -128,6 +134,7 @@ class RumahGadang extends ResourceController
         //
     }
     
+    
     public function recommendation() {
         $contents = $this->rumahGadangModel->get_recommendation_api()->getResultArray();
         for ($index = 0; $index < count($contents); $index++) {
@@ -142,37 +149,8 @@ class RumahGadang extends ResourceController
             'title' => 'Home',
             'data' => $contents,
         ];
-    
+        
         return view('web/visitor/index', $data);
     }
     
-    public function findByName()
-    {
-        $data = [
-            'title' => 'Rumah Gadang',
-        ];
-        if ($this->request->getMethod() == 'post') {
-            $request = $this->request->getPost();
-            $name = $request['name'];
-            $contents = $this->rumahGadangModel->get_rg_by_name_api($name)->getResultArray();
-            $data['data'] = $contents;
-            $data['input'] = $name;
-        }
-        return view('web/visitor/list_rumah_gadang', $data);
-    }
-    
-    public function findByRadius()
-    {
-        $data = [
-            'title' => 'Rumah Gadang',
-        ];
-        if ($this->request->getMethod() == 'post') {
-            $request = $this->request->getPost();
-            $contents = $this->rumahGadangModel->get_rg_by_radius_api($request)->getResultArray();
-            $data['data'] = $contents;
-            $data['radius'] = [$request['lat'], $request['long'], $request['radius']];
-        }
-    
-        return view('web/visitor/list_rumah_gadang', $data);
-    }
 }

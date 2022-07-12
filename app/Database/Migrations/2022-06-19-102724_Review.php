@@ -39,9 +39,10 @@ class Review extends Migration
             'rating' => [
                 'type' => 'INT',
             ],
-            'account_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => 7,
+            'users_id' => [
+                'type' => 'int',
+                'constraint' => 11,
+                'unsigned' => true
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
@@ -58,7 +59,7 @@ class Review extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('rumah_gadang_id', 'rumah_gadang', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('event_id', 'event', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('account_id', 'account', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('review');
         $this->db->enableForeignKeyChecks();
     }

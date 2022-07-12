@@ -12,6 +12,7 @@ class Event extends ResourceController
     protected $eventModel;
     protected $galleryEventModel;
     protected $reviewModel;
+    protected $helpers = 'auth';
     
     public function __construct()
     {
@@ -43,6 +44,10 @@ class Event extends ResourceController
     public function show($id = null)
     {
         $event = $this->eventModel->get_ev_by_id_api($id)->getRowArray();
+        if (empty($event)) {
+            return redirect()->to(base_url('web/event'));
+        }
+        
         $avg_rating = $this->reviewModel->get_rating('event_id', $id)->getRowArray()['avg_rating'];
     
         $list_gallery = $this->galleryEventModel->get_gallery_api($id)->getResultArray();

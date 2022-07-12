@@ -77,4 +77,22 @@ class AccountModel extends Model
             ->get();
         return $query;
     }
+    
+    public function change_password_user($id = null, $data = null) {
+        $query = $this->db->table('users')
+            ->update($data, ['id' => $id]);
+        return $query;
+    }
+    
+    public function update_account_users($id = null, $data = null) {
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                unset($data[$key]);
+            }
+        }
+        $query = $this->db->table('users')
+            ->update($data, ['id' => $id]);
+        return $query;
+    }
+    
 }

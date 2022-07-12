@@ -84,10 +84,17 @@ $uri3 = $uri[3] ?? '';
                 <div class="d-flex justify-content-center avatar avatar-xl me-3" id="avatar-sidebar">
                     <img src="<?= base_url('media/photos/pesona_sumpu.png'); ?>" alt="" srcset="">
                 </div>
-<!--                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>-->
-                <div class="p-2 text-center">
-                    Hello, <span class="fw-bold">John Duck</span> <br> <span class="text-muted mb-0">@johnducky</span>
-                </div>
+                <?php if (logged_in()): ?>
+                    <div class="p-2 text-center">
+                        <?php if (!empty(user()->first_name)): ?>
+                            Hello, <span class="fw-bold"><?= user()->first_name; ?><?= (!empty(user()->last_name)) ? ' ' . user()->last_name : ''; ?></span> <br> <span class="text-muted mb-0">@<?= user()->username; ?></span>
+                        <?php else: ?>
+                            Hello, <span class="fw-bold">@<?= user()->username; ?></span>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>
+                <?php endif; ?>
                 <ul class="menu">
 
                     <li class="sidebar-item <?= ($uri1 == 'index') ? 'active' : '' ?>">
@@ -279,11 +286,15 @@ $uri3 = $uri[3] ?? '';
                             </li>
                         </ul>
                     </li>
+                    <?php if (logged_in()): ?>
+                    <?php if (in_groups('user')): ?>
                     <li class="sidebar-item <?= ($uri1 == 'visitHistory') ? 'active' : '' ?>">
                         <a href="<?= base_url('web/visitHistory'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-clock-rotate-left"></i><span>Visit History</span>
                         </a>
                     </li>
+                    <?php endif; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

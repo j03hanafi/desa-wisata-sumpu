@@ -39,11 +39,14 @@ class EventModel extends Model
     }
 
     public function list_by_owner_api($id = null) {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.date_start,{$this->table}.date_end,{$this->table}.description,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.category_id,{$this->table}.owner,{$this->table}.video_url";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('event.*, category_event.category, CONCAT(account.first_name, " ", account.last_name) as owner_name')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->where('owner', $id)
-            ->join('category_event', 'event.category_id = category_event.id')
-            ->join('account', 'event.owner = account.id')
             ->get();
         return $query;
     }

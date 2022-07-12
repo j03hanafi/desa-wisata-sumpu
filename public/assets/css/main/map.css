@@ -57,3 +57,8 @@
     height: auto;
     max-height: 125px;
 }
+
+#avatar-container img{
+    width: 300px;
+    height: 300px;
+}

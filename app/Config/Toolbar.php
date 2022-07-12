@@ -10,6 +10,7 @@ use CodeIgniter\Debug\Toolbar\Collectors\Logs;
 use CodeIgniter\Debug\Toolbar\Collectors\Routes;
 use CodeIgniter\Debug\Toolbar\Collectors\Timers;
 use CodeIgniter\Debug\Toolbar\Collectors\Views;
+use Myth\Auth\Collectors\Auth;
 
 /**
  * --------------------------------------------------------------------------
@@ -42,6 +43,7 @@ class Toolbar extends BaseConfig
         Files::class,
         Routes::class,
         Events::class,
+        Auth::class,
     ];
 
     /**

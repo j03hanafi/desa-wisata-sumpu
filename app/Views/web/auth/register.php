@@ -1,3 +1,4 @@
+<?= $this->extend($config->viewLayout) ?>
 <?= $this->extend('web/auth/index'); ?>
 
 <?= $this->section('content'); ?>
@@ -11,17 +12,21 @@
                             ><img src="<?= base_url('assets/images/logo/logo.svg'); ?>" alt="Logo"
                                 /></a>
                         </div>
-                        <h1 class="auth-title text-center">Sign Up</h1>
+                        <h1 class="auth-title text-center"><?=lang('Auth.register')?></h1>
                         <p class="auth-subtitle mb-4 text-center">
                             Input your data to register to our website.
                         </p>
+                        <?= view('Myth\Auth\Views\_message_block') ?>
 
-                        <form action="">
+                        <form action="<?= route_to('register') ?>" method="post">
+                            <?= csrf_field() ?>
                             <div class="form-group position-relative has-icon-left mb-3">
                                 <input
                                         type="text"
-                                        class="form-control"
-                                        placeholder="Email"
+                                        class="form-control <?php if(session('errors.email')) : ?>is-invalid<?php endif ?>"
+                                        placeholder="<?=lang('Auth.email')?>"
+                                        name="email"
+                                        value="<?= old('email') ?>"
                                 />
                                 <div class="form-control-icon">
                                     <i class="bi bi-envelope"></i>
@@ -30,8 +35,10 @@
                             <div class="form-group position-relative has-icon-left mb-3">
                                 <input
                                         type="text"
-                                        class="form-control"
-                                        placeholder="Username"
+                                        class="form-control <?php if(session('errors.username')) : ?>is-invalid<?php endif ?>"
+                                        placeholder="<?=lang('Auth.username')?>"
+                                        name="username"
+                                        value="<?= old('username') ?>"
                                 />
                                 <div class="form-control-icon">
                                     <i class="bi bi-person"></i>
@@ -40,8 +47,10 @@
                             <div class="form-group position-relative has-icon-left mb-3">
                                 <input
                                         type="password"
-                                        class="form-control"
-                                        placeholder="Password"
+                                        class="form-control <?php if(session('errors.password')) : ?>is-invalid<?php endif ?>"
+                                        placeholder="<?=lang('Auth.password')?>"
+                                        name="password"
+                                        autocomplete="off"
                                 />
                                 <div class="form-control-icon">
                                     <i class="bi bi-shield-lock"></i>
@@ -50,21 +59,23 @@
                             <div class="form-group position-relative has-icon-left mb-3">
                                 <input
                                         type="password"
-                                        class="form-control"
-                                        placeholder="Confirm Password"
+                                        class="form-control <?php if(session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>"
+                                        placeholder="<?=lang('Auth.repeatPassword')?>"
+                                        name="pass_confirm"
+                                        autocomplete="off"
                                 />
                                 <div class="form-control-icon">
                                     <i class="bi bi-shield-lock"></i>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-block shadow mt-5">
-                                Sign Up
+                            <button class="btn btn-primary btn-block shadow mt-5" type="submit">
+                                <?=lang('Auth.register')?>
                             </button>
                         </form>
                         <div class="text-center mt-4 text-lg">
                             <p class="text-gray-600">
-                                Already have an account?
-                                <a class="font-bold" href="<?= base_url('login'); ?>">Log in</a>
+                                <?=lang('Auth.alreadyRegistered')?>
+                                <a class="font-bold" href="<?= route_to('login') ?>"><?=lang('Auth.signIn')?></a>
                             </p>
                         </div>
                     </div>

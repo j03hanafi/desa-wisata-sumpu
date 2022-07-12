@@ -11,6 +11,8 @@ class BaseSeeder extends Seeder
         // Account Seed
         $this->call('RoleSeeder');
         $this->call('AccountSeeder');
+        $this->call('GroupSeeder');
+        $this->call('UserGroupSeeder');
         $this->call('VillageSeeder');
 
         // Rumah Gadang Seed

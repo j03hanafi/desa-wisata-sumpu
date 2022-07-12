@@ -11,7 +11,7 @@ class ReviewModel extends Model
     protected $table            = 'review';
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id', 'status', 'rumah_gadang_id', 'event_id', 'comment', 'date', 'rating', 'account_id'];
+    protected $allowedFields    = ['id', 'status', 'rumah_gadang_id', 'event_id', 'comment', 'date', 'rating', 'users_id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -56,9 +56,9 @@ class ReviewModel extends Model
 
     public function get_review_object_api($object = null, $id = null) {
         $query = $this->db->table($this->table)
-            ->select('review.*, account.first_name, account.last_name')
+            ->select('review.*, users.first_name, users.last_name')
             ->where($object, $id)
-            ->join('account', 'review.account_id = account.id')
+            ->join('users', 'review.users_id = users.id')
             ->get();
         return $query;
     }

@@ -36,20 +36,26 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'LandingPage::index');
-$routes->get('/login', 'Home::index');
-$routes->get('/register', 'Home::register');
-$routes->get('/web/visitHistory', 'Home::visitHistory');
-$routes->get('/web/visitHistory/add', 'Home::addVisitHistory');
+$routes->get('/403', 'Home::error403');
+$routes->get('/login', 'Web\Profile::login');
+$routes->get('/register', 'Web\Profile::register');
 
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
     $routes->resource('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
     $routes->resource('event');
-    $routes->get('profile', 'Profile::profile');
-    $routes->post('profile', 'Profile::update');
-    $routes->get('profile/update', 'Profile::updateProfile');
-    $routes->get('changePassword', 'Profile::changePassword');
+    $routes->get('visitHistory', 'Profile::visitHistory', ['filter' => 'role:user']);
+    
+    
+    // Profile
+    $routes->group('profile', function ($routes) {
+        $routes->get('/', 'Profile::profile', ['filter' => 'login']);
+        $routes->get('changePassword', 'Profile::changePassword', ['filter' => 'login']);
+        $routes->post('changePassword', 'Profile::changePassword', ['filter' => 'login']);
+        $routes->get('update', 'Profile::updateProfile', ['filter' => 'login']);
+        $routes->post('update', 'Profile::update', ['filter' => 'login']);
+    });
 });
 
 // API
@@ -86,6 +92,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->post('account/changePassword', 'Account::changePassword');
     $routes->post('account/visitHistory', 'Account::visitHistory');
     $routes->post('account/newVisitHistory', 'Account::newVisitHistory');
+    $routes->post('account/(:num)', 'Account::update/$1');
     $routes->resource('review');
     $routes->resource('user');
     $routes->resource('facility');

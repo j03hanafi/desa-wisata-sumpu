@@ -14,9 +14,10 @@ class VisitHistory extends Migration
                 'constraint' => 5,
                 'unique' => true,
             ],
-            'account_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => 7,
+            'users_id' => [
+                'type' => 'int',
+                'constraint' => 11,
+                'unsigned' => true
             ],
             'object_id' => [
                 'type' => 'VARCHAR',
@@ -44,7 +45,7 @@ class VisitHistory extends Migration
         $this->db->disableForeignKeyChecks();
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('account_id', 'account', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('visit_history');
         $this->db->enableForeignKeyChecks();
     }

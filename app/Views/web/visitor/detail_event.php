@@ -65,7 +65,7 @@
             <div class="card">
                 <div class="card-header text-center">
                     <h4 class="card-title">Rating and Review</h4>
-                    <p class="card-text">Please login to give rating and review</p>
+                    <?php if (in_groups('user')): ?>
                     <form class="form form-vertical">
                         <div class="form-body">
                             <div class="star-containter mb-3">
@@ -88,6 +88,9 @@
                             </div>
                         </div>
                     </form>
+                    <?php else: ?>
+                    <p class="card-text">Please login to give rating and review</p>
+                    <?php endif; ?>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

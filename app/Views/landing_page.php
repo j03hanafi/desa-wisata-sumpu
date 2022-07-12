@@ -80,7 +80,9 @@
                 <a href="#about" class="nav-item nav-link">About</a>
                 <a href="#award" class="nav-item nav-link">Award</a>
             </div>
+            <?php if (!logged_in()): ?>
             <a href="<?= base_url('login'); ?>" class="btn btn-primary">Login</a>
+            <?php endif; ?>
         </div>
     </nav>
     <!-- Navbar End -->

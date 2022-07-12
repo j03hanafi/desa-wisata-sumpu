@@ -58,8 +58,9 @@ class RumahGadang extends Migration
                 'null' => true,
             ],
             'owner' => [
-                'type' => 'VARCHAR',
-                'constraint' => 7,
+                'type' => 'int',
+                'constraint' => 11,
+                'unsigned' => true
             ],
             'description' => [
                 'type' => 'TEXT',
@@ -84,7 +85,7 @@ class RumahGadang extends Migration
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('recom', 'recommendation', 'id', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('owner', 'account', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('owner', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('rumah_gadang');
         $this->db->enableForeignKeyChecks();
     }

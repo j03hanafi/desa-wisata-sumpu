@@ -84,10 +84,17 @@ $uri3 = $uri[3] ?? '';
                 <div class="d-flex justify-content-center avatar avatar-xl me-3" id="avatar-sidebar">
                     <img src="<?= base_url('media/photos/pesona_sumpu.png'); ?>" alt="" srcset="">
                 </div>
-<!--                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>-->
+                <?php if (logged_in()): ?>
                 <div class="p-2 text-center">
-                    Hello, <span class="fw-bold">John Duck</span> <br> <span class="text-muted mb-0">@johnducky</span>
+                    <?php if (!empty(user()->first_name)): ?>
+                    Hello, <span class="fw-bold"><?= user()->first_name; ?><?= (!empty(user()->last_name)) ? ' ' + user()->last_name : ''; ?></span> <br> <span class="text-muted mb-0"><?= user()->username; ?></span>
+                    <?php else: ?>
+                    Hello, <span class="fw-bold"><?= user()->username; ?></span>
+                    <?php endif; ?>
                 </div>
+                <?php else: ?>
+                <div class="p-2 d-flex justify-content-center">Hello, Visitor</div>
+                <?php endif; ?>
                 <ul class="menu">
                     <li class="sidebar-item">
                         <a href="<?= base_url('web'); ?>" class="sidebar-link">
@@ -95,14 +102,14 @@ $uri3 = $uri[3] ?? '';
                         </a>
                     </li>
 
-                    <li class="sidebar-item <?= ($uri1 == 'profile') ? 'active' : '' ?>">
+                    <li class="sidebar-item <?= ($uri2 == '' || $uri2 == 'update') ? 'active' : '' ?>">
                         <a href="<?= base_url('web/profile'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-user"></i><span> Manage Profile</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item  <?= ($uri1 == 'changePassword') ? 'active' : '' ?>">
-                        <a href="<?= base_url('web/changePassword'); ?>" class="sidebar-link">
+                    <li class="sidebar-item  <?= ($uri2 == 'changePassword') ? 'active' : '' ?>">
+                        <a href="<?= base_url('web/profile/changePassword'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-key"></i><span> Change Password</span>
                         </a>
                     </li>

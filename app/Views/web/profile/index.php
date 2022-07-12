@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app-dark.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/main/map.css'); ?>">
     
-    <?= $this->renderSection('styles') ?>
     <link rel="shortcut icon" href="<?= base_url('assets/images/logo/favicon.svg'); ?>" type="image/x-icon">
     <link rel="stylesheet" href="<?= base_url('assets/css/shared/iconly.css'); ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,0,0" />
@@ -22,6 +21,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY"></script>
     <script src="<?= base_url('assets/js/map.js'); ?>"></script>
     <script src="https://kit.fontawesome.com/de7d18ea4d.js" crossorigin="anonymous"></script>
+    <?= $this->renderSection('styles') ?>
 </head>
 <body>
     <div id="app">
@@ -43,5 +43,7 @@
         <!-- End Main -->
     </div>
     <script src="<?= base_url('assets/js/app.js'); ?>"></script>
+    <?= $this->renderSection('javascript') ?>
 </body>
+
 </html>
