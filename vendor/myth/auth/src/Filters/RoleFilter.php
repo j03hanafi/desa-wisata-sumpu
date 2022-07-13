@@ -62,7 +62,7 @@ class RoleFilter implements FilterInterface
 		}
 		else {
 //			throw new PermissionException(lang('Auth.notEnoughPrivilege'));
-            $redirectURL = session('redirect_url') ?? '/403';
+            $redirectURL = '/403';
             return redirect()->to($redirectURL);
 		}
 	}

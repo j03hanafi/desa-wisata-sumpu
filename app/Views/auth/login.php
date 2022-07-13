@@ -9,7 +9,7 @@
                     <div id="auth-left">
                         <div class="auth-logo">
                             <a href="<?= base_url(); ?>"
-                            ><img src="<?= base_url('assets/images/logo/logo.svg'); ?>" alt="Logo"
+                            ><img src="<?= base_url('media/icon/logo.svg'); ?>" alt="Logo"
                                 /></a>
                         </div>
                         <h1 class="auth-title text-center"><?=lang('Auth.loginTitle')?></h1>

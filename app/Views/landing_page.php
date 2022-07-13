@@ -8,7 +8,7 @@
         <meta content="" name="description" />
 
         <!-- Favicon -->
-        <link href="img/favicon.svg" rel="icon" />
+        <link href="media/icon/favicon.svg" rel="icon" />
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,9 +29,9 @@
         />
 
         <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet" />
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+        <link href="assets/lib/animate/animate.min.css" rel="stylesheet" />
+        <link href="assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
+        <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/landing-page/bootstrap.min.css" rel="stylesheet" />
@@ -62,7 +62,7 @@
             data-wow-delay="0.1s"
     >
         <a href="/" class="navbar-brand p-0">
-            <img class="img-fluid me-3" src="img/logo.svg" alt="Icon" />
+            <img class="img-fluid me-3" src="media/icon/logo.svg" alt="Icon" />
             <h1 class="m-0 text-primary">Tourism Village</h1>
         </a>
         <button
@@ -120,13 +120,13 @@
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                 <div class="owl-carousel header-carousel">
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="img/landing-page/carousel-1.jpg" alt="" />
+                        <img class="img-fluid" src="media/photos/landing-page/carousel-1.jpg" alt="" />
                     </div>
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="img/landing-page/carousel-2.jpg" alt="" />
+                        <img class="img-fluid" src="media/photos/landing-page/carousel-2.jpg" alt="" />
                     </div>
                     <div class="owl-carousel-item">
-                        <img class="img-fluid" src="img/landing-page/carousel-3.jpg" alt="" />
+                        <img class="img-fluid" src="media/photos/landing-page/carousel-3.jpg" alt="" />
                     </div>
                 </div>
             </div>
@@ -199,7 +199,7 @@
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="img-border  ">
-                        <img class="img-fluid" src="img/landing-page/bg-about.jpg" alt="" />
+                        <img class="img-fluid" src="media/photos/landing-page/bg-about.jpg" alt="" />
                     </div>
                 </div>
             </div>
@@ -219,7 +219,7 @@
                         class="col-md-6 col-lg-6 text-center wow fadeIn"
                         data-wow-delay="0.1s"
                 >
-                    <img src="img/landing-page/trophy.png" alt="" style="filter: invert(100%); max-width: 4em" class="mb-3">
+                    <img src="media/photos/landing-page/trophy.png" alt="" style="filter: invert(100%); max-width: 4em" class="mb-3">
                     <h1 class="text-white mb-2" data-toggle="counter-up">50</h1>
                     <p class="text-white mb-0">Besar ADWI 2021</p>
                 </div>
@@ -227,7 +227,7 @@
                         class="col-md-6 col-lg-6 text-center wow fadeIn"
                         data-wow-delay="0.3s"
                 >
-                    <img src="img/landing-page/rumah-gadang.png" alt="" style="filter: invert(100%); max-width: 5em">
+                    <img src="media/photos/landing-page/rumah-gadang.png" alt="" style="filter: invert(100%); max-width: 5em">
                     <h1 class="text-white mb-2" data-toggle="counter-up">70</h1>
                     <p class="text-white mb-0">Rumah Gadang</p>
                 </div>
@@ -295,14 +295,14 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="assets/lib/wow/wow.min.js"></script>
+    <script src="assets/lib/easing/easing.min.js"></script>
+    <script src="assets/lib/waypoints/waypoints.min.js"></script>
+    <script src="assets/lib/counterup/counterup.min.js"></script>
+    <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="assets/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="<?= base_url('js/landing-page/main.js'); ?>"></script>
+    <script src="<?= base_url('js/landing-page.js'); ?>"></script>
     </body>
 </html>

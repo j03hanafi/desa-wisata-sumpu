@@ -2,7 +2,7 @@ let baseUrl = '';
 let currentUrl = '';
 let currentLat = 0, currentLng = 0
 let userLat = 0, userLng = 0;
-let map;
+let web;
 let infoWindow = new google.maps.InfoWindow();
 let userInfoWindow = new google.maps.InfoWindow();
 let directionsService, directionsRenderer;
@@ -703,7 +703,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Employee</span>: '+ item.employee+'</p>'+
                     '</div>'+
                     '<div>' +
-                    '<img src="'+ baseUrl +'/media/photos/'+ item.gallery[0] +'" alt="'+ item.name +'" class="w-50">' +
+                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -731,7 +731,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Last Renovation</span>: '+ item.last_renovation+'</p>'+
                     '</div>' +
                     '<div>' +
-                    '<img src="'+ baseUrl +'/media/photos/'+ item.gallery[0] +'" alt="'+ item.name +'" class="w-50">' +
+                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -760,7 +760,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Open</span>: '+ open +' - '+ close+' WIB</p>'+
                     '</div>' +
                     '<div>' +
-                    '<img src="'+ baseUrl +'/media/photos/'+ item.gallery[0] +'" alt="'+ item.name +'" class="w-50">' +
+                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -1125,5 +1125,35 @@ function getObjectByCategory(){
                 }
             }
         });
+    }
+}
+
+// Validate if star rating picked yet
+function checkStar(event) {
+    const star = document.getElementById('star-rating').value;
+    if (star == '0') {
+        event.preventDefault();
+        Swal.fire('Please put rating star');
+    }
+}
+
+// Check if Category and Object is chose correctly
+function checkForm(event) {
+    const category = document.getElementById('category').value;
+    const object = document.getElementById('object').value;
+    if (category === 'None' || object === 'None') {
+        event.preventDefault();
+        Swal.fire('Please select the correct Category and Object');
+    }
+}
+
+// Update preview of uploaded photo profile
+function showPreview(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            $('#avatar-preview').attr('src', e.target.result).width(300).height(300);
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 }

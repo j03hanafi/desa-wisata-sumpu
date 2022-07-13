@@ -45,9 +45,9 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
     $routes->resource('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
     $routes->resource('event');
-    $routes->get('visitHistory', 'Profile::visitHistory', ['filter' => 'role:user']);
-    $routes->get('visitHistory/add', 'Profile::addVisitHistory', ['filter' => 'role:user']);
-    $routes->post('visitHistory', 'Profile::visitHistory', ['filter' => 'role:user']);
+    $routes->get('visitHistory', 'VisitHistory::visitHistory', ['filter' => 'role:user']);
+    $routes->get('visitHistory/add', 'VisitHistory::addVisitHistory', ['filter' => 'role:user']);
+    $routes->post('visitHistory', 'VisitHistory::visitHistory', ['filter' => 'role:user']);
     $routes->post('review', 'Review::add', [['filter' => 'role:user']]);
     
     

@@ -56,12 +56,14 @@ class PermissionFilter implements FilterInterface
 		{
 			if ($authenticate->silent())
 			{
-				$redirectURL = session('redirect_url') ?? '/';
+				$redirectURL = session('redirect_url') ?? '/403';
 				unset($_SESSION['redirect_url']);
 				return redirect()->to($redirectURL)->with('error', lang('Auth.notEnoughPrivilege'));
 			}
 			else {
-				throw new PermissionException(lang('Auth.notEnoughPrivilege'));
+//				throw new PermissionException(lang('Auth.notEnoughPrivilege'));
+                $redirectURL = '/403';
+                return redirect()->to($redirectURL);
 			}
 		}
 	}

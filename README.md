@@ -1,4 +1,5 @@
-# CodeIgniter 4 Application Starter
+# Desa Wisata Kampuang Minang Nagari Sumpu
+This is a Geographic Information System (GIS) Web Application. Created using Codeigniter 4 with Myth/Auth for user authentications.
 
 ## What is CodeIgniter?
 
@@ -14,10 +15,21 @@ More information about the plans for version 4 can be found in [the announcement
 The user guide corresponding to this version of the framework can be found
 [here](https://codeigniter4.github.io/userguide/).
 
+## Myth/Auth
+
+[Myth/Auth](https://github.com/lonnieezell/myth-auth) is meant to be a one-stop shop for 99% of your web-based authentication needs with CI4. It includes
+the following primary features:
+
+- Password-based authentication with remember-me functionality for web apps
+- Flat RBAC per NIST standards, described [here](https://csrc.nist.gov/Projects/Role-Based-Access-Control) and [here](https://pdfs.semanticscholar.org/aeb1/e9676e2d7694f268377fc22bdb510a13fab7.pdf).
+- All views necessary for login, registration and forgotten password flows.
+- Publish files to the main application via a CLI command for easy customization
+- Debug Toolbar integration
+- Email-based account verification
+
 ## Installation & updates
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Using terminal, **run `git clone https://github.com/j03hanafi/desa-wisata-sumpu.git`, go inside the directory with `cd desa-wisata-sumpu`, then `composer install`** to set up Codeigniter 4 framework.
 
 When updating, check the release notes to see if there are any changes you might need to apply
 to your `app` folder. The affected files can be copied or merged from
@@ -25,39 +37,24 @@ to your `app` folder. The affected files can be copied or merged from
 
 ## Setup
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Copy `env` to `.env` and tailor for your app, uncomment all necessary settings. Set `CI_ENVIRONMENT = development` (for development features), `app.baseURL = 'http://localhost:{YOUR_SERVER_PORT}/'`, and any `#DATABASE` settings
 
-## Important Change with index.php
+Open terminal, run `php spark migrate -all` to create all needed tables.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Run `php spark db:seed BaseSeeder` to fill data into all tables.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+Execute `php spark serve` to start application locally.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## Available Users
 
-## Repository Management
+This application came with few users to use authentication functionality.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 7.4 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+| Email                 | Username    | Password   |
+|-----------------------|-------------|------------|
+| `accuser1@email.com`  | `accuser1`  | `akunaku1` |
+| `accuser2@email.com`  | `accuser2`  | `akunaku2` |
+| `accuser3@email.com`  | `accuser3`  | `akunaku3` |
+| `accuser4@email.com`  | `accuser4`  | `akunaku4` |
+| `accowner1@email.com` | `accowner1` | `akunaku5` |
+| `accowner2@email.com` | `accowner2` | `akunaku6` |
+| `accadmin1@email.com` | `accadmin1` | `akunaku7` |

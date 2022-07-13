@@ -59,16 +59,3 @@
     </section>
 
 <?= $this->endSection() ?>
-
-<?= $this->section('javascript') ?>
-<script>
-    function checkForm(event) {
-        const category = document.getElementById('category').value;
-        const object = document.getElementById('object').value;
-        if (category === 'None' || object === 'None') {
-            event.preventDefault();
-            Swal.fire('Plese select the correct Category and Object');
-        }
-    }
-</script>
-<?= $this->endSection() ?>

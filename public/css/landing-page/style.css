@@ -143,7 +143,7 @@
 
 /*** Header ***/
 .header-bg {
-    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../../img/landing-page/bg-header.jpg) center center no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../../media/photos/landing-page/bg-header.jpg) center center no-repeat;
     background-size: cover;
 }
 
@@ -342,7 +342,7 @@
 
 /*** Facts & Visiting Hours ***/
 .facts {
-    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../../img/landing-page/bg-about.jpg) center center no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../../media/photos/landing-page/bg-about.jpg) center center no-repeat;
     background-size: cover;
 }
 

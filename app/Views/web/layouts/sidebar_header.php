@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <div class="logo">
             <a href="<?= base_url(); ?>"
-            ><img src="<?= base_url('assets/images/logo/logo.svg'); ?>" alt="Logo" srcset=""
+            ><img src="<?= base_url('media/icon/logo.svg'); ?>" alt="Logo" srcset=""
                 /></a>
         </div>
         <div class="theme-toggle d-flex gap-2 align-items-center mt-">

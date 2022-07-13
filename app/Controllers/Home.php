@@ -47,24 +47,8 @@ class Home extends BaseController
         return view('web/auth/register', $data);
     }
     
-    public function visitHistory()
-    {
-        $data = [
-            'title' => 'Visit History',
-        ];
-        return view('web/web/visit_history', $data);
-    }
-    
-    public function addVisitHistory()
-    {
-        $data = [
-            'title' => 'Visit History',
-        ];
-        return view('web/web/add_visit_history', $data);
-    }
-    
     public function error403()
     {
-        return view('errors/html/error-403');
+        return view('errors/html/error_403');
     }
 }

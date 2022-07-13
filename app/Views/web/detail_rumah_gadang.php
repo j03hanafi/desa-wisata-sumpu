@@ -5,6 +5,7 @@
 <section class="section">
     <div class="row">
         <script>currentUrl = '<?= current_url(); ?>';</script>
+        
         <!-- Object Detail Information -->
         <div class="col-md-6 col-12">
             <div class="card">
@@ -81,6 +82,7 @@
                 <div class="card-header">
                     <h5 class="card-title">Google Maps</h5>
                 </div>
+                
                 <?= $this->include('web/layouts/map-body'); ?>
                 <script>initMap(<?= esc($data['lat']); ?>, <?= esc($data['lng']); ?>)</script>
                 <script>objectMarker("<?= esc($data['id']); ?>", <?= esc($data['lat']); ?>, <?= esc($data['lng']); ?>);</script>
@@ -106,14 +108,6 @@
     myModal.addEventListener('hide.bs.modal', () => {
         document.getElementById('video').setAttribute('src', '');
     });
-    
-    function checkStar(event) {
-        const star = document.getElementById('star-rating').value;
-        if (star == '0') {
-            event.preventDefault();
-            Swal.fire('Please put rating star');
-        }
-    }
 </script>
 <?= $this->endSection() ?>
 

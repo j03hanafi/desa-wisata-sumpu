@@ -5,6 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= esc($title); ?> - Desa Wisata Kampuang Minang Nagari Sumpu</title>
+
+    <!-- Favicon -->
+    <link href="media/icon/favicon.svg" rel="icon" />
+    
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,9 +28,9 @@
     />
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet" />
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="assets/lib/animate/animate.min.css" rel="stylesheet" />
+    <link href="assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
+    <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/landing-page/bootstrap.min.css" rel="stylesheet" />
@@ -35,11 +39,6 @@
     <link href="css/landing-page/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?= base_url('assets/css/main/app.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/pages/auth.css'); ?>">
-    <link
-        rel="shortcut icon"
-        href="<?= base_url('assets/images/logo/favicon.svg'); ?>"
-        type="image/x-icon"
-    />
 </head>
 
 <body>
@@ -49,7 +48,7 @@
             data-wow-delay="0.1s"
     >
         <a href="/" class="navbar-brand p-0">
-            <img class="img-fluid me-3" src="img/logo.svg" alt="Icon" />
+            <img class="img-fluid me-3" src="media/icon/logo.svg" alt="Icon" />
             <h1 class="m-0 text-primary">Tourism Village</h1>
         </a>
         <button

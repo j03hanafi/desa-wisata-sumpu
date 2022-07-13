@@ -1,8 +1,5 @@
 <?= $this->extend('profile/index'); ?>
 
-<?= $this->section('styles') ?>
-<?= $this->endSection() ?>
-
 <?= $this->section('content') ?>
 <section class="section">
     <div class="card">
@@ -94,19 +91,4 @@
         </div>
     </div>
 </section>
-<?= $this->endSection() ?>
-
-<?= $this->section('javascript') ?>
-<script>
-    function showPreview(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                $('#avatar-preview').attr('src', e.target.result).width(300).height(300);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    
-</script>
 <?= $this->endSection() ?>

@@ -1,4 +1,5 @@
 <?php $uri = service('uri')->getSegments(); ?>
+
 <!-- Object Rating and Review -->
 <div class="card">
     <div class="card-header text-center">
