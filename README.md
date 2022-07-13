@@ -37,7 +37,10 @@ to your `app` folder. The affected files can be copied or merged from
 
 ## Setup
 
-Copy `env` to `.env` and tailor for your app, uncomment all necessary settings. Set `CI_ENVIRONMENT = development` (for development features), `app.baseURL = 'http://localhost:{YOUR_SERVER_PORT}/'`, and any `#DATABASE` settings
+Copy `env` to `.env` and tailor for your app, uncomment all necessary settings.  
+Set `CI_ENVIRONMENT = development` (for development features).  
+Set `app.baseURL = 'http://localhost:8080/'`.  
+Set any `#DATABASE` settings
 
 Open terminal, run `php spark migrate -all` to create all needed tables.
 

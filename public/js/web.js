@@ -49,6 +49,7 @@ function digitVillage() {
                 strokeWeight:0.5,
                 strokeColor:'#ffffff',
                 fillOpacity: 0.1,
+                clickable: false
             });
             village.setMap(map);
         }
@@ -446,11 +447,7 @@ function radiusSearch({postfix= null, } = {}) {
     clearMarker();
     destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     let pos = new google.maps.LatLng(currentLat, currentLng);
     let radiusValue = parseFloat(document.getElementById('inputRadius' + postfix).value) * 100;
@@ -535,6 +532,15 @@ function showSteps(directionResult) {
             '</tr>';
         $('#table-direction').append(row);
     }
+}
+
+// close nearby search section
+function closeNearby() {
+    $('#direction-row').hide();
+    $('#check-nearby-col').hide();
+    $('#result-nearby-col').hide();
+    $('#list-rg-col').show();
+    $('#list-ev-col').show();
 }
 
 // open nearby search section
@@ -779,14 +785,10 @@ function findByName(category) {
     clearRadius();
     clearRoute();
     clearMarker();
-    destinationMarker.setMap(null);
     clearUser();
+    destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     let name;
     if (category === 'RG') {
@@ -839,19 +841,15 @@ function getFacility() {
     });
 }
 
-// Find object by Rating
+// Find object by Facility
 function findByFacility() {
     clearRadius();
     clearRoute();
     clearMarker();
-    destinationMarker.setMap(null);
     clearUser();
+    destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     let facility = document.getElementById('facilitySelect').value;
     $.ajax({
@@ -904,14 +902,10 @@ function findByRating(category) {
     clearRadius();
     clearRoute();
     clearMarker();
-    destinationMarker.setMap(null);
     clearUser();
+    destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     let rating = document.getElementById('star-rating').value;
     if (category === 'RG') {
@@ -948,14 +942,10 @@ function findByCategory(object) {
     clearRadius();
     clearRoute();
     clearMarker();
-    destinationMarker.setMap(null);
     clearUser();
+    destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     if (object === 'RG') {
         let category = document.getElementById('categoryRGSelect').value;
@@ -1007,18 +997,15 @@ function getCategory() {
     });
 }
 
+// // Find object by Date
 function findByDate() {
     clearRadius();
     clearRoute();
     clearMarker();
-    destinationMarker.setMap(null);
     clearUser();
+    destinationMarker.setMap(null);
     google.maps.event.clearListeners(map, 'click');
-    $('#direction-row').hide();
-    $('#check-nearby-col').hide();
-    $('#result-nearby-col').hide();
-    $('#list-rg-col').show();
-    $('#list-ev-col').show();
+    closeNearby();
 
     let eventDate = document.getElementById('eventDate').value;
     $.ajax({
