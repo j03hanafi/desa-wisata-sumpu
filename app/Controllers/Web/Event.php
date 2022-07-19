@@ -45,7 +45,7 @@ class Event extends ResourceController
     {
         $event = $this->eventModel->get_ev_by_id_api($id)->getRowArray();
         if (empty($event)) {
-            return redirect()->to(base_url('web/event'));
+            return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
         
         $avg_rating = $this->reviewModel->get_rating('event_id', $id)->getRowArray()['avg_rating'];
@@ -67,6 +67,9 @@ class Event extends ResourceController
             'data' => $event,
         ];
     
+        if (url_is('*dashboard*')) {
+            return view('dashboard/detail_event', $data);
+        }
         return view('web/detail_event', $data);
     
     }

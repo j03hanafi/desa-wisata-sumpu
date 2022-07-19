@@ -28,7 +28,7 @@ class Review extends BaseController
             $requestData['rumah_gadang_id'] = $request['object_id'];
             $addReview = $this->reviewModel->add_review_api($requestData);
             if ($addReview) {
-                return redirect()->to(base_url('web/rumahGadang') . '/' . $request['rumah_gadang_id'] . '#reviews');
+                return redirect()->to(base_url('web/rumahGadang') . '/' . $requestData['rumah_gadang_id'] . '#reviews');
             }
         }
         

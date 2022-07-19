@@ -218,7 +218,6 @@ $uri3 = $uri[3] ?? '';
                             </li>
                         </ul>
                     </li>
-                    <?php if (logged_in()): ?>
                     <?php if (in_groups('user')): ?>
                     <li class="sidebar-item <?= ($uri1 == 'visitHistory') ? 'active' : '' ?>">
                         <a href="<?= base_url('web/visitHistory'); ?>" class="sidebar-link">
@@ -226,6 +225,16 @@ $uri3 = $uri[3] ?? '';
                         </a>
                     </li>
                     <?php endif; ?>
+                    <?php if (in_groups(['owner', 'admin'])): ?>
+                    <li class="sidebar-item">
+                        <?php if (in_groups('admin')): ?>
+                        <a href="<?= base_url('dashboard'); ?>" class="sidebar-link">
+                        <?php else: ?>
+                        <a href="<?= base_url('dashboard/rumahGadang'); ?>" class="sidebar-link">
+                        <?php endif; ?>
+                            <i class="bi bi-grid-fill"></i><span>Dashboard</span>
+                        </a>
+                    </li>
                     <?php endif; ?>
                 </ul>
             </div>

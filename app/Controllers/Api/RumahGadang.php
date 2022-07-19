@@ -276,6 +276,20 @@ class RumahGadang extends ResourceController
         ];
         return $this->respond($response);
     }
+    
+    public function recommendationList()
+    {
+        $contents = $this->rumahGadangModel->get_recommendation_data_api()->getResultArray();
+        
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success get list of recommendation"
+            ]
+        ];
+        return $this->respond($response);
+    }
 
     public function updateRecommendation() {
         $request = $this->request->getJSON(true);

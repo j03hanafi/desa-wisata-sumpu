@@ -36,6 +36,7 @@ class RumahGadang extends Migration
             'ticket_price' => [
                 'type' => 'INT',
                 'null' => true,
+                'default' => 0
             ],
             'geom' => [
                 'type' => 'GEOMETRY',

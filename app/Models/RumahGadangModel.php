@@ -39,6 +39,25 @@ class RumahGadangModel extends Model
             ->get();
         return $query;
     }
+    
+    public function get_list_recommendation_api() {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $query = $this->db->table($this->table)
+            ->select("rumah_gadang.id, rumah_gadang.name, recom, recommendation.name as recommendation, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
+            ->join('recommendation', 'rumah_gadang.recom = recommendation.id')
+            ->get();
+        return $query;
+    }
+    
+    public function get_recommendation_data_api() {
+        $query = $this->db->table('recommendation')
+            ->select("recommendation.id, recommendation.name,")
+            ->get();
+        return $query;
+    }
 
     public function recommendation_by_owner_api($id = null) {
         $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";

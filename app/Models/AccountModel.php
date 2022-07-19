@@ -56,15 +56,17 @@ class AccountModel extends Model
     }
 
     public function get_list_owner_api() {
-        $query = $this->db->table($this->table)
-            ->select('*')
-            ->where('role_id', 'OWNR')
+        $query = $this->db->table('users')
+            ->select('users.*')
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id')
+            ->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id')
+            ->where('auth_groups.id', '2')
             ->get();
         return $query;
     }
 
     public function get_list_user_api() {
-        $query = $this->db->table($this->table)
+        $query = $this->db->table('users')
             ->select('*')
             ->get();
         return $query;

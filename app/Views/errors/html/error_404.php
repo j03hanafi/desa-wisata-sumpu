@@ -22,7 +22,7 @@
                             Sorry! Cannot seem to find the page you were looking for.
                         <?php endif ?>
                     </p>
-                    <a href="<?= base_url('web'); ?>" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
+                    <a href="<?= previous_url(); ?>" class="btn btn-lg btn-outline-primary mt-3">Go Back</a>
                 </div>
             </div>
         </div>

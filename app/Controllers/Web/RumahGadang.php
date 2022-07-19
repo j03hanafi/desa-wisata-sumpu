@@ -3,9 +3,11 @@
 namespace App\Controllers\Web;
 
 use App\Models\DetailFacilityRumahGadangModel;
+use App\Models\FacilityRumahGadangModel;
 use App\Models\GalleryRumahGadangModel;
 use App\Models\ReviewModel;
 use App\Models\RumahGadangModel;
+use CodeIgniter\Files\File;
 use CodeIgniter\RESTful\ResourceController;
 
 class RumahGadang extends ResourceController
@@ -14,8 +16,9 @@ class RumahGadang extends ResourceController
     protected $galleryRumahGadangModel;
     protected $detailFacilityRumahGadangModel;
     protected $reviewModel;
+    protected $facilityRumahGadangModel;
     
-    protected $helpers = ['auth'];
+    protected $helpers = ['auth', 'url'];
     
     public function __construct()
     {
@@ -23,6 +26,7 @@ class RumahGadang extends ResourceController
         $this->galleryRumahGadangModel = new GalleryRumahGadangModel();
         $this->detailFacilityRumahGadangModel = new DetailFacilityRumahGadangModel();
         $this->reviewModel = new ReviewModel();
+        $this->facilityRumahGadangModel = new FacilityRumahGadangModel();
     }
     
     /**
@@ -51,7 +55,7 @@ class RumahGadang extends ResourceController
     {
         $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
         if (empty($rumahGadang)) {
-            return redirect()->to(base_url('web/rumahGadang'));
+            return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
         
         $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
@@ -81,6 +85,9 @@ class RumahGadang extends ResourceController
             'data' => $rumahGadang,
         ];
     
+        if (url_is('*dashboard*')) {
+            return view('dashboard/detail_rumah_gadang', $data);
+        }
         return view('web/detail_rumah_gadang', $data);
     }
 
@@ -91,7 +98,12 @@ class RumahGadang extends ResourceController
      */
     public function new()
     {
-        //
+        $facilities = $this->facilityRumahGadangModel->get_list_fc_api()->getResultArray();
+        $data = [
+            'title' => 'Rumah Gadang',
+            'facilities' => $facilities,
+        ];
+        return view('dashboard/new_rumah_gadang', $data);
     }
 
     /**
@@ -101,7 +113,66 @@ class RumahGadang extends ResourceController
      */
     public function create()
     {
-        //
+        $request = $this->request->getPost();
+        $id = $this->rumahGadangModel->get_new_id_api();
+        $requestData = [
+            'id' => $id,
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'open' => $request['open'],
+            'close' => $request['close'],
+            'ticket_price' => $request['ticket_price'],
+            'contact_person' => $request['contact_person'],
+            'status' => $request['status'],
+            'owner' => $request['owner'],
+            'description' => $request['description'],
+            'video_url' => '',
+        ];
+        $geojson = $request['geo-json'];
+        $vidFile = $this->request->getFile('video');
+        if ($vidFile == null) {
+            $requestData['video_url'] = 'none video';
+        } else {
+            if (!$vidFile->hasMoved()) {
+                $filepathVid = WRITEPATH . 'uploads/' . $vidFile->store();
+                $fileVid = new File($filepathVid);
+                $fileVid->move(FCPATH . 'media/videos');
+                $requestData['video_url'] = $fileVid->getFilename();
+            } else {
+                $requestData['video_url'] = 'Video has moved';
+            }
+        }
+        $addRG = $this->rumahGadangModel->add_rg_api($requestData, $geojson);
+        
+        $addFacilities = true;
+        if (isset($request['facilities'])) {
+            $facilities = $request['facilities'];
+            $addFacilities = $this->detailFacilityRumahGadangModel->add_facility_api($id, $facilities);
+        }
+    
+        $gallery = array();
+        $imgFiles = $this->request->getFileMultiple('gallery');
+        if ($imgFiles == null) {
+            $gallery[] = 'none files';
+        } else {
+            foreach ($imgFiles as $img) {
+                if (!$img->hasMoved()) {
+                    $filepathImg = WRITEPATH . 'uploads/' . $img->store();
+                    $fileImg = new File($filepathImg);
+                    $fileImg->move(FCPATH . 'media/photos');
+                    $gallery[] = $fileImg->getFilename();
+                } else {
+                    $gallery[] = (!$img->hasMoved()) ?? 'Img has moved';
+                }
+            }
+        }
+        $addGallery = $this->galleryRumahGadangModel->add_gallery_api($id, $gallery);
+        
+        if ($addRG && $addFacilities && $addGallery) {
+            return redirect()->to(base_url('dashboard/rumahGadang') . '/' . $id);
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

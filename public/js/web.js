@@ -2,7 +2,7 @@ let baseUrl = '';
 let currentUrl = '';
 let currentLat = 0, currentLng = 0
 let userLat = 0, userLng = 0;
-let web;
+let web, map;
 let infoWindow = new google.maps.InfoWindow();
 let userInfoWindow = new google.maps.InfoWindow();
 let directionsService, directionsRenderer;
@@ -10,6 +10,7 @@ let userMarker = new google.maps.Marker();
 let destinationMarker = new google.maps.Marker();
 let routeArray = [], circleArray = [], markerArray = {};
 let bounds = new google.maps.LatLngBounds();
+let selectedShape, drawingManager = new google.maps.drawing.DrawingManager();
 
 function setBaseUrl(url) {
     baseUrl = url;
@@ -27,7 +28,7 @@ function initMap(lat = -0.5242972, lng = 100.492333) {
     var rendererOptions = {
         map: map
     }
-    directionsRenderer = new google.maps.DirectionsRenderer(rendererOptions);
+    directionsRxenderer = new google.maps.DirectionsRenderer(rendererOptions);
     digitVillage();
 }
 
@@ -709,7 +710,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Employee</span>: '+ item.employee+'</p>'+
                     '</div>'+
                     '<div>' +
-                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -894,7 +895,6 @@ function setStar(star) {
             document.getElementById('star-rating').value = '5';
             break;
     }
-    console.log(document.getElementById('star-rating').value)
 }
 
 // Find object by Rating
@@ -1143,4 +1143,182 @@ function showPreview(input) {
         };
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+// Get list of Recommendation
+function getRecommendation(id, recom) {
+    let recommendation;
+    $('#recommendationSelect' + id).empty()
+    $.ajax({
+        url: baseUrl + '/api/recommendationList',
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data;
+            for (i in data) {
+                let item = data[i];
+                if (item.id == recom) {
+                    recommendation =
+                        '<option value="'+ item.id +'" selected>'+ item.name +'</option>';
+                } else {
+                    recommendation =
+                        '<option value="'+ item.id +'">'+ item.name +'</option>';
+                }
+                $('#recommendationSelect' + id).append(recommendation);
+            }
+        }
+    });
+}
+
+// Set map to coordinate put by user
+function findCoords(object) {
+    clearMarker();
+    google.maps.event.clearListeners(map, 'click');
+
+    const lat = Number(document.getElementById('latitude').value);
+    const lng = Number(document.getElementById('longitude').value);
+
+    if (lat === 0 || lng === 0 || isNaN(lat) || isNaN(lng)) {
+        return Swal.fire('Please input Lat and Long');
+    }
+
+    let pos = new google.maps.LatLng(lat, lng);
+    map.panTo(pos);
+}
+
+// Unselect shape on drawing map
+function clearSelection() {
+    if (selectedShape) {
+        selectedShape.setEditable(false);
+        selectedShape = null;
+    }
+}
+
+// Make selected shape editable on maps
+function setSelection(shape) {
+    clearSelection();
+    selectedShape = shape;
+    shape.setEditable(true);
+}
+
+// Remove selected shape on maps
+function deleteSelectedShape() {
+    if (selectedShape) {
+        document.getElementById('latitude').value = '';
+        document.getElementById('longitude').value = '';
+        clearMarker();
+        selectedShape.setMap(null);
+        // To show:
+        drawingManager.setOptions({
+            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            drawingControl: true
+        });
+    }
+}
+
+// Initialize drawing manager on maps
+function initDrawingManager() {
+    const drawingManagerOpts = {
+        drawingMode: google.maps.drawing.OverlayType.POLYGON,
+        drawingControl: true,
+        drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [
+                google.maps.drawing.OverlayType.POLYGON,
+            ]
+        },
+        polygonOptions: {
+            fillColor: 'blue',
+            strokeColor: 'blue',
+            editable: true,
+        },
+        map: map
+    };
+    drawingManager.setOptions(drawingManagerOpts);
+    let newShape;
+
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+        drawingManager.setOptions({
+            drawingControl: false,
+            drawingMode: null,
+        });
+        newShape = event.overlay;
+        newShape.type = event.type;
+        setSelection(newShape);
+        saveSelection(newShape);
+
+        google.maps.event.addListener(newShape, 'click', function() {
+            setSelection(newShape);
+        });
+        google.maps.event.addListener(newShape.getPath(), 'insert_at', () => {
+            saveSelection(newShape);
+        });
+        google.maps.event.addListener(newShape.getPath(), 'remove_at', () => {
+            saveSelection(newShape);
+        });
+        google.maps.event.addListener(newShape.getPath(), 'set_at', () => {
+            saveSelection(newShape);
+        });
+    });
+
+    google.maps.event.addListener(map, 'click', clearSelection);
+    google.maps.event.addDomListener(document.getElementById('clear-drawing'), 'click', deleteSelectedShape);
+}
+
+// Get geoJSON of selected shape on map
+function saveSelection(shape) {
+
+    let centroid = [0.0, 0.0];
+    const paths = shape.getPath().getArray();
+
+    for (let i = 0; i < paths.length; i++) {
+        centroid[0] += paths[i].lat();
+        centroid[1] += paths[i].lng();
+    }
+    const totalPaths = paths.length;
+    centroid[0] = centroid[0] / totalPaths;
+    centroid[1] = centroid[1] / totalPaths;
+
+    let pos = new google.maps.LatLng(centroid[0], centroid[1]);
+    map.panTo(pos);
+
+    clearMarker();
+    let marker = new google.maps.Marker();
+    markerOption = {
+        position: pos,
+        animation: google.maps.Animation.DROP,
+        map: map,
+    }
+    marker.setOptions(markerOption);
+    markerArray['newRG'] = marker;
+
+    document.getElementById('latitude').value = centroid[0].toFixed(8);
+    document.getElementById('longitude').value = centroid[1].toFixed(8);
+
+    const dataLayer = new google.maps.Data();
+    dataLayer.add(new google.maps.Data.Feature({
+        geometry: new google.maps.Data.Polygon([shape.getPath().getArray()])
+    }));
+    dataLayer.toGeoJson(function (object) {
+        document.getElementById('geo-json').value = JSON.stringify(object.features[0].geometry);
+    });
+
+}
+
+// Get list of users
+function getListUsers() {
+    let users;
+    $('#ownerSelect').empty()
+    $.ajax({
+        url: baseUrl + '/api/owner',
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data;
+            for (i in data) {
+                let item = data[i];
+                users =
+                    '<option value="'+ item.id +'">'+ item.first_name +' ' + item.last_name +'</option>';
+                $('#ownerSelect').append(users);
+            }
+        }
+    });
 }

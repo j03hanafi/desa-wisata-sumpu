@@ -1,16 +1,33 @@
 # TODO
 
-### General
-- [x] Setup user default profile photo and and profile header
-- [x] Create header & footer template for auth views
-- [x] show village geom on maps
+## Add / Update
+- [x] Init Map
+- [x] Input form for lat and lng
+- [x] Search button for lat and lng
+- [x] Clear button for maps
+- [x] Map Drawer
+- [x] Form for object data
+- [ ] Set value to current object (update)
+- [ ] Set geom to drawer (update)
+- [x] Query to DB
+- [x] Redirect to detail
+- [ ] Display alert success
 
-### User 
-- [x] Create sidebar for user
-- [x] View profile page
-- [x] Avatar profile page
-- [x] Update profile page
-- [x] Change password page
-- [x] Add Visit Hitory to visitor sidebar if user_logged_in
-- [x] Create new visit history page
-- [x] Access review and ration if user_logged_in
+### Search button for lat and lng
+- [x] Clear all 
+- [x] Put marker on chosen lat lng
+- [x] Set map center based on lat lng
+
+### Clear button for maps
+- [x] Clear all
+- [x] Clear shape
+- [x] set value to ''
+
+### Map Drawer
+- [x] Set up map drawer
+- [x] Save shape to geo-json
+
+## Delete
+- [ ] Open model
+- [ ] Delete
+ 

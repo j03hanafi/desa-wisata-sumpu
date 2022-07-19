@@ -61,11 +61,25 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
     });
 });
 
+// Dashboard
+$routes->group('dashboard', ['namespace' => 'App\Controllers\Web'], function($routes) {
+    $routes->get('/', 'Dashboard::index', ['filter' => 'role:admin']);
+    $routes->get('rumahGadang', 'Dashboard::rumahGadang', ['filter' => 'role:admin']);
+    $routes->get('event', 'Dashboard::event', ['filter' => 'role:admin']);
+    $routes->get('facility', 'Dashboard::facility', ['filter' => 'role:admin']);
+    $routes->get('recommendation', 'Dashboard::recommendation', ['filter' => 'role:admin']);
+    $routes->get('users', 'Dashboard::users', ['filter' => 'role:admin']);
+    
+    $routes->resource('rumahGadang');
+    $routes->resource('event');
+});
+
 // API
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
     $routes->resource('rumahGadang');
     $routes->get('recommendation', 'RumahGadang::recommendation');
     $routes->post('recommendationOwner', 'RumahGadang::recommendationByOwner');
+    $routes->get('recommendationList', 'RumahGadang::recommendationList');
     $routes->post('recommendation', 'RumahGadang::updateRecommendation');
     $routes->post('rumahGadangOwner', 'RumahGadang::listByOwner');
     $routes->post('rumahGadang/findByName', 'RumahGadang::findByName');
@@ -98,6 +112,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->post('account/(:num)', 'Account::update/$1');
     $routes->resource('review');
     $routes->resource('user');
+    $routes->get('owner', 'User::owner');
     $routes->resource('facility');
     $routes->post('village', 'Village::getData');
 });

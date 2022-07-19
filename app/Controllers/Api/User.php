@@ -168,4 +168,17 @@ class User extends ResourceController
             return $this->failNotFound($response);
         }
     }
+    
+    public function owner()
+    {
+        $contents = $this->accountModel->get_list_owner_api()->getResult();
+        $response = [
+            'data' => $contents,
+            'status' => 200,
+            'message' => [
+                "Success get list of Owner"
+            ]
+        ];
+        return $this->respond($response);
+    }
 }
