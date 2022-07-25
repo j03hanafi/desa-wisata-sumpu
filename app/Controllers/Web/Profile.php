@@ -128,9 +128,28 @@ class Profile extends BaseController
                 unset($requestData[$key]);
             }
         }
-        $img = $this->request->getFile('avatar');
         
-        if ($img == null) {
+        if (isset($request['avatar'])) {
+            $folder = $request['avatar'];
+            $filepath = WRITEPATH . 'uploads/' . $folder;
+            $filenames = get_filenames($filepath);
+            $avatar = new File($filepath . '/' . $filenames[0]);
+            $avatar->move(FCPATH . 'media/photos');
+            $requestData['avatar'] = $avatar->getFilename();
+    
+            $query = $this->accountModel->update_account_users(user()->id, $requestData);
+            if ($query) {
+                delete_files($filepath);
+                rmdir($filepath);
+                return redirect()->to('web/profile');
+            }
+            $data = [
+                'title' => 'Update Profile',
+                'errors' => ['Error update. ' . $query]
+            ];
+            
+        } else {
+            $requestData['avatar'] = 'default.jpg';
             $query = $this->accountModel->update_account_users(user()->id, $requestData);
             if ($query) {
                 return redirect()->to('web/profile');
@@ -139,52 +158,7 @@ class Profile extends BaseController
                 'title' => 'Update Profile',
                 'errors' => ['Error update']
             ];
-    
-            return view('profile/update_profile', $data);
-        } else {
-            $validationRule = [
-                'avatar' => [
-                    'label' => 'Image File',
-                    'rules' => 'uploaded[avatar]'
-                        . '|is_image[avatar]'
-                        . '|mime_in[avatar,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                ],
-            ];
-            if (!$this->validate($validationRule)) {
-                $data = [
-                    'title' => 'Update Profile',
-                    'errors' => $this->validator->getErrors()
-                ];
-        
-                return view('profile/update_profile', $data);
-            }
-    
-            if (!$img->hasMoved()) {
-                $filepath = WRITEPATH . 'uploads/' . $img->store();
-                $avatar = new File($filepath);
-                $avatar->move(FCPATH . 'media/photos');
-                $requestData['avatar'] = $avatar->getFilename();
-    
-                $query = $this->accountModel->update_account_users(user()->id, $requestData);
-                if ($query) {
-                    
-                    return redirect()->to('web/profile');
-                }
-                $data = [
-                    'title' => 'Update Profile',
-                    'errors' => ['Error update. ' . $query]
-                ];
-        
-                return view('profile/update_profile', $data);
-        
-            }
         }
-        
-        $data = [
-            'title' => 'Update Profile',
-            'errors' => ['The file has already been moved.']
-        ];
-    
         return view('profile/update_profile', $data);
     }
 }

@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="<?= current_url(); ?>/edit" class="btn btn-primary float-end"><i class="fa-solid fa-pencil me-3"></i>Edit</a>
+                            <a href="<?= base_url('dashboard/rumahGadang/edit'); ?>/<?= esc($data['id']); ?>" class="btn btn-primary float-end"><i class="fa-solid fa-pencil me-3"></i>Edit</a>
                         </div>
                     </div>
                 </div>

@@ -117,6 +117,11 @@ class RumahGadang extends ResourceController
             'description' => $request['description'],
             'video_url' => $request['video_url'],
         ];
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
         $geojson = $request['geojson'];
         $addRG = $this->rumahGadangModel->add_rg_api($requestData, $geojson);
         $facilities = $request['facilities'];

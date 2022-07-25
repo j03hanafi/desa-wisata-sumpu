@@ -27,7 +27,8 @@ class GalleryRumahGadangModel extends Model
 
     // API
     public function get_new_id_api() {
-        $count = $this->db->table($this->table)->countAll();
+        $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
+        $count = (int)substr($lastId['id'], 3);
         $id = sprintf('IMG%04d', $count + 1);
         return $id;
     }
@@ -35,6 +36,7 @@ class GalleryRumahGadangModel extends Model
     public function get_gallery_api($rumah_gadang_id = null) {
         $query = $this->db->table($this->table)
             ->select('url')
+            ->orderBy('id', 'ASC')
             ->where('rumah_gadang_id', $rumah_gadang_id)
             ->get();
         return $query;
@@ -57,8 +59,18 @@ class GalleryRumahGadangModel extends Model
     }
 
     public function update_gallery_api($id = null, $data = null) {
-        $queryDel = $this->db->table($this->table)->delete(['rumah_gadang_id' => $id]);
+        $queryDel = $this->delete_gallery_api($id);
+    
+        foreach ($data as $key => $value) {
+            if(empty($value)) {
+                unset($data[$key]);
+            }
+        }
         $queryIns = $this->add_gallery_api($id, $data);
         return $queryDel && $queryIns;
+    }
+    
+    public function delete_gallery_api($id = null) {
+        return $this->db->table($this->table)->delete(['rumah_gadang_id' => $id]);
     }
 }

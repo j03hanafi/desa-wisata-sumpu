@@ -40,11 +40,21 @@ $routes->get('/403', 'Home::error403');
 $routes->get('/login', 'Web\Profile::login');
 $routes->get('/register', 'Web\Profile::register');
 
+// Upload files
+$routes->group('upload', ['namespace' => 'App\Controllers\Web'], function($routes) {
+    $routes->post('photo', 'Upload::photo');
+    $routes->post('video', 'Upload::video');
+    $routes->post('avatar', 'Upload::avatar');
+    $routes->delete('avatar', 'Upload::remove');
+    $routes->delete('photo', 'Upload::remove');
+    $routes->delete('video', 'Upload::remove');
+});
+
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
-    $routes->resource('rumahGadang');
+    $routes->presenter('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
-    $routes->resource('event');
+    $routes->presenter('event');
     $routes->get('visitHistory', 'VisitHistory::visitHistory', ['filter' => 'role:user']);
     $routes->get('visitHistory/add', 'VisitHistory::addVisitHistory', ['filter' => 'role:user']);
     $routes->post('visitHistory', 'VisitHistory::visitHistory', ['filter' => 'role:user']);
@@ -62,16 +72,16 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
 });
 
 // Dashboard
-$routes->group('dashboard', ['namespace' => 'App\Controllers\Web'], function($routes) {
-    $routes->get('/', 'Dashboard::index', ['filter' => 'role:admin']);
-    $routes->get('rumahGadang', 'Dashboard::rumahGadang', ['filter' => 'role:admin']);
-    $routes->get('event', 'Dashboard::event', ['filter' => 'role:admin']);
-    $routes->get('facility', 'Dashboard::facility', ['filter' => 'role:admin']);
-    $routes->get('recommendation', 'Dashboard::recommendation', ['filter' => 'role:admin']);
-    $routes->get('users', 'Dashboard::users', ['filter' => 'role:admin']);
+$routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => 'role:admin'], function($routes) {
+    $routes->get('/', 'Dashboard::index');
+    $routes->get('rumahGadang', 'Dashboard::rumahGadang');
+    $routes->get('event', 'Dashboard::event');
+    $routes->get('facility', 'Dashboard::facility');
+    $routes->get('recommendation', 'Dashboard::recommendation');
+    $routes->get('users', 'Dashboard::users');
     
-    $routes->resource('rumahGadang');
-    $routes->resource('event');
+    $routes->presenter('rumahGadang');
+    $routes->presenter('event');
 });
 
 // API

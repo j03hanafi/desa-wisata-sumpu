@@ -19,6 +19,8 @@ class AuthController extends Controller
 	 * @var Session
 	 */
 	protected $session;
+    
+    protected $helpers = ['filesystem'];
 
 	public function __construct()
 	{
@@ -112,6 +114,7 @@ class AuthController extends Controller
 			$this->auth->logout();
 		}
 
+        delete_files(WRITEPATH . 'uploads/', true, true);
 		return redirect()->to(site_url('/web'));
 	}
 

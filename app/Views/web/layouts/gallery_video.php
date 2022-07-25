@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-body">
         <div class="d-grid gap-2">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#gallery">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#gallery" <?= (count($data['gallery']) == 0) ? 'disabled' : ''; ?>>
                 <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">image</span> Open Gallery
             </button>
-            <button type="button" id="video-play" class="btn-play btn btn-outline-primary" data-bs-toggle="modal" data-src="<?= base_url('media/videos/'. esc($data['video_url'])); ?>" data-bs-target="#videoModal">
+            <button type="button" id="video-play" class="btn-play btn btn-outline-primary" data-bs-toggle="modal" data-src="<?= base_url('media/videos/'. esc($data['video_url'])); ?>" data-bs-target="#videoModal" <?= ($data['video_url'] == '') ? 'disabled' : ''; ?>>
                 <span class="material-icons" style="font-size: 1.5rem; vertical-align: bottom">play_circle</span> Play Video
             </button>
             

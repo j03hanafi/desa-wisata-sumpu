@@ -77,10 +77,7 @@
                                 <div class="col-12 mb-3">
                                     <div class="form-group">
                                         <label for="avatar" class="mb-2">Profile Picture</label>
-                                        <div class="text-md-start text-center mb-3" id="avatar-container">
-                                            <img src="<?= base_url('media/photos'); ?>/<?= user()->avatar; ?>" alt="avatar" class="img-fluid img-thumbnail rounded-circle" id="avatar-preview">
-                                        </div>
-                                        <input class="form-control" type="file" id="avatar" name="avatar" onchange="showPreview(this)">
+                                        <input class="form-control" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif">
                                     </div>
                                 </div>
                             </div>
@@ -91,4 +88,37 @@
         </div>
     </div>
 </section>
+<?= $this->endSection() ?>
+
+<?= $this->section('javascript'); ?>
+<script>
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginImageExifOrientation,
+        FilePondPluginImagePreview,
+        FilePondPluginImageCrop,
+        FilePondPluginImageResize,
+        FilePondPluginImageTransform
+    );
+    
+    // Get a reference to the file input element
+    const inputElement = document.querySelector('input[id="avatar"]');
+
+    // Create a FilePond instance
+    const pond = FilePond.create(inputElement, {
+        labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+        imagePreviewHeight: 300,
+        imageCropAspectRatio: '1:1',
+        imageResizeTargetWidth: 300,
+        imageResizeTargetHeight: 300,
+        stylePanelLayout: 'compact circle',
+        styleLoadIndicatorPosition: 'center bottom',
+        styleButtonRemoveItemPosition: 'center bottom',
+        credits: false,
+    });
+    pond.addFile(`<?= base_url('media/photos/' . user()->avatar); ?>`);
+    FilePond.setOptions({
+        server: '/upload/avatar'
+    })
+</script>
 <?= $this->endSection() ?>

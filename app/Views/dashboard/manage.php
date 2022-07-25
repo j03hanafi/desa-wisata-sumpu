@@ -51,7 +51,7 @@
                                     <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-outline-primary mx-1" href="<?= current_url() .'/'. $item['id']; ?>">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </a>
-                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= $item['id']; ?>')">
+                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= $item['id']; ?>', '<?= $item['name']; ?>')">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                 </td>
@@ -76,7 +76,8 @@
                     targets: [0, 1, 2, 3],
                     className: 'dt-head-center'
                 }
-            ]
+            ],
+            lengthMenu: [ 5, 10, 20, 50, 100 ]
         });
     } );
 </script>

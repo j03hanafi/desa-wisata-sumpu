@@ -5,9 +5,9 @@ namespace App\Controllers\Web;
 use App\Models\EventModel;
 use App\Models\GalleryEventModel;
 use App\Models\ReviewModel;
-use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\RESTful\ResourcePresenter;
 
-class Event extends ResourceController
+class Event extends ResourcePresenter
 {
     protected $eventModel;
     protected $galleryEventModel;
@@ -22,7 +22,7 @@ class Event extends ResourceController
     }
     
     /**
-     * Return an array of resource objects, themselves in array format
+     * Present a view of resource objects
      *
      * @return mixed
      */
@@ -37,7 +37,9 @@ class Event extends ResourceController
     }
 
     /**
-     * Return the properties of a resource object
+     * Present a view to present a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
@@ -47,7 +49,7 @@ class Event extends ResourceController
         if (empty($event)) {
             return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
-        
+    
         $avg_rating = $this->reviewModel->get_rating('event_id', $id)->getRowArray()['avg_rating'];
     
         $list_gallery = $this->galleryEventModel->get_gallery_api($id)->getResultArray();
@@ -71,11 +73,10 @@ class Event extends ResourceController
             return view('dashboard/detail_event', $data);
         }
         return view('web/detail_event', $data);
-    
     }
 
     /**
-     * Return a new resource object, with default properties
+     * Present a view to present a new single resource object
      *
      * @return mixed
      */
@@ -85,7 +86,8 @@ class Event extends ResourceController
     }
 
     /**
-     * Create a new resource object, from "posted" parameters
+     * Process the creation/insertion of a new resource object.
+     * This should be a POST.
      *
      * @return mixed
      */
@@ -95,7 +97,9 @@ class Event extends ResourceController
     }
 
     /**
-     * Return the editable properties of a resource object
+     * Present a view to edit the properties of a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
@@ -105,7 +109,10 @@ class Event extends ResourceController
     }
 
     /**
-     * Add or update a model resource, from "posted" properties
+     * Process the updating, full or partial, of a specific resource object.
+     * This should be a POST.
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
@@ -115,7 +122,21 @@ class Event extends ResourceController
     }
 
     /**
-     * Delete the designated resource object from the model
+     * Present a view to confirm the deletion of a specific resource object
+     *
+     * @param mixed $id
+     *
+     * @return mixed
+     */
+    public function remove($id = null)
+    {
+        //
+    }
+
+    /**
+     * Process the deletion of a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */

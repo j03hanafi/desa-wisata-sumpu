@@ -34,7 +34,8 @@ class FacilityRumahGadangModel extends Model
     }
     
     public function get_new_id_api() {
-        $count = $this->db->table($this->table)->countAll();
+        $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
+        $count = (int)substr($lastId['id'], 2);
         $id = sprintf('FC%03d', $count + 1);
         return $id;
     }

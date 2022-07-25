@@ -102,9 +102,10 @@ class RumahGadangModel extends Model
     public function get_rg_by_id_api($id = null) {
         $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $geoJson = "ST_AsGeoJSON({$this->table}.geom) AS geoJson";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select("{$columns}, {$coords}")
+            ->select("{$columns}, {$coords}, {$geoJson}")
             ->from('village')
             ->where('rumah_gadang.id', $id)
             ->where($vilGeom)
@@ -169,17 +170,13 @@ class RumahGadangModel extends Model
     }
 
     public function get_new_id_api() {
-        $count = $this->db->table($this->table)->countAll();
+        $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
+        $count = (int)substr($lastId['id'], 2);
         $id = sprintf('RG%03d', $count + 1);
         return $id;
     }
 
     public function add_rg_api($rumah_gadang = null, $geojson = null) {
-        foreach ($rumah_gadang as $key => $value) {
-            if(empty($value)) {
-                unset($rumah_gadang[$key]);
-            }
-        }
         $rumah_gadang['created_at'] = Time::now();
         $rumah_gadang['updated_at'] = Time::now();
         $insert = $this->db->table($this->table)
@@ -192,11 +189,6 @@ class RumahGadangModel extends Model
     }
 
     public function update_rg_api($id = null, $rumah_gadang = null, $geojson = null) {
-        foreach ($rumah_gadang as $key => $value) {
-            if(empty($value)) {
-                unset($rumah_gadang[$key]);
-            }
-        }
         $rumah_gadang['updated_at'] = Time::now();
         $query = $this->db->table($this->table)
             ->where('id', $id)

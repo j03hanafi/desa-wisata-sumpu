@@ -28,7 +28,7 @@ function initMap(lat = -0.5242972, lng = 100.492333) {
     var rendererOptions = {
         map: map
     }
-    directionsRxenderer = new google.maps.DirectionsRenderer(rendererOptions);
+    directionsRenderer = new google.maps.DirectionsRenderer(rendererOptions);
     digitVillage();
 }
 
@@ -738,7 +738,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Last Renovation</span>: '+ item.last_renovation+'</p>'+
                     '</div>' +
                     '<div>' +
-                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -767,7 +767,7 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Open</span>: '+ open +' - '+ close+' WIB</p>'+
                     '</div>' +
                     '<div>' +
-                    ''+ baseUrl +'<img src="/media/photos" alt="'+ item.gallery[0] +''+ item.name +'" class="w-50">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
                     '</div>';
 
                 Swal.fire({
@@ -1205,6 +1205,7 @@ function deleteSelectedShape() {
     if (selectedShape) {
         document.getElementById('latitude').value = '';
         document.getElementById('longitude').value = '';
+        document.getElementById('geo-json').value = '';
         clearMarker();
         selectedShape.setMap(null);
         // To show:
@@ -1216,7 +1217,7 @@ function deleteSelectedShape() {
 }
 
 // Initialize drawing manager on maps
-function initDrawingManager() {
+function initDrawingManager(edit = false) {
     const drawingManagerOpts = {
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControl: true,
@@ -1236,13 +1237,38 @@ function initDrawingManager() {
     drawingManager.setOptions(drawingManagerOpts);
     let newShape;
 
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+    if (!edit) {
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+            drawingManager.setOptions({
+                drawingControl: false,
+                drawingMode: null,
+            });
+            newShape = event.overlay;
+            newShape.type = event.type;
+            setSelection(newShape);
+            saveSelection(newShape);
+
+            google.maps.event.addListener(newShape, 'click', function() {
+                setSelection(newShape);
+            });
+            google.maps.event.addListener(newShape.getPath(), 'insert_at', () => {
+                saveSelection(newShape);
+            });
+            google.maps.event.addListener(newShape.getPath(), 'remove_at', () => {
+                saveSelection(newShape);
+            });
+            google.maps.event.addListener(newShape.getPath(), 'set_at', () => {
+                saveSelection(newShape);
+            });
+        });
+    } else {
         drawingManager.setOptions({
             drawingControl: false,
             drawingMode: null,
         });
-        newShape = event.overlay;
-        newShape.type = event.type;
+
+        newShape = drawGeom();
+        newShape.type = 'polygon';
         setSelection(newShape);
         saveSelection(newShape);
 
@@ -1258,7 +1284,7 @@ function initDrawingManager() {
         google.maps.event.addListener(newShape.getPath(), 'set_at', () => {
             saveSelection(newShape);
         });
-    });
+    }
 
     google.maps.event.addListener(map, 'click', clearSelection);
     google.maps.event.addDomListener(document.getElementById('clear-drawing'), 'click', deleteSelectedShape);
@@ -1305,7 +1331,7 @@ function saveSelection(shape) {
 }
 
 // Get list of users
-function getListUsers() {
+function getListUsers(owner) {
     let users;
     $('#ownerSelect').empty()
     $.ajax({
@@ -1315,10 +1341,83 @@ function getListUsers() {
             let data = response.data;
             for (i in data) {
                 let item = data[i];
-                users =
-                    '<option value="'+ item.id +'">'+ item.first_name +' ' + item.last_name +'</option>';
+                if (item.id == owner) {
+                    users =
+                        '<option value="'+ item.id +'" selected>'+ item.first_name +' ' + item.last_name +'</option>';
+                } else {
+                    users =
+                        '<option value="'+ item.id +'">'+ item.first_name +' ' + item.last_name +'</option>';
+                }
                 $('#ownerSelect').append(users);
             }
+        }
+    });
+}
+
+// Draw current GeoJSON on drawing manager
+function drawGeom() {
+    const geoJSON = $('#geo-json').val();
+    if (geoJSON !== '') {
+        const geoObj = JSON.parse(geoJSON);
+        const coords = geoObj.coordinates[0];
+        let polygonCoords = []
+        for (i in coords) {
+            polygonCoords.push(
+                {lat: coords[i][1], lng: coords[i][0]}
+            );
+        }
+        const polygon = new google.maps.Polygon({
+            paths: polygonCoords,
+            fillColor: 'blue',
+            strokeColor: 'blue',
+            editable: true,
+        });
+        polygon.setMap(map);
+        return polygon;
+    }
+}
+
+// Delete selected object
+function deleteObject(id = null, name = null) {
+    if (id === null) {
+        return Swal.fire('ID cannot be null');
+    }
+
+    let content, apiUri;
+    if (id.substring(0,2) === 'RG') {
+        content = 'Rumah Gadang';
+        apiUri = 'rumahGadang/';
+    } else if (id.substring(0,2) === 'EV') {
+        content = 'Event';
+        apiUri = 'event/'
+    }
+    Swal.fire({
+        title: 'Delete ' + content + '?',
+        text: 'You are about to remove ' + name,
+        icon: 'warning',
+        showCancelButton: true,
+        denyButtonText: 'Delete',
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#343a40',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: baseUrl + '/api/' + apiUri + id,
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 200) {
+                        Swal.fire('Deleted!', 'Successfully remove ' + name, 'success').then((result) => {
+                            if(result.isConfirmed) {
+                                document.location.reload();
+                            }
+                        });
+
+                    } else {
+                        Swal.fire('Failed', 'Delete ' + name + ' failed!', 'warning');
+                    }
+                }
+            });
         }
     });
 }

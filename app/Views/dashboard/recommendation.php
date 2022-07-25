@@ -60,7 +60,8 @@
                     targets: [0, 1, 2, 3],
                     className: 'dt-head-center'
                 }
-            ]
+            ],
+            lengthMenu: [ 5, 10, 20, 50, 100 ]
         });
     } );
 </script>

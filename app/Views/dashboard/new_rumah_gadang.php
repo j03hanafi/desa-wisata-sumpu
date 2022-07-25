@@ -1,7 +1,23 @@
+<?php
+$uri = service('uri')->getSegments();
+$edit = in_array('edit', $uri);
+?>
+
 <?= $this->extend('dashboard/layouts/main'); ?>
 
 <?= $this->section('styles') ?>
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.css">
 <link rel="stylesheet" href="<?= base_url('assets/css/pages/form-element-select.css'); ?>">
+<style>
+    .filepond--root {
+        width: 100%;
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -17,28 +33,28 @@
                     <h4 class="card-title text-center">New Rumah Gadang</h4>
                 </div>
                 <div class="card-body">
-                    <form class="form form-vertical" action="<?= base_url('dashboard/rumahGadang'); ?>" method="post" enctype="multipart/form-data">
+                    <form class="form form-vertical" action="<?= ($edit) ? base_url('dashboard/rumahGadang/update') . '/' . $data['id'] : base_url('dashboard/rumahGadang'); ?>" method="post" onsubmit="checkRequired(event)" enctype="multipart/form-data">
                         <div class="form-body">
                             <div class="form-group mb-4">
                                 <label for="geo-json" class="mb-2">GeoJSON</label>
                                 <input type="text" id="geo-json" class="form-control"
-                                       name="geo-json" placeholder="GeoJSON" readonly="readonly" required>
+                                       name="geo-json" placeholder="GeoJSON" readonly="readonly" required value='<?= ($edit) ? $data['geoJson'] : ''; ?>'>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="name" class="mb-2">Rumah Gadang Name</label>
                                 <input type="text" id="name" class="form-control"
-                                       name="name" placeholder="Rumah Gadang Name" required>
+                                       name="name" placeholder="Rumah Gadang Name" value="<?= ($edit) ? $data['name'] : old('name'); ?>" required>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="address" class="mb-2">Address</label>
                                 <input type="text" id="address" class="form-control"
-                                       name="address" placeholder="Address">
+                                       name="address" placeholder="Address" value="<?= ($edit) ? $data['address'] : old('address'); ?>">
                             </div>
                             <div class="form-group mb-4">
                                 <label for="open" class="mb-2">Opening Hours</label>
                                 <div class="input-group">
                                     <input type="time" id="open" class="form-control"
-                                           name="open" placeholder="Opening Hours" aria-label="Opening Hours" aria-describedby="open" required>
+                                           name="open" placeholder="Opening Hours" aria-label="Opening Hours" aria-describedby="open" value="<?= ($edit) ? $data['open'] : old('open'); ?>" required>
                                     <span class="input-group-text">WIB</span>
                                 </div>
                             </div>
@@ -46,7 +62,7 @@
                                 <label for="close" class="mb-2">Closing Hours</label>
                                 <div class="input-group">
                                     <input type="time" id="close" class="form-control"
-                                           name="close" placeholder="Closing Hours" aria-label="Closing Hours" aria-describedby="close" required>
+                                           name="close" placeholder="Closing Hours" aria-label="Closing Hours" aria-describedby="close" value="<?= ($edit) ? $data['close'] : old('close'); ?>" required>
                                     <span class="input-group-text">WIB</span>
                                 </div>
                             </div>
@@ -55,49 +71,58 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Rp </span>
                                     <input type="number" id="ticket_price" class="form-control"
-                                           name="ticket_price" placeholder="Ticket Price" aria-label="Ticket Price" aria-describedby="ticket-price">
+                                           name="ticket_price" placeholder="Ticket Price" aria-label="Ticket Price" aria-describedby="ticket-price" value="<?= ($edit) ? $data['ticket_price'] : old('ticket_price'); ?>">
                                 </div>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="contact_person" class="mb-2">Contact Person</label>
                                 <input type="tel" id="contact_person" class="form-control"
-                                       name="contact_person" placeholder="Contact Person">
+                                       name="contact_person" placeholder="Contact Person" value="<?= ($edit) ? $data['contact_person'] : old('contact_person'); ?>">
                             </div>
                             <fieldset class="form-group mb-4">
                                 <label for="status" class="mb-2">Status</label>
                                 <select class="form-select" id="status" name="status">
+                                    <?php if ($edit): ?>
+                                    <option value="Homestay" <?= (esc($data['status']) == 'Homestay') ? 'selected' : ''; ?>>Homestay</option>
+                                    <option value="Tidak Homestay" <?= (esc($data['status']) != 'Homestay') ? 'selected' : ''; ?>>Tidak Homestay</option>
+                                    <?php else: ?>
                                     <option value="Homestay">Homestay</option>
                                     <option value="Tidak Homestay" selected>Tidak Homestay</option>
+                                    <?php endif; ?>
                                 </select>
                             </fieldset>
                             <fieldset class="form-group mb-4">
-                                <script>getListUsers();</script>
+                                <script>getListUsers('<?= ($edit) ? esc($data['owner']) : ''; ?>');</script>
                                 <label for="ownerSelect" class="mb-2">Owner</label>
                                 <select class="form-select" id="ownerSelect" name="owner" required>
                                 </select>
                             </fieldset>
                             <div class="form-group mb-4">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                                <textarea class="form-control" id="description" name="description" rows="4"><?= ($edit) ? $data['description'] : old('description'); ?></textarea>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="facilities" class="mb-2">Facilities</label>
                                 <select class="choices form-select multiple-remove" multiple="multiple" id="facilities" name="facilities[]">
                                     <?php foreach ($facilities as $facility): ?>
+                                    <?php if ($edit && in_array(esc($facility['facility']), $data['facilities'])): ?>
+                                    <option value="<?= esc($facility['id']); ?>" selected><?= esc($facility['facility']); ?></option>
+                                    <?php else: ?>
                                     <option value="<?= esc($facility['id']); ?>"><?= esc($facility['facility']); ?></option>
+                                    <?php endif; ?>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="gallery" class="form-label">Gallery</label>
-                                <input class="form-control" type="file" name="gallery[]" id="gallery" multiple>
+                                <input class="form-control" accept="image/*" type="file" name="gallery[]" id="gallery" multiple>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="video" class="form-label">Video</label>
-                                <input class="form-control" type="file" name="video" id="video">
+                                <input class="form-control" accept="video/*, .mkv" type="file" name="video" id="video">
                             </div>
                             
-                            <button type="submit" class="btn btn-primary me-1 mb-1" onclick="checkRequired();">Submit</button>
+                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
                         </div>
@@ -140,7 +165,7 @@
                     
                 </div>
                 <?= $this->include('web/layouts/map-body'); ?>
-                <script>initDrawingManager();</script>;
+                <script>initDrawingManager(<?= $edit ?>);</script>
             </div>
             <!-- Object Media -->
         </div>
@@ -150,6 +175,12 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/filepond-plugin-media-preview@1.0.11/dist/filepond-plugin-media-preview.min.js"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script src="<?= base_url('assets/js/extensions/form-element-select.js'); ?>"></script>
 <script>getFacility();</script>
 <script>
@@ -164,11 +195,53 @@
         document.getElementById('video').setAttribute('src', '');
     });
     
-    function checkRequired() {
+    function checkRequired(event) {
         if (!$('#geo-json').val()) {
+            event.preventDefault();
             Swal.fire('Please select location for the New Rumah Gadang');
         }
     }
+</script>
+<script>
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginImageExifOrientation,
+        FilePondPluginImagePreview,
+        FilePondPluginImageResize,
+        FilePondPluginMediaPreview,
+    );
+    
+    // Get a reference to the file input element
+    const photo = document.querySelector('input[id="gallery"]');
+    const video = document.querySelector('input[id="video"]');
+
+    // Create a FilePond instance
+    const pond = FilePond.create(photo, {
+        imageResizeTargetHeight: 720,
+        imageResizeUpscale: false,
+        credits: false,
+    });
+    const vidPond = FilePond.create(video, {
+        credits: false,
+    })
+    
+    <?php if ($edit && count($data['gallery']) > 0): ?>
+    pond.addFiles(
+        <?php foreach ($data['gallery'] as $gallery) : ?>
+        `<?= base_url('media/photos/' . $gallery); ?>`
+        <?php endforeach; ?>
+    );
+    <?php endif; ?>
+    pond.setOptions({
+        server: '/upload/photo'
+    });
+
+    <?php if ($edit && $data['video_url'] != null): ?>
+    vidPond.addFile(`<?= base_url('media/videos/' . $data['video_url']); ?>`)
+    <?php endif; ?>
+    vidPond.setOptions({
+        server: '/upload/video'
+    });
 </script>
 <?= $this->endSection() ?>
 

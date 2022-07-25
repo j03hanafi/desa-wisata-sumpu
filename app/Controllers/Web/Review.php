@@ -35,7 +35,7 @@ class Review extends BaseController
         $requestData['event_id'] = $request['object_id'];
         $addReview = $this->reviewModel->add_review_api($requestData);
         if ($addReview) {
-            return redirect()->to(base_url('web/event') . '/' . $request['event_id'] . '#reviews');
+            return redirect()->to(base_url('web/event') . '/' . $requestData['event_id'] . '#reviews');
         }
         return redirect()->to(base_url('web'));
     }

@@ -8,9 +8,9 @@ use App\Models\GalleryRumahGadangModel;
 use App\Models\ReviewModel;
 use App\Models\RumahGadangModel;
 use CodeIgniter\Files\File;
-use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\RESTful\ResourcePresenter;
 
-class RumahGadang extends ResourceController
+class RumahGadang extends ResourcePresenter
 {
     protected $rumahGadangModel;
     protected $galleryRumahGadangModel;
@@ -18,7 +18,7 @@ class RumahGadang extends ResourceController
     protected $reviewModel;
     protected $facilityRumahGadangModel;
     
-    protected $helpers = ['auth', 'url'];
+    protected $helpers = ['auth', 'url', 'filesystem'];
     
     public function __construct()
     {
@@ -30,7 +30,7 @@ class RumahGadang extends ResourceController
     }
     
     /**
-     * Return an array of resource objects, themselves in array format
+     * Present a view of resource objects
      *
      * @return mixed
      */
@@ -43,11 +43,12 @@ class RumahGadang extends ResourceController
         ];
     
         return view('web/list_rumah_gadang', $data);
-        
     }
 
     /**
-     * Return the properties of a resource object
+     * Present a view to present a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
@@ -57,7 +58,7 @@ class RumahGadang extends ResourceController
         if (empty($rumahGadang)) {
             return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
-        
+    
         $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
     
         $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
@@ -79,9 +80,9 @@ class RumahGadang extends ResourceController
         $rumahGadang['facilities'] = $facilities;
         $rumahGadang['reviews'] = $list_review;
         $rumahGadang['gallery'] = $galleries;
-        
+    
         $data = [
-            'title' => 'Rumah Gadang',
+            'title' => $rumahGadang['name'],
             'data' => $rumahGadang,
         ];
     
@@ -92,7 +93,7 @@ class RumahGadang extends ResourceController
     }
 
     /**
-     * Return a new resource object, with default properties
+     * Present a view to present a new single resource object
      *
      * @return mixed
      */
@@ -100,14 +101,15 @@ class RumahGadang extends ResourceController
     {
         $facilities = $this->facilityRumahGadangModel->get_list_fc_api()->getResultArray();
         $data = [
-            'title' => 'Rumah Gadang',
+            'title' => 'New Rumah Gadang',
             'facilities' => $facilities,
         ];
         return view('dashboard/new_rumah_gadang', $data);
     }
 
     /**
-     * Create a new resource object, from "posted" parameters
+     * Process the creation/insertion of a new resource object.
+     * This should be a POST.
      *
      * @return mixed
      */
@@ -126,77 +128,175 @@ class RumahGadang extends ResourceController
             'status' => $request['status'],
             'owner' => $request['owner'],
             'description' => $request['description'],
-            'video_url' => '',
         ];
-        $geojson = $request['geo-json'];
-        $vidFile = $this->request->getFile('video');
-        if ($vidFile == null) {
-            $requestData['video_url'] = 'none video';
-        } else {
-            if (!$vidFile->hasMoved()) {
-                $filepathVid = WRITEPATH . 'uploads/' . $vidFile->store();
-                $fileVid = new File($filepathVid);
-                $fileVid->move(FCPATH . 'media/videos');
-                $requestData['video_url'] = $fileVid->getFilename();
-            } else {
-                $requestData['video_url'] = 'Video has moved';
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
             }
         }
+        $geojson = $request['geo-json'];
+        if (isset($request['video'])){
+            $folder = $request['video'];
+            $filepath = WRITEPATH . 'uploads/' . $folder;
+            $filenames = get_filenames($filepath);
+            $vidFile = new File($filepath . '/' . $filenames[0]);
+            $vidFile->move(FCPATH . 'media/videos');
+            delete_files($filepath);
+            rmdir($filepath);
+            $requestData['video_url'] = $vidFile->getFilename();
+        }
         $addRG = $this->rumahGadangModel->add_rg_api($requestData, $geojson);
-        
+    
         $addFacilities = true;
         if (isset($request['facilities'])) {
             $facilities = $request['facilities'];
             $addFacilities = $this->detailFacilityRumahGadangModel->add_facility_api($id, $facilities);
         }
     
-        $gallery = array();
-        $imgFiles = $this->request->getFileMultiple('gallery');
-        if ($imgFiles == null) {
-            $gallery[] = 'none files';
-        } else {
-            foreach ($imgFiles as $img) {
-                if (!$img->hasMoved()) {
-                    $filepathImg = WRITEPATH . 'uploads/' . $img->store();
-                    $fileImg = new File($filepathImg);
-                    $fileImg->move(FCPATH . 'media/photos');
-                    $gallery[] = $fileImg->getFilename();
-                } else {
-                    $gallery[] = (!$img->hasMoved()) ?? 'Img has moved';
-                }
+        if (isset($request['gallery'])) {
+            $folders = $request['gallery'];
+            $gallery = array();
+            foreach ($folders as $folder) {
+                $filepath = WRITEPATH . 'uploads/' . $folder;
+                $filenames = get_filenames($filepath);
+                $fileImg = new File($filepath . '/' . $filenames[0]);
+                $fileImg->move(FCPATH . 'media/photos');
+                delete_files($filepath);
+                rmdir($filepath);
+                $gallery[] = $fileImg->getFilename();
             }
+            $this->galleryRumahGadangModel->add_gallery_api($id, $gallery);
         }
-        $addGallery = $this->galleryRumahGadangModel->add_gallery_api($id, $gallery);
-        
-        if ($addRG && $addFacilities && $addGallery) {
+    
+        if ($addRG && $addFacilities) {
             return redirect()->to(base_url('dashboard/rumahGadang') . '/' . $id);
         } else {
-            return redirect()->back();
+            return redirect()->back()->withInput();
         }
     }
 
     /**
-     * Return the editable properties of a resource object
+     * Present a view to edit the properties of a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
     public function edit($id = null)
     {
-        //
+        $facilities = $this->facilityRumahGadangModel->get_list_fc_api()->getResultArray();
+        $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
+    
+        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
+        $selectedFac = array();
+        foreach ($list_facility as $facility) {
+            $selectedFac[] = $facility['facility'];
+        }
+    
+        $list_gallery = $this->galleryRumahGadangModel->get_gallery_api($id)->getResultArray();
+        $galleries = array();
+        foreach ($list_gallery as $gallery) {
+            $galleries[] = $gallery['url'];
+        }
+    
+        $rumahGadang['facilities'] = $selectedFac;
+        $rumahGadang['gallery'] = $galleries;
+        $data = [
+            'title' => 'Edit Rumah Gadang',
+            'data' => $rumahGadang,
+            'facilities' => $facilities,
+        ];
+        return view('dashboard/new_rumah_gadang', $data);
     }
 
     /**
-     * Add or update a model resource, from "posted" properties
+     * Process the updating, full or partial, of a specific resource object.
+     * This should be a POST.
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
     public function update($id = null)
     {
+        $request = $this->request->getPost();
+        $requestData = [
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'open' => $request['open'],
+            'close' => $request['close'],
+            'ticket_price' => empty($request['ticket_price']) ?? '0',
+            'contact_person' => $request['contact_person'],
+            'status' => $request['status'],
+            'owner' => $request['owner'],
+            'description' => $request['description'],
+        ];
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
+        $geojson = $request['geo-json'];
+        if (isset($request['video'])){
+            $folder = $request['video'];
+            $filepath = WRITEPATH . 'uploads/' . $folder;
+            $filenames = get_filenames($filepath);
+            $vidFile = new File($filepath . '/' . $filenames[0]);
+            $vidFile->move(FCPATH . 'media/videos');
+            delete_files($filepath);
+            rmdir($filepath);
+            $requestData['video_url'] = $vidFile->getFilename();
+        } else {
+            $requestData['video_url'] = null;
+        }
+        $updateRG = $this->rumahGadangModel->update_rg_api($id, $requestData, $geojson);
+    
+        $updateFacilities = true;
+        if (isset($request['facilities'])) {
+            $facilities = $request['facilities'];
+            $updateFacilities = $this->detailFacilityRumahGadangModel->update_facility_api($id, $facilities);
+        }
+    
+        if (isset($request['gallery'])) {
+            $folders = $request['gallery'];
+            $gallery = array();
+            foreach ($folders as $folder) {
+                $filepath = WRITEPATH . 'uploads/' . $folder;
+                $filenames = get_filenames($filepath);
+                $fileImg = new File($filepath . '/' . $filenames[0]);
+                $fileImg->move(FCPATH . 'media/photos');
+                delete_files($filepath);
+                rmdir($filepath);
+                $gallery[] = $fileImg->getFilename();
+            }
+            $this->galleryRumahGadangModel->update_gallery_api($id, $gallery);
+        } else {
+            $this->galleryRumahGadangModel->delete_gallery_api($id);
+        }
+    
+        if ($updateRG && $updateFacilities) {
+            return redirect()->to(base_url('dashboard/rumahGadang') . '/' . $id);
+        } else {
+            return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Present a view to confirm the deletion of a specific resource object
+     *
+     * @param mixed $id
+     *
+     * @return mixed
+     */
+    public function remove($id = null)
+    {
         //
     }
 
     /**
-     * Delete the designated resource object from the model
+     * Process the deletion of a specific resource object
+     *
+     * @param mixed $id
      *
      * @return mixed
      */
@@ -204,7 +304,6 @@ class RumahGadang extends ResourceController
     {
         //
     }
-    
     
     public function recommendation() {
         $contents = $this->rumahGadangModel->get_recommendation_api()->getResultArray();
@@ -223,5 +322,4 @@ class RumahGadang extends ResourceController
         
         return view('web/recommendation', $data);
     }
-    
 }

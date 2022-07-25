@@ -27,7 +27,8 @@ class GalleryEventModel extends Model
 
     // API
     public function get_new_id_api() {
-        $count = $this->db->table($this->table)->countAll();
+        $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
+        $count = (int)substr($lastId['id'], 3);
         $id = sprintf('IMG%04d', $count + 1);
         return $id;
     }
@@ -35,6 +36,7 @@ class GalleryEventModel extends Model
     public function get_gallery_api($event_id = null) {
         $query = $this->db->table($this->table)
             ->select('url')
+            ->orderBy('id', 'ASC')
             ->where('event_id', $event_id)
             ->get();
         return $query;

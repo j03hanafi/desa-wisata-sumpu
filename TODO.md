@@ -7,8 +7,9 @@
 - [x] Clear button for maps
 - [x] Map Drawer
 - [x] Form for object data
-- [ ] Set value to current object (update)
-- [ ] Set geom to drawer (update)
+- [x] Set value to current object (update)
+- [ ] Gallery and video update form (update)
+- [x] Set geom to drawer (update)
 - [x] Query to DB
 - [x] Redirect to detail
 - [ ] Display alert success
@@ -31,3 +32,5 @@
 - [ ] Open model
 - [ ] Delete
  
+## File Upload
+[Video](https://www.youtube.com/watch?v=GRXaCfS1qj0)
