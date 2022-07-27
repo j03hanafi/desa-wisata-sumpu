@@ -104,7 +104,7 @@ class RumahGadang extends ResourcePresenter
             'title' => 'New Rumah Gadang',
             'facilities' => $facilities,
         ];
-        return view('dashboard/new_rumah_gadang', $data);
+        return view('dashboard/rumah_gadang_form', $data);
     }
 
     /**
@@ -186,6 +186,9 @@ class RumahGadang extends ResourcePresenter
     {
         $facilities = $this->facilityRumahGadangModel->get_list_fc_api()->getResultArray();
         $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
+        if (empty($rumahGadang)) {
+            return redirect()->to('dashboard/rumahGadang');
+        }
     
         $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
         $selectedFac = array();
@@ -206,7 +209,7 @@ class RumahGadang extends ResourcePresenter
             'data' => $rumahGadang,
             'facilities' => $facilities,
         ];
-        return view('dashboard/new_rumah_gadang', $data);
+        return view('dashboard/rumah_gadang_form', $data);
     }
 
     /**

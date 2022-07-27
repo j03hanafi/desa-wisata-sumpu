@@ -54,9 +54,10 @@ class EventModel extends Model
     public function get_ev_by_id_api($id = null) {
         $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.date_start,{$this->table}.date_end,{$this->table}.description,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.category_id,{$this->table}.owner,{$this->table}.video_url";
+        $geoJson = "ST_AsGeoJSON({$this->table}.geom) AS geoJson";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select("{$columns}, {$coords}, category_event.category")
+            ->select("{$columns}, {$coords}, {$geoJson}, category_event.category")
             ->from('village')
             ->where('event.id', $id)
             ->where($vilGeom)
@@ -142,17 +143,16 @@ class EventModel extends Model
         return $id;
     }
 
-    public function add_ev_api($event = null) {
-        foreach ($event as $key => $value) {
-            if(empty($value)) {
-                unset($event[$key]);
-            }
-        }
+    public function add_ev_api($event = null, $geojson = null) {
         $event['created_at'] = Time::now();
         $event['updated_at'] = Time::now();
-        $query = $this->db->table($this->table)
+        $insert = $this->db->table($this->table)
             ->insert($event);
-        return $query;
+        $update = $this->db->table($this->table)
+            ->set('geom', "ST_GeomFromGeoJSON('{$geojson}')", false)
+            ->where('id', $event['id'])
+            ->update();
+        return $insert && $update;
     }
 
     public function update_ev_api($id = null, $event = null) {

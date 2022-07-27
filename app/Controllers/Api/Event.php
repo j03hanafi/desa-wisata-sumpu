@@ -103,15 +103,18 @@ class Event extends ResourceController
             'contact_person' => $request['contact_person'],
             'category_id' => $request['category_id'],
             'owner' => $request['owner'],
-            'lat' => $request['lat'],
-            'long' => $request['long'],
+            'video_url' => $request['video_url'],
         ];
-        $addEV = $this->eventModel->add_ev_api($requestData);
+        foreach ($requestData as $key => $value) {
+            if(empty($value)) {
+                unset($requestData[$key]);
+            }
+        }
+        $geojson = $request['geojson'];
+        $addEV = $this->eventModel->add_ev_api($requestData, $geojson);
         $gallery = $request['gallery'];
         $addGallery = $this->galleryEventModel->add_gallery_api($id, $gallery);
-        $video = $request['video'];
-        $addVideo = $this->videoEventModel->add_video_api($id, array($video));
-        if($addEV && $addGallery && $addVideo) {
+        if($addEV && $addGallery) {
             $response = [
                 'status' => 201,
                 'message' => [
@@ -126,7 +129,6 @@ class Event extends ResourceController
                     "Fail create new event",
                     "Add Event: {$addEV}",
                     "Add Gallery: {$addGallery}",
-                    "Add Video: {$addVideo}",
                 ]
             ];
             return $this->respond($response, 400);

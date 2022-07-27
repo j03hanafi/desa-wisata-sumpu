@@ -33,6 +33,14 @@ class FacilityRumahGadangModel extends Model
         return $query;
     }
     
+    public function get_fc_by_id_api($id = null) {
+        $query = $this->db->table($this->table)
+            ->select('id, facility')
+            ->where('id', $id)
+            ->get();
+        return $query;
+    }
+    
     public function get_new_id_api() {
         $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
         $count = (int)substr($lastId['id'], 2);

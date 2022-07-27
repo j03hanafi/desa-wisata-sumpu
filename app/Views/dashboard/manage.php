@@ -48,10 +48,10 @@
                                 ?>
                                 <td class="fw-bold"><?= esc($name); ?></td>
                                 <td>
-                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-outline-primary mx-1" href="<?= current_url() .'/'. $item['id']; ?>">
+                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-outline-primary mx-1" href="<?= (isset($item['facility'])) ? base_url('dashboard/facility/edit') . '/' . esc($item['id']) : current_url() .'/'. esc($item['id']); ?>">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </a>
-                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= $item['id']; ?>', '<?= $item['name']; ?>')">
+                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= esc($item['id']); ?>', '<?= esc($name); ?>')">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                 </td>

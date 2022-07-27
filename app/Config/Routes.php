@@ -82,6 +82,7 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => '
     
     $routes->presenter('rumahGadang');
     $routes->presenter('event');
+    $routes->presenter('facility');
 });
 
 // API

@@ -1390,7 +1390,11 @@ function deleteObject(id = null, name = null) {
     } else if (id.substring(0,2) === 'EV') {
         content = 'Event';
         apiUri = 'event/'
+    } else if (id.substring(0,2) === 'FC') {
+        content = 'Facility';
+        apiUri = 'facility/'
     }
+
     Swal.fire({
         title: 'Delete ' + content + '?',
         text: 'You are about to remove ' + name,
