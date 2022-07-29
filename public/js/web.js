@@ -1169,6 +1169,41 @@ function getRecommendation(id, recom) {
     });
 }
 
+// Update option onclick function for updating Recommendation
+function changeRecom(status = null) {
+    if (status === 'edit') {
+        $('#recomBtnEdit').hide();
+        $('#recomBtnExit').show();
+        console.log('entering edit mode');
+        $('.recomSelect').on('change', updateRecom);
+    } else {
+        $('#recomBtnEdit').show();
+        $('#recomBtnExit').hide();
+        console.log('exiting edit mode');
+        $('.recomSelect').off('change', updateRecom);
+    }
+}
+
+// Update recommendation based on input User
+function updateRecom() {
+    let recom = $(this).find('option:selected').val();
+    let id = $(this).attr('id');
+    $.ajax({
+        url: baseUrl + '/api/recommendation',
+        type: 'POST',
+        data: {
+            id: id,
+            recom: recom,
+        },
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 201) {
+                console.log('Success update recommendation @' + id + ':' + recom);
+            }
+        }
+    });
+}
+
 // Set map to coordinate put by user
 function findCoords(object) {
     clearMarker();
@@ -1378,7 +1413,7 @@ function drawGeom() {
 }
 
 // Delete selected object
-function deleteObject(id = null, name = null) {
+function deleteObject(id = null, name = null, user = false) {
     if (id === null) {
         return Swal.fire('ID cannot be null');
     }
@@ -1393,6 +1428,9 @@ function deleteObject(id = null, name = null) {
     } else if (id.substring(0,2) === 'FC') {
         content = 'Facility';
         apiUri = 'facility/'
+    } else if (user === true) {
+        content = 'User';
+        apiUri = 'user/'
     }
 
     Swal.fire({

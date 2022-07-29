@@ -149,7 +149,7 @@ class User extends ResourceController
      */
     public function delete($id = null)
     {
-        $delete = $this->accountModel->delete(['id' => $id]);
+        $delete = $this->accountModel->delete_user_api($id);
         if($delete) {
             $response = [
                 'status' => 200,

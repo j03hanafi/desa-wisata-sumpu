@@ -33,7 +33,13 @@ class Dashboard extends BaseController
     
     public function rumahGadang()
     {
-        $contents = $this->rumahGadangModel->get_list_rg_api()->getResultArray();
+        $contents = [];
+        if (in_groups('admin')) {
+            $contents = $this->rumahGadangModel->get_list_rg_api()->getResultArray();
+        } elseif (in_groups('owner')) {
+            $contents = $this->rumahGadangModel->list_by_owner_api(user()->id)->getResultArray();
+        }
+        
         $data = [
             'title' => 'Manage Rumah Gadang',
             'category' => 'Rumah Gadang',
@@ -44,7 +50,13 @@ class Dashboard extends BaseController
     
     public function event()
     {
-        $contents = $this->eventModel->get_list_ev_api()->getResultArray();
+        $contents = [];
+        if (in_groups('admin')) {
+            $contents = $this->eventModel->get_list_ev_api()->getResultArray();
+        } elseif (in_groups('owner')) {
+            $contents = $this->eventModel->list_by_owner_api(user()->id)->getResultArray();
+        }
+        
         $data = [
             'title' => 'Manage Event',
             'category' => 'Event',
@@ -77,11 +89,19 @@ class Dashboard extends BaseController
     
     public function recommendation()
     {
-        $contents = $this->rumahGadangModel->get_list_recommendation_api()->getResultArray();
+        $contents = [];
+        if (in_groups('admin')) {
+            $contents = $this->rumahGadangModel->get_list_recommendation_api()->getResultArray();
+        } elseif (in_groups('owner')) {
+            $contents = $this->rumahGadangModel->recommendation_by_owner_api(user()->id)->getResultArray();
+        }
+        
+        $recommendations = $this->rumahGadangModel->get_recommendation_data_api()->getResultArray();
         $data = [
             'title' => 'Manage Recommendation',
             'category' => 'Recommendation',
             'data' => $contents,
+            'recommendations' => $recommendations,
         ];
         return view('dashboard/recommendation', $data);
     }

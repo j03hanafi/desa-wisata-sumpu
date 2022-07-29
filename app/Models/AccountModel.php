@@ -67,15 +67,19 @@ class AccountModel extends Model
 
     public function get_list_user_api() {
         $query = $this->db->table('users')
-            ->select('*')
+            ->select('users.*, auth_groups.name as role')
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id')
+            ->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id')
             ->get();
         return $query;
     }
 
     public function get_account_by_id_api($id = null) {
-        $query = $this->db->table($this->table)
-            ->select('*')
-            ->where('id', $id)
+        $query = $this->db->table('users')
+            ->select('users.*, auth_groups.name as role')
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id')
+            ->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id')
+            ->where('users.id', $id)
             ->get();
         return $query;
     }
@@ -87,14 +91,28 @@ class AccountModel extends Model
     }
     
     public function update_account_users($id = null, $data = null) {
-        foreach ($data as $key => $value) {
-            if (empty($value)) {
-                unset($data[$key]);
-            }
-        }
         $query = $this->db->table('users')
             ->update($data, ['id' => $id]);
         return $query;
     }
     
+    public function get_roles_api() {
+        $query = $this->db->table('auth_groups')
+            ->select('*')
+            ->get();
+        return $query;
+    }
+    
+    public function update_role_api($id = null, $data = null) {
+        $query = $this->db->table('auth_groups_users')
+            ->update($data, ['user_id' => $id]);
+        return $query;
+    }
+    
+    public function delete_user_api($id = null) {
+        $query = $this->db->table('users')
+            ->where('id', $id)
+            ->delete();
+        return $query;
+    }
 }

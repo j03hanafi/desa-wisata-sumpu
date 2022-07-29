@@ -18,7 +18,8 @@
                     <img class="img-error" src="<?= base_url('assets/images/samples/error-403.svg'); ?>" alt="Not Found">
                     <h1 class="error-title">Forbidden</h1>
                     <p class="fs-5 text-gray-600"><?= lang('Auth.notEnoughPrivilege'); ?></p>
-                    <a href="<?= base_url('web'); ?>" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
+                    <a href="<?= previous_url(); ?>" class="btn btn-lg btn-primary mt-3">Back</a>
+                    <a href="<?= base_url('web'); ?>" class="btn btn-lg btn-outline-primary mt-3">Home</a>
                 </div>
             </div>
         </div>

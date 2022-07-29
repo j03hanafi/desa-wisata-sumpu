@@ -61,13 +61,11 @@ class RumahGadangModel extends Model
 
     public function recommendation_by_owner_api($id = null) {
         $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
-        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select("{$columns}, {$coords}, recommendation.name as recommendation")
+            ->select("rumah_gadang.id, rumah_gadang.name, recom, recommendation.name as recommendation, {$coords}")
             ->from('village')
             ->where($vilGeom)
-            ->where('recom', 'REC01')
             ->where('owner', $id)
             ->join('recommendation', 'rumah_gadang.recom = recommendation.id')
             ->get();
@@ -89,9 +87,10 @@ class RumahGadangModel extends Model
     public function list_by_owner_api($id = null) {
         $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.open,{$this->table}.close,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.status,{$this->table}.recom,{$this->table}.owner,{$this->table}.description,{$this->table}.video_url";
+        $geoJson = "ST_AsGeoJSON({$this->table}.geom) AS geoJson";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select("{$columns}, {$coords}")
+            ->select("{$columns}, {$coords}, {$geoJson}")
             ->from('village')
             ->where($vilGeom)
             ->where('owner', $id)
@@ -202,15 +201,11 @@ class RumahGadangModel extends Model
 
     public function update_recom_api($data = null) {
         $query = false;
-        foreach ($data as $recom) {
-            $recomArr = (array)$recom;
-            $rumah_gadang['recom'] = $recomArr['recom'];
-            $rumah_gadang['updated_at'] = Time::now();
-
-            $query = $this->db->table($this->table)
-                ->where('id', $recomArr['id'])
-                ->update($rumah_gadang);
-        }
+        $rumah_gadang['recom'] = $data['recom'];
+        $rumah_gadang['updated_at'] = Time::now();
+        $query = $this->db->table($this->table)
+            ->where('id', $data['id'])
+            ->update($rumah_gadang);
         return $query;
     }
 

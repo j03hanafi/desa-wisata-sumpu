@@ -72,7 +72,7 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
 });
 
 // Dashboard
-$routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => 'role:admin'], function($routes) {
+$routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => 'role:admin,owner'], function($routes) {
     $routes->get('/', 'Dashboard::index');
     $routes->get('rumahGadang', 'Dashboard::rumahGadang');
     $routes->get('event', 'Dashboard::event');
@@ -83,6 +83,7 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => '
     $routes->presenter('rumahGadang');
     $routes->presenter('event');
     $routes->presenter('facility');
+    $routes->presenter('users');
 });
 
 // API

@@ -91,12 +91,16 @@ $edit = in_array('edit', $uri);
                                     <?php endif; ?>
                                 </select>
                             </fieldset>
+                            <?php if (in_groups('owner')): ?>
+                                <input type="hidden" name="owner" value="<?= user()->id; ?>" required>
+                            <?php else: ?>
                             <fieldset class="form-group mb-4">
                                 <script>getListUsers('<?= ($edit) ? esc($data['owner']) : ''; ?>');</script>
                                 <label for="ownerSelect" class="mb-2">Owner</label>
                                 <select class="form-select" id="ownerSelect" name="owner" required>
                                 </select>
                             </fieldset>
+                            <?php endif; ?>
                             <div class="form-group mb-4">
                                 <label for="description" class="form-label">Description</label>
                                 <textarea class="form-control" id="description" name="description" rows="4"><?= ($edit) ? $data['description'] : old('description'); ?></textarea>

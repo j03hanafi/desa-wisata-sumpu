@@ -297,9 +297,12 @@ class RumahGadang extends ResourceController
     }
 
     public function updateRecommendation() {
-        $request = $this->request->getJSON(true);
-        $list_update = $request['update'];
-        $updateRecom = $this->rumahGadangModel->update_recom_api($list_update);
+        $request = $this->request->getPost();
+        $requestData = [
+            'id' => $request['id'],
+            'recom' => $request['recom']
+        ];
+        $updateRecom = $this->rumahGadangModel->update_recom_api($requestData);
         if($updateRecom) {
             $response = [
                 'status' => 201,

@@ -17,13 +17,14 @@ class Upload extends ResourceController
     {
         $folder = uniqid() . '-' . date('YmdHis');
         $img = $this->request->getFile('avatar');
-        if (!$img->hasMoved()) {
+        $originalName = $img->getName();
+        if (!$img->hasMoved() && $originalName != 'default.jpg') {
             $file = $img->getRandomName();
             mkdir(WRITEPATH . 'uploads/' . $folder);
             $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
             return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
         }
-        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody('');
+        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($originalName);
     }
     
     public function remove() {

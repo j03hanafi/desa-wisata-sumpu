@@ -9,7 +9,8 @@
                         <h3 class="card-title">Manage <?= $category; ?></h3>
                     </div>
                     <div class="col">
-                        <a href="<?= current_url(); ?>/add" class="btn btn-primary float-end"><i class="fa-solid fa-floppy-disk me-3"></i>Save</a>
+                        <a class="btn btn-primary float-end" id="recomBtnExit" onclick="changeRecom('exit');"><i class="fa-solid fa-floppy-disk me-3"></i>Exit Edit</a>
+                        <a class="btn btn-primary float-end" id="recomBtnEdit" onclick="changeRecom('edit');"><i class="fa-solid fa-pencil me-3"></i>Enter Edit</a>
                     </div>
                 </div>
             </div>
@@ -33,9 +34,15 @@
                                 <td><?= esc($item['id']); ?></td>
                                 <td class="fw-bold"><?= esc($item['name']); ?></td>
                                 <td>
-                                    <script>getRecommendation(`<?= esc($item['id']); ?>`, `<?= esc($item['recom']); ?>`);</script>
                                     <fieldset class="form-group">
-                                        <select class="form-select" id="recommendationSelect<?= esc($item['id']); ?>">
+                                        <select class="form-select recomSelect" id="<?= esc($item['id']); ?>">
+                                            <?php foreach ($recommendations as $recommendation): ?>
+                                                <option value="<?= esc($recommendation['id']); ?>"
+                                                    <?= ($item['recommendation'] == $recommendation['name']) ? 'selected' : ''; ?>
+                                                    >
+                                                    <?= esc($recommendation['name']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </fieldset>
                                 </td>
@@ -53,6 +60,7 @@
 
 <?= $this->section('javascript') ?>
 <script>
+    $('#recomBtnExit').hide();
     $(document).ready( function () {
         $('#table-manage').DataTable({
             columnDefs: [

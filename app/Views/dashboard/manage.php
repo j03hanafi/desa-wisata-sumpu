@@ -1,3 +1,8 @@
+<?php
+$uri = service('uri')->getSegments();
+$users = in_array('users', $uri);
+?>
+
 <?= $this->extend('dashboard/layouts/main'); ?>
 
 <?= $this->section('content') ?>
@@ -8,9 +13,11 @@
                     <div class="col">
                         <h3 class="card-title">Manage <?= $category; ?></h3>
                     </div>
+                    <?php if ($category != 'Users'): ?>
                     <div class="col">
                         <a href="<?= current_url(); ?>/new" class="btn btn-primary float-end"><i class="fa-solid fa-plus me-3"></i> New <?= $category; ?></a>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-body">
@@ -21,6 +28,9 @@
                             <th>#</th>
                             <th>ID</th>
                             <th>Name</th>
+                            <?php if (count($data) > 0 && array_key_exists('role', $data[0])): ?>
+                            <th>Role</th>
+                            <?php endif; ?>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -42,16 +52,19 @@
                                     } elseif (isset($item['facility'])) {
                                         $name = esc($item['facility']);
                                     } else {
-                                        $name = esc($item['first_name']) . ' ' . esc($item['first_name']);
+                                        $name = esc($item['first_name']) . ' ' . esc($item['last_name']);
                                     }
                                     
                                 ?>
                                 <td class="fw-bold"><?= esc($name); ?></td>
+                                <?php if (isset($item['role'])): ?>
+                                <td><?= ucfirst(esc($item['role'])); ?></td>
+                                <?php endif; ?>
                                 <td>
                                     <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-outline-primary mx-1" href="<?= (isset($item['facility'])) ? base_url('dashboard/facility/edit') . '/' . esc($item['id']) : current_url() .'/'. esc($item['id']); ?>">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </a>
-                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= esc($item['id']); ?>', '<?= esc($name); ?>')">
+                                    <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" class="btn icon btn-outline-danger mx-1" onclick="deleteObject('<?= esc($item['id']); ?>', '<?= esc($name); ?>', <?= ($users) ? 'true' : 'false'; ?>)">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                 </td>
@@ -73,7 +86,7 @@
         $('#table-manage').DataTable({
             columnDefs: [
                 {
-                    targets: [0, 1, 2, 3],
+                    targets: ['_all'],
                     className: 'dt-head-center'
                 }
             ],

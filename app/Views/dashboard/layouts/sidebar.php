@@ -58,11 +58,13 @@ $uri3 = $uri[3] ?? '';
                     </li>
 
                     <!-- Manage Facility -->
+                    <?php if (in_groups(['admin'])): ?>
                     <li class="sidebar-item <?= ($uri1 == 'facility') ? 'active' : '' ?>">
                         <a href="<?= base_url('dashboard/facility'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-house-circle-check"></i><span> Facility</span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
                     <!-- Manage Recommendation -->
                     <li class="sidebar-item <?= ($uri1 == 'recommendation') ? 'active' : '' ?>">

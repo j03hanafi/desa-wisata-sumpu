@@ -129,36 +129,27 @@ class Profile extends BaseController
             }
         }
         
-        if (isset($request['avatar'])) {
+        if (($request['avatar']) != 'default.jpg') {
             $folder = $request['avatar'];
             $filepath = WRITEPATH . 'uploads/' . $folder;
             $filenames = get_filenames($filepath);
             $avatar = new File($filepath . '/' . $filenames[0]);
             $avatar->move(FCPATH . 'media/photos');
             $requestData['avatar'] = $avatar->getFilename();
-    
-            $query = $this->accountModel->update_account_users(user()->id, $requestData);
-            if ($query) {
-                delete_files($filepath);
-                rmdir($filepath);
-                return redirect()->to('web/profile');
-            }
-            $data = [
-                'title' => 'Update Profile',
-                'errors' => ['Error update. ' . $query]
-            ];
-            
+            delete_files($filepath);
+            rmdir($filepath);
         } else {
             $requestData['avatar'] = 'default.jpg';
-            $query = $this->accountModel->update_account_users(user()->id, $requestData);
-            if ($query) {
-                return redirect()->to('web/profile');
-            }
-            $data = [
-                'title' => 'Update Profile',
-                'errors' => ['Error update']
-            ];
         }
+        
+        $query = $this->accountModel->update_account_users(user()->id, $requestData);
+        if ($query) {
+            return redirect()->to('web/profile');
+        }
+        $data = [
+            'title' => 'Update Profile',
+            'errors' => ['Error update. ' . $query]
+        ];
         return view('profile/update_profile', $data);
     }
 }
