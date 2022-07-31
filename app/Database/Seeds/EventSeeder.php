@@ -24,6 +24,7 @@ class EventSeeder extends Seeder
                 'category_id' => $row[7],
                 'owner' => $row[8],
                 'video_url' => $row[10],
+                'recurs' => $row[11],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

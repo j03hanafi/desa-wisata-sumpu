@@ -11,6 +11,41 @@ let destinationMarker = new google.maps.Marker();
 let routeArray = [], circleArray = [], markerArray = {};
 let bounds = new google.maps.LatLngBounds();
 let selectedShape, drawingManager = new google.maps.drawing.DrawingManager();
+let customStyled = [
+    {
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.land_parcel",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.neighborhood",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    }
+];
 
 function setBaseUrl(url) {
     baseUrl = url;
@@ -28,6 +63,7 @@ function initMap(lat = -0.5242972, lng = 100.492333) {
     var rendererOptions = {
         map: map
     }
+    map.set('styles', customStyled);
     directionsRenderer = new google.maps.DirectionsRenderer(rendererOptions);
     digitVillage();
 }
@@ -273,17 +309,17 @@ function objectInfoWindow(id){
                 content =
                     '<div class="text-center">' +
                     '<p class="fw-bold fs-6">'+ name +'</p> <br>' +
-                    '<p><i class="fa-solid fa-clock"></i> '+open+' - '+close+' WIB</p>' +
-                    '<p><i class="fa-solid fa-money-bill"></i> '+ ticket_price +'</p>' +
-                    '</div><br>';
+                    '<p><i class="fa-solid fa-clock me-2"></i> '+open+' - '+close+' WIB</p>' +
+                    '<p><i class="fa-solid fa-money-bill me-2"></i> '+ ticket_price +'</p>' +
+                    '</div>';
                 contentButton =
-                    '<div class="text-center">' +
+                    '<br><div class="text-center">' +
                     '<a title="Route" class="btn icon btn-outline-primary mx-1" id="routeInfoWindow" onclick="routeTo('+lat+', '+lng+')"><i class="fa-solid fa-road"></i></a>' +
                     '<a title="Info" class="btn icon btn-outline-primary mx-1" target="_blank" id="infoInfoWindow" href='+baseUrl+'/web/rumahGadang/'+rgid+'><i class="fa-solid fa-info"></i></a>' +
                     '<a title="Nearby" class="btn icon btn-outline-primary mx-1" id="nearbyInfoWindow" onclick="openNearby(`'+ rgid +'`,'+ lat +','+ lng +')"><i class="fa-solid fa-compass"></i></a>' +
                     '</div>'
 
-                if (currentUrl.substring(currentUrl.length - 5) === id) {
+                if (currentUrl.includes(id)) {
                     infoWindow.setContent(content);
                     infoWindow.open(map, markerArray[rgid])
                 } else {
@@ -292,6 +328,20 @@ function objectInfoWindow(id){
             }
         });
     } else if (id.substring(0,2) === "EV") {
+        const months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
         $.ajax({
             url: baseUrl + '/api/event/' + id,
             dataType: 'json',
@@ -303,26 +353,24 @@ function objectInfoWindow(id){
                 let lng = data.lng;
                 let ticket_price = (data.ticket_price == 0) ? 'Free' : 'Rp ' + data.ticket_price;
                 let category = data.category;
-                let date_start = new Date(data.date_start);
-                let date_end = new Date(data.date_end);
-                let start = date_start.getDate() + '/' + (date_start.getMonth() + 1) + '/' + date_start.getFullYear();
-                let end = date_end.getDate() + '/' + (date_end.getMonth() + 1) + '/' + date_end.getFullYear();
+                let date_next = new Date(data.date_next);
+                let next = date_next.getDate() + ' ' + months[date_next.getMonth()] + ' ' + date_next.getFullYear();
 
                 content =
                     '<div class="text-center">' +
                     '<p class="fw-bold fs-6">'+ name +'</p> <br>' +
-                    '<p><i class="fa-solid fa-layer-group"></i> '+ category +'</p>' +
-                    '<p><i class="fa-solid fa-money-bill"></i> '+ ticket_price +'</p>' +
-                    '<p><i class="fa-solid fa-calendar-days"></i> '+ start +' - '+ end +'</p>' +
-                    '</div><br>';
+                    '<p><i class="fa-solid fa-layer-group me-2"></i> '+ category +'</p>' +
+                    '<p><i class="fa-solid fa-money-bill me-2"></i> '+ ticket_price +'</p>' +
+                    '<p><i class="fa-solid fa-calendar-days me-2"></i> '+ next +'</p>' +
+                    '</div>';
                 contentButton =
-                    '<div class="text-center">' +
+                    '<br><div class="text-center">' +
                     '<a title="Route" class="btn icon btn-outline-primary mx-1" id="routeInfoWindow" onclick="routeTo('+lat+', '+lng+')"><i class="fa-solid fa-road"></i></a>' +
                     '<a title="Info" class="btn icon btn-outline-primary mx-1" target="_blank" id="infoInfoWindow" href='+baseUrl+'/web/event/'+evid+'><i class="fa-solid fa-info"></i></a>' +
                     '<a title="Nearby" class="btn icon btn-outline-primary mx-1" id="nearbyInfoWindow" onclick="openNearby(`'+ evid +'`,'+ lat +','+ lng +')"><i class="fa-solid fa-compass"></i></a>' +
                     '</div>'
 
-                if (currentUrl.substring(currentUrl.length - 5) === id) {
+                if (currentUrl.includes(id)) {
                     infoWindow.setContent(content);
                     infoWindow.open(map, markerArray[evid])
                 } else {
@@ -500,18 +548,48 @@ function displayFoundObject(response) {
     $('#table-data').empty();
     let data = response.data;
     let counter = 1;
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
     for (i in data) {
         let item = data[i];
-        let row =
-            '<tr>'+
-            '<td>'+ counter +'</td>' +
-            '<td class="fw-bold">'+ item.name +'</td>' +
-            '<td>'+
-            '<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-primary mx-1" onclick="focusObject(`'+ item.id +'`);">' +
-            '<span class="material-symbols-outlined">info</span>' +
-            '</a>' +
-            '</td>'+
-            '</tr>';
+        let row;
+        if (item.hasOwnProperty('date_next')){
+            let date_next = new Date(item.date_next);
+            let next = date_next.getDate() + ' ' + months[date_next.getMonth()] + ' ' + date_next.getFullYear();
+            row =
+                '<tr>'+
+                '<td>'+ counter +'</td>' +
+                '<td class="fw-bold">'+ item.name +'<br><span class="text-muted">' + next + '</span></td>' +
+                '<td>'+
+                '<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-primary mx-1" onclick="focusObject(`'+ item.id +'`);">' +
+                '<span class="material-symbols-outlined">info</span>' +
+                '</a>' +
+                '</td>'+
+                '</tr>';
+        } else {
+            row =
+                '<tr>'+
+                '<td>'+ counter +'</td>' +
+                '<td class="fw-bold">'+ item.name +'</td>' +
+                '<td>'+
+                '<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info" class="btn icon btn-primary mx-1" onclick="focusObject(`'+ item.id +'`);">' +
+                '<span class="material-symbols-outlined">info</span>' +
+                '</a>' +
+                '</td>'+
+                '</tr>';
+        }
         $('#table-data').append(row);
         objectMarker(item.id, item.lat, item.lng);
         counter++;

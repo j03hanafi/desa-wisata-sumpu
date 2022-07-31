@@ -49,7 +49,7 @@ $edit = in_array('edit', $uri);
                                 <label for="date_start" class="mb-2">Date Start</label>
                                 <div class="input-group date" id="datepicker_start">
                                     <input type="text" id="date_start" class="form-control"
-                                           name="date_start" placeholder="Date Start" aria-label="Date Start" aria-describedby="date_start" value="<?= ($edit) ? $data['date_start'] : old('date_start'); ?>">
+                                           name="date_start" placeholder="Date Start" aria-label="Date Start" aria-describedby="date_start" value="<?= ($edit) ? $data['date_start'] : old('date_start'); ?>" required>
                                     <div class="input-group-addon ms-2">
                                         <i class="fa-solid fa-calendar-days" style="font-size: 1.5rem; vertical-align: bottom"></i>
                                     </div>
@@ -63,6 +63,23 @@ $edit = in_array('edit', $uri);
                                     <div class="input-group-addon ms-2">
                                         <i class="fa-solid fa-calendar-days" style="font-size: 1.5rem; vertical-align: bottom"></i>
                                     </div>
+                                </div>
+                            </div>
+                            <fieldset class="form-group mb-4">
+                                <label for="repeatSelect" class="mb-2">Repeat</label>
+                                <select class="form-select" id="repeatSelect" name="repeat" onchange="triggerOccur();">
+                                    <option value="none" selected>None</option>
+                                    <option value="day">Daily</option>
+                                    <option value="week">Weekly</option>
+                                    <option value="month">Monthly</option>
+                                    <option value="year">Yearly</option>
+                                </select>
+                            </fieldset>
+                            <div class="form-group mb-4">
+                                <label for="occurrence" class="mb-2">Occurrence</label>
+                                <div class="input-group">
+                                    <input type="number" id="occurrence" class="form-control"
+                                           name="occurrence" placeholder="Occurrence" readonly="readonly" min="1">
                                 </div>
                             </div>
                             <div class="form-group mb-4">
@@ -200,6 +217,22 @@ $edit = in_array('edit', $uri);
         if (!$('#geo-json').val()) {
             event.preventDefault();
             Swal.fire('Please select location for the New Event');
+        }
+        let selection = $('#repeatSelect').val();
+        if (selection !== 'none') {
+            if (!$('#date_end').val() && !$('#occurrence').val()) {
+                event.preventDefault();
+                Swal.fire('Please select Date End or Occurrence for the New Event');
+            }
+        }
+    }
+    
+    function triggerOccur() {
+        let selection = $('#repeatSelect').val();
+        if (selection !== 'none') {
+            $('#occurrence').removeAttr('readonly');
+        } else {
+            $('#occurrence').attr('readonly', 'readonly');
         }
     }
 </script>

@@ -29,10 +29,13 @@ class Upload extends ResourceController
     
     public function remove() {
         $folder = $this->request->getBody();
-        $filepath = WRITEPATH . 'uploads/' . $folder;
-        delete_files($filepath);
-        rmdir($filepath);
-        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($filepath);
+        if ($folder != 'default.jpg'){
+            $filepath = WRITEPATH . 'uploads/' . $folder;
+            delete_files($filepath);
+            rmdir($filepath);
+            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($filepath);
+        }
+        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
     }
     
     public function photo()

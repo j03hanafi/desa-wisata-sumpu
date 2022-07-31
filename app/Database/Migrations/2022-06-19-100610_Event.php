@@ -26,6 +26,15 @@ class Event extends Migration
                 'type' => 'DATE',
                 'null' => true,
             ],
+            'recurs' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'null' => true,
+            ],
+            'max_recurs' => [
+                'type' => 'INT',
+                'null' => true,
+            ],
             'description' => [
                 'type' => 'TEXT',
                 'null' => true,

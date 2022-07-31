@@ -1,5 +1,9 @@
 <?= $this->extend('web/layouts/main'); ?>
 
+<?= $this->section('styles'); ?>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <section class="section">
@@ -34,12 +38,8 @@
                                     <td><?= esc($data['category']); ?></td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Start</td>
-                                    <td><?= date('d F Y', strtotime(esc($data['date_start']))); ?></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">End</td>
-                                    <td><?= date('d F Y', strtotime(esc($data['date_end']))); ?></td>
+                                    <td class="fw-bold">Event Date</td>
+                                    <td><?= date('d F Y', strtotime(esc($data['date_next']))); ?></td>
                                 </tr>
                                 <tr>
                                     <td class="fw-bold">Ticket Price</td>
@@ -57,6 +57,29 @@
                         <div class="col">
                             <p class="fw-bold">Description</p>
                             <p><?= esc($data['description']); ?></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="fw-bold">Calendar</p>
+                            <div class="table-responsive">
+                                <table class="table table-hover dt-head-center" id="table-manage">
+                                    <thead>
+                                    <tr>
+                                        <th>Event Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    <?php if (isset($data['calendar'])): ?>
+                                        <?php foreach ($data['calendar'] as $item) : ?>
+                                            <tr>
+                                                <td><?= date('d F Y', strtotime(esc($item))); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -87,6 +110,8 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 <script>
     const myModal = document.getElementById('videoModal');
     const videoSrc = document.getElementById('video-play').getAttribute('data-src');
@@ -98,5 +123,17 @@
     myModal.addEventListener('hide.bs.modal', () => {
         document.getElementById('video').setAttribute('src', '');
     });
+    
+    $(document).ready( function () {
+        $('#table-manage').DataTable({
+            columnDefs: [
+                {
+                    targets: ['_all'],
+                    className: 'dt-head-center'
+                }
+            ],
+            lengthMenu: [ 5, 10, 20, 50, 100 ]
+        });
+    } );
 </script>
 <?= $this->endSection() ?>

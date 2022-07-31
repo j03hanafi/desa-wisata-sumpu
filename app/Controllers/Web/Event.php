@@ -8,6 +8,9 @@ use App\Models\GalleryEventModel;
 use App\Models\ReviewModel;
 use CodeIgniter\Files\File;
 use CodeIgniter\RESTful\ResourcePresenter;
+use DateInterval;
+use DatePeriod;
+use DateTimeImmutable;
 
 class Event extends ResourcePresenter
 {
@@ -32,10 +35,33 @@ class Event extends ResourcePresenter
      */
     public function index()
     {
-        $contents = $this->eventModel->get_list_ev_api()->getResultArray();
+        $contents = $this->eventModel->get_list_ev_api()->getResult();
+        foreach ($contents as $content) {
+            $calendar = $this->getCalendar($content);
+            $content->date_next = $calendar[0];
+            $content->calendar = $calendar;
+        }
+    
+        usort($contents, function ($a, $b) {
+            return $a->date_next <=> $b->date_next;
+        });
+    
+        $now = new DateTimeImmutable('now');
+        $events = array();
+        foreach ($contents as $content) {
+            if ($content->date_next >= $now->format('Y-m-d')) {
+                $events[] = (array)$content;
+            }
+        }
+        foreach($contents as $content){
+            if ($content->date_next < $now->format('Y-m-d')) {
+                $events[] = (array)$content;
+            }
+        }
+        
         $data = [
             'title' => 'Event',
-            'data' => $contents,
+            'data' => $events,
         ];
         return view('web/list_event', $data);
     }
@@ -53,6 +79,7 @@ class Event extends ResourcePresenter
         if (empty($event)) {
             return redirect()->to(substr(current_url(), 0, -strlen($id)));
         }
+        $calendar = $this->getCalendar($event);
     
         $avg_rating = $this->reviewModel->get_rating('event_id', $id)->getRowArray()['avg_rating'];
     
@@ -64,6 +91,8 @@ class Event extends ResourcePresenter
     
         $list_review = $this->reviewModel->get_review_object_api('event_id', $id)->getResultArray();
     
+        $event['date_next'] = $calendar[0];
+        $event['calendar'] = $calendar;
         $event['avg_rating'] = $avg_rating;
         $event['gallery'] = $galleries;
         $event['reviews'] = $list_review;
@@ -109,6 +138,8 @@ class Event extends ResourcePresenter
             'name' => $request['name'],
             'date_start' => $request['date_start'],
             'date_end' => $request['date_end'],
+            'recurs' => $request['repeat'],
+            'max_recurs' => $request['occurrence'],
             'description' => $request['description'],
             'ticket_price' => $request['ticket_price'],
             'contact_person' => $request['contact_person'],
@@ -274,4 +305,51 @@ class Event extends ResourcePresenter
     {
         //
     }
+    
+    public function getCalendar($event = null): array
+    {
+        if (!is_array($event)) {
+            $event = (array)$event;
+        }
+        $start_date = new DateTimeImmutable($event['date_start']);
+        if ($event['max_recurs'] == null && $event['date_end'] == null)
+        {
+            $end_date = $start_date;
+        }
+        elseif ($event['max_recurs'] == null) {
+            $end_date = new DateTimeImmutable($event['date_end']);
+        } elseif ($event['date_end'] == null) {
+            $end_date = $start_date->modify("+{$event['max_recurs']} {$event['recurs']}");
+        } else {
+            $dateFromEnd = new DateTimeImmutable($event['date_end']);
+            $dateFromRecurs = $start_date->modify("+{$event['max_recurs']} {$event['recurs']}");
+            if ($dateFromEnd > $dateFromRecurs) {
+                $end_date = $dateFromRecurs;
+            } else {
+                $end_date = $dateFromEnd;
+            }
+        }
+        
+        $calendar = array();
+        $now = new DateTimeImmutable('now');
+        if ($event['recurs'] == 'none') {
+            $calendar[] =$start_date->format('Y-m-d');
+        }
+        else {
+            $interval = DateInterval::createFromDateString("1 {$event['recurs']}");
+            $dateArrange = new DatePeriod($start_date, $interval ,$end_date);
+            foreach($dateArrange as $date){
+                if ($date->format('Y-m-d') >= $now->format('Y-m-d')) {
+                    $calendar[] = $date->format('Y-m-d');
+                }
+            }
+            foreach($dateArrange as $date){
+                if ($date->format('Y-m-d') < $now->format('Y-m-d')) {
+                    $calendar[] = $date->format('Y-m-d');
+                }
+            }
+        }
+        return $calendar;
+    }
+    
 }

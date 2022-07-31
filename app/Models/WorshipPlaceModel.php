@@ -27,9 +27,13 @@ class WorshipPlaceModel extends Model
 
     // API
     public function get_list_wp_api() {
+        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.park_area_size,{$this->table}.building_size,{$this->table}.capacity,{$this->table}.last_renovation,{$this->table}.description";
+        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select('worship_place.*, CONCAT(account.first_name, " ", account.last_name) as owner_name')
-            ->join('account', 'worship_place.owner = account.id')
+            ->select("{$columns}, {$coords}")
+            ->from('village')
+            ->where($vilGeom)
             ->get();
         return $query;
     }

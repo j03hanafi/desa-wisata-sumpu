@@ -38,6 +38,15 @@
 
         <!-- Template Stylesheet -->
         <link href="css/landing-page/style.css" rel="stylesheet" />
+        <link rel="stylesheet" href="<?= base_url('css/web.css'); ?>">
+
+        <!-- Third Party CSS and JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/de7d18ea4d.js" crossorigin="anonymous"></script>
+
+        <!-- Google Maps API and Custom JS -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8B04MTIk7abJDVESr6SUF6f3Hgt1DPAY&libraries=drawing"></script>
+        <script src="<?= base_url('js/web.js'); ?>"></script>
     </head>
     <body>
 
@@ -173,7 +182,7 @@
     <!-- About Start -->
     <div class="container-xxl py-5" id="about">
         <div class="container">
-            <div class="row g-5">
+            <div class="row p-5">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <p><span class="text-primary me-2">#</span>Welcome To Desa Wisata </p>
                     <h1 class="display-5 mb-4">
@@ -184,16 +193,29 @@
                         Kampuang Minang Nagari Sumpu  terletak di Nagari Sumpur, Kecamatan Batipuh Selatan Kabupaten Tanah Datar Sumatra Barat tepatnya di sebelah utara Danau Singkarak yang di aliri oleh aliran Batang Sumpu. Untuk menuju ke Kampuang Minang Nagari Sumpu diperkirakan menempuh perjalanan dari Bandara Internasional Minangkabau lebih kurang 2 jam perjalanan. Di kampuang Minang Nagari Sumpu terdapat wisata yang berbasis budaya dengan adanya lebih kurang 70 buah rumah gadang dan beberapa situs sejarah. Dari sekian banyaknya rumah gadang, terdapat 3 buah rumah gadang yang sudah dijadikan  Homestay bagi wisatawan yang berkunjung ke Kampuang Minang Nagari Sumpu.
                     </p>
                     <h5 class="mb-3">
-                        <i class="far fa-check-circle text-primary me-3"></i>Wisata Alam
+                        <a href="#map" class="text-reset" onclick="showMap('rg');">
+                            <i class="far fa-check-circle text-primary me-3"></i>Rumah Gadang
+                        </a>
                     </h5>
                     <h5 class="mb-3">
-                        <i class="far fa-check-circle text-primary me-3"></i>Wisata Kuliner
+                        <a href="#map" class="text-reset" onclick="showMap('ev');">
+                            <i class="far fa-check-circle text-primary me-3"></i>Event
+                        </a>
                     </h5>
                     <h5 class="mb-3">
-                        <i class="far fa-check-circle text-primary me-3"></i>Wisata Budaya
+                        <a href="#map" class="text-reset" onclick="showMap('cp');">
+                            <i class="far fa-check-circle text-primary me-3"></i>Culinary Place
+                        </a>
                     </h5>
                     <h5 class="mb-3">
-                        <i class="far fa-check-circle text-primary me-3"></i>Wisata Edukasi
+                        <a href="#map" class="text-reset" onclick="showMap('wp');">
+                            <i class="far fa-check-circle text-primary me-3"></i>Worship Place
+                        </a>
+                    </h5>
+                    <h5 class="mb-3">
+                        <a href="#map" class="text-reset" onclick="showMap('sp');">
+                            <i class="far fa-check-circle text-primary me-3"></i>Souvenir Place
+                        </a>
                     </h5>
                     <a class="btn btn-primary py-3 px-5 mt-3" href="/web">Explore</a>
                 </div>
@@ -201,6 +223,16 @@
                     <div class="img-border  ">
                         <img class="img-fluid" src="media/photos/landing-page/bg-about.jpg" alt="" />
                     </div>
+                </div>
+            </div>
+            <div class="row p-5" id="map">
+                <div class="mb-3">
+                    <a class="btn btn-outline-danger float-end" onclick="closeMap();"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+                <div class="col-lg-6 wow fadeInUp googlemaps" data-wow-delay="0.5s" id="googlemaps">
+                    <script>initMap(); </script>
+                    <div id="legend"></div>
+                    <script>$('#legend').hide(); getLegend();</script>
                 </div>
             </div>
         </div>
@@ -293,7 +325,6 @@
         ></a>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="assets/lib/wow/wow.min.js"></script>
     <script src="assets/lib/easing/easing.min.js"></script>
@@ -304,5 +335,51 @@
 
     <!-- Template Javascript -->
     <script src="<?= base_url('js/landing-page.js'); ?>"></script>
+    <script>
+        $('#map').hide();
+        
+        function closeMap() {
+            $('#map').hide();
+        }
+    </script>
+    <script>
+        function showMap(category = null) {
+            if ($('#map').hide()) {
+                $('#map').show();
+            }
+
+            let URI = "<?= base_url('api')?>";
+            clearMarker();
+            clearRadius();
+            clearRoute();
+            if (category == 'rg') {
+                URI = URI + '/rumahGadang'
+            } else if (category == 'ev') {
+                URI = URI + '/event'
+            } else if (category == 'cp') {
+                URI = URI + '/culinaryPlace'
+            } else if (category == 'wp') {
+                URI = URI + '/worshipPlace'
+            } else if (category == 'sp') {
+                URI = URI + '/souvenirPlace'
+            }
+
+            currentUrl = '';
+            $.ajax({
+                url: URI,
+                dataType: 'json',
+                success: function (response) {
+                    let data = response.data
+                    for(i in data) {
+                        let item = data[i];
+                        currentUrl = currentUrl + item.id;
+                        objectMarker(item.id, item.lat, item.lng);
+                    }
+                    boundToObject();
+                    
+                }
+            })
+        }
+    </script>
     </body>
 </html>
