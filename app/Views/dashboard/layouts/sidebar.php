@@ -33,15 +33,6 @@ $uri3 = $uri[3] ?? '';
                             <i class="fa-solid fa-house"></i><span> Home</span>
                         </a>
                     </li>
-    
-                    <!-- Website Analytics -->
-                    <?php if (in_groups(['admin'])): ?>
-                    <li class="sidebar-item <?= ($uri1 == 'index') ? 'active' : '' ?>">
-                        <a href="<?= base_url('dashboard'); ?>" class="sidebar-link">
-                            <i class="fa-solid fa-chart-simple"></i><span> Website Analytics</span>
-                        </a>
-                    </li>
-                    <?php endif; ?>
 
                     <!-- Manage RG -->
                     <li class="sidebar-item <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?>">

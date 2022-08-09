@@ -76,14 +76,14 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => '
     $routes->get('/', 'Dashboard::index');
     $routes->get('rumahGadang', 'Dashboard::rumahGadang');
     $routes->get('event', 'Dashboard::event');
-    $routes->get('facility', 'Dashboard::facility');
+    $routes->get('facility', 'Dashboard::facility', ['filter' => 'role:admin']);
     $routes->get('recommendation', 'Dashboard::recommendation');
-    $routes->get('users', 'Dashboard::users');
+    $routes->get('users', 'Dashboard::users', ['filter' => 'role:admin']);
     
     $routes->presenter('rumahGadang');
     $routes->presenter('event');
-    $routes->presenter('facility');
-    $routes->presenter('users');
+    $routes->presenter('facility', ['filter' => 'role:admin']);
+    $routes->presenter('users', ['filter' => 'role:admin']);
 });
 
 // API

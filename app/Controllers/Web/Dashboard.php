@@ -25,10 +25,7 @@ class Dashboard extends BaseController
     }
     public function index()
     {
-        $data = [
-            'title' => 'Dashboard',
-        ];
-        return view('dashboard/analytics', $data);
+        return redirect()->to(base_url('/dashboard/rumahGadang'));
     }
     
     public function rumahGadang()
