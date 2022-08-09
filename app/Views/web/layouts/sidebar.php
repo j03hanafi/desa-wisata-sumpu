@@ -56,8 +56,8 @@ $uri3 = $uri[3] ?? '';
                                 </div>
                             </li>
                             <li class="submenu-item has-sub" id="rg-search">
-                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
-                                <ul class="subsubmenu collapse" id="subsubmenu">
+                                <a data-bs-toggle="collapse" href="#subsubmenu-rg" role="button" aria-expanded="false" aria-controls="subsubmenu-rg" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
+                                <ul class="subsubmenu collapse" id="subsubmenu-rg">
                                     <!-- Rumah Gadang by Name -->
                                     <li class="submenu-item submenu-marker" id="rg-by-name">
                                         <a data-bs-toggle="collapse" href="#searchNameRG" role="button" aria-expanded="false" aria-controls="searchNameRG"><i class="fa-solid fa-arrow-down-a-z me-3"></i>By Name</a>
@@ -148,8 +148,8 @@ $uri3 = $uri[3] ?? '';
                                 </div>
                             </li>
                             <li class="submenu-item has-sub" id="ev-search">
-                                <a data-bs-toggle="collapse" href="#subsubmenu" role="button" aria-expanded="false" aria-controls="subsubmenu" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
-                                <ul class="subsubmenu collapse" id="subsubmenu">
+                                <a data-bs-toggle="collapse" href="#subsubmenu-ev" role="button" aria-expanded="false" aria-controls="subsubmenu-ev" class="collapse"><i class="fa-solid fa-magnifying-glass me-3"></i>Search</a>
+                                <ul class="subsubmenu collapse" id="subsubmenu-ev">
                                     <!-- Event by Name -->
                                     <li class="submenu-item submenu-marker" id="ev-by-name">
                                         <a data-bs-toggle="collapse" href="#searchNameEV" role="button" aria-expanded="false" aria-controls="searchNameEV"><i class="fa-solid fa-arrow-down-a-z me-3"></i>By Name</a>
