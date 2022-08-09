@@ -1100,6 +1100,18 @@ function findByDate() {
     });
 }
 
+// Create compass
+function setCompass() {
+    const compass = document.createElement("div");
+    compass.setAttribute("id", "compass");
+    const compassDiv = document.createElement("div");
+    compass.appendChild(compassDiv);
+    const compassImg = document.createElement("img");
+    compassImg.src = baseUrl + '/media/icon/compass.png';
+    compassDiv.appendChild(compassImg);
+
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(compass);
+}
 
 // Create legend
 function getLegend() {
