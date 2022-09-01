@@ -29,7 +29,9 @@
                 </div>
             </form>
         <?php else: ?>
-            <p class="card-text">Please login as User to give rating and review</p>
+            <?php if (!url_is("*detail*")): ?>
+                <p class="card-text">Please login as User to give rating and review</p>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     <div class="card-body">

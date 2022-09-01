@@ -33,9 +33,19 @@ class RumahGadang extends ResourceController
      */
     public function index()
     {
+        $rumahGadang = array();
         $contents = $this->rumahGadangModel->get_list_rg_api()->getResult();
+        foreach ($contents as $content){
+            $list_gallery = $this->galleryRumahGadangModel->get_gallery_api($content->id)->getResultArray();
+            $galleries = array();
+            foreach ($list_gallery as $gallery) {
+                $galleries[] = $gallery['url'];
+            }
+            $content->gallery = $galleries[0];
+            $rumahGadang[] = $content;
+        }
         $response = [
-            'data' => $contents,
+            'data' => $rumahGadang,
             'status' => 200,
             'message' => [
                 "Success get list of Rumah Gadang"

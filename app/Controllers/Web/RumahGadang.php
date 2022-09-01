@@ -325,4 +325,54 @@ class RumahGadang extends ResourcePresenter
         
         return view('web/recommendation', $data);
     }
+    
+    public function maps() {
+        $contents = $this->rumahGadangModel->get_list_rg_api()->getResultArray();
+        $data = [
+            'title' => 'Rumah Gadang',
+            'data' => $contents,
+        ];
+        
+        return view('maps/rumah_gadang', $data);
+    }
+    
+    public function detail($id = null)
+    {
+        $rumahGadang = $this->rumahGadangModel->get_rg_by_id_api($id)->getRowArray();
+        if (empty($rumahGadang)) {
+            return redirect()->to(substr(current_url(), 0, -strlen($id)));
+        }
+        
+        $avg_rating = $this->reviewModel->get_rating('rumah_gadang_id', $id)->getRowArray()['avg_rating'];
+        
+        $list_facility = $this->detailFacilityRumahGadangModel->get_facility_by_rg_api($id)->getResultArray();
+        $facilities = array();
+        foreach ($list_facility as $facility) {
+            $facilities[] = $facility['facility'];
+        }
+        
+        $list_review = $this->reviewModel->get_review_object_api('rumah_gadang_id', $id)->getResultArray();
+        
+        $list_gallery = $this->galleryRumahGadangModel->get_gallery_api($id)->getResultArray();
+        $galleries = array();
+        foreach ($list_gallery as $gallery) {
+            $galleries[] = $gallery['url'];
+        }
+        
+        
+        $rumahGadang['avg_rating'] = $avg_rating;
+        $rumahGadang['facilities'] = $facilities;
+        $rumahGadang['reviews'] = $list_review;
+        $rumahGadang['gallery'] = $galleries;
+        
+        $data = [
+            'title' => $rumahGadang['name'],
+            'data' => $rumahGadang,
+        ];
+        
+        if (url_is('*dashboard*')) {
+            return view('dashboard/detail_rumah_gadang', $data);
+        }
+        return view('maps/detail_rumah_gadang', $data);
+    }
 }

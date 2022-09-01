@@ -262,7 +262,7 @@ $edit = in_array('edit', $uri);
     <?php if ($edit && count($data['gallery']) > 0): ?>
     pond.addFiles(
         <?php foreach ($data['gallery'] as $gallery) : ?>
-        `<?= base_url('media/photos/' . $gallery); ?>`
+        `<?= base_url('media/photos/' . $gallery); ?>`,
         <?php endforeach; ?>
     );
     <?php endif; ?>

@@ -51,19 +51,30 @@ class Event extends ResourceController
     
         $now = new DateTimeImmutable('now');
         $events = array();
-        foreach ($contents as $content) {
-            if ($content->date_next >= $now->format('Y-m-d')) {
-                $events[] = $content;
+        foreach ($contents as $content){
+            $list_gallery = $this->galleryEventModel->get_gallery_api($content->id)->getResultArray();
+            $galleries = array();
+            foreach ($list_gallery as $gallery) {
+                $galleries[] = $gallery['url'];
+            }
+            $content->gallery = $galleries[0];
+            $events[] = $content;
+        }
+        
+        $sortedEvents = array();
+        foreach ($events as $event) {
+            if ($event->date_next >= $now->format('Y-m-d')) {
+                $sortedEvents[] = $event;
             }
         }
-        foreach($contents as $content){
-            if ($content->date_next < $now->format('Y-m-d')) {
-                $events[] = $content;
+        foreach($events as $event){
+            if ($event->date_next < $now->format('Y-m-d')) {
+                $sortedEvents[] = $event;
             }
         }
         
         $response = [
-            'data' => $events,
+            'data' => $sortedEvents,
             'status' => 200,
             'message' => [
                 "Success get list of Event"

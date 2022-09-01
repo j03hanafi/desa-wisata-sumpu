@@ -31,9 +31,10 @@ class EventModel extends Model
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.date_start,{$this->table}.date_end,{$this->table}.recurs,{$this->table}.max_recurs,{$this->table}.description,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.category_id,{$this->table}.owner,{$this->table}.video_url";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
-            ->select("{$columns}, {$coords}")
+            ->select("{$columns}, {$coords}, category_event.category")
             ->from('village')
             ->where($vilGeom)
+            ->join('category_event', 'event.category_id = category_event.id')
             ->get();
         return $query;
     }

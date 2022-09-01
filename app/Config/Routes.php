@@ -52,8 +52,12 @@ $routes->group('upload', ['namespace' => 'App\Controllers\Web'], function($route
 
 // App
 $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) {
+    $routes->get('rumahGadang/maps', 'RumahGadang::maps');
+    $routes->get('rumahGadang/detail/(:segment)', 'RumahGadang::detail/$1');
     $routes->presenter('rumahGadang');
     $routes->get('/', 'RumahGadang::recommendation');
+    $routes->get('event/maps', 'Event::maps');
+    $routes->get('event/detail/(:segment)', 'Event::detail/$1');
     $routes->presenter('event');
     $routes->get('visitHistory', 'VisitHistory::visitHistory', ['filter' => 'role:user']);
     $routes->get('visitHistory/add', 'VisitHistory::addVisitHistory', ['filter' => 'role:user']);
@@ -99,6 +103,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->post('rumahGadang/findByFacility', 'RumahGadang::findByFacility');
     $routes->post('rumahGadang/findByRating', 'RumahGadang::findByRating');
     $routes->post('rumahGadang/findByCategory', 'RumahGadang::findByCategory');
+    $routes->get('rumahGadang/maps', 'RumahGadang::maps');
     $routes->get('event/category', 'Event::category');
     $routes->resource('event');
     $routes->post('eventOwner', 'Event::listByOwner');
@@ -127,6 +132,9 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     $routes->get('owner', 'User::owner');
     $routes->resource('facility');
     $routes->post('village', 'Village::getData');
+    $routes->post('login', 'Profile::attemptLogin');
+    $routes->post('profile', 'Profile::profile');
+    $routes->get('logout', 'Profile::logout');
 });
 
 /*

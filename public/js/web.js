@@ -52,14 +52,22 @@ function setBaseUrl(url) {
 }
 
 // Initialize and add the map
-function initMap(lat = -0.5242972, lng = 100.492333) {
+function initMap(lat = -0.5242972, lng = 100.492333, mobile = false) {
     directionsService = new google.maps.DirectionsService();
     const center = new google.maps.LatLng(lat, lng);
-    map = new google.maps.Map(document.getElementById("googlemaps"), {
-        zoom: 18,
-        center: center,
-        mapTypeId: 'roadmap',
-    });
+    if (!mobile) {
+        map = new google.maps.Map(document.getElementById("googlemaps"), {
+            zoom: 18,
+            center: center,
+            mapTypeId: 'roadmap',
+        });
+    } else {
+        map = new google.maps.Map(document.getElementById("googlemaps"), {
+            zoom: 18,
+            center: center,
+            mapTypeControl: false,
+        });
+    }
     var rendererOptions = {
         map: map
     }
@@ -84,7 +92,7 @@ function digitVillage() {
             village.setStyle({
                 fillColor:'#00b300',
                 strokeWeight:0.5,
-                strokeColor:'#ffffff',
+                strokeColor:'#005000',
                 fillOpacity: 0.1,
                 clickable: false
             });
@@ -291,6 +299,7 @@ function objectMarker(id, lat, lng, anim = true) {
 function objectInfoWindow(id){
     let content = '';
     let contentButton = '';
+    let contentMobile = '';
 
     if (id.substring(0,2) === "RG") {
         $.ajax({
@@ -318,9 +327,17 @@ function objectInfoWindow(id){
                     '<a title="Info" class="btn icon btn-outline-primary mx-1" target="_blank" id="infoInfoWindow" href='+baseUrl+'/web/rumahGadang/'+rgid+'><i class="fa-solid fa-info"></i></a>' +
                     '<a title="Nearby" class="btn icon btn-outline-primary mx-1" id="nearbyInfoWindow" onclick="openNearby(`'+ rgid +'`,'+ lat +','+ lng +')"><i class="fa-solid fa-compass"></i></a>' +
                     '</div>'
+                contentMobile =
+                    '<br><div class="text-center">' +
+                    '<a title="Route" class="btn icon btn-outline-primary mx-1" id="routeInfoWindow" onclick="routeTo('+lat+', '+lng+')"><i class="fa-solid fa-road"></i></a>' +
+                    '</div>'
 
                 if (currentUrl.includes(id)) {
-                    infoWindow.setContent(content);
+                    if (currentUrl.includes('mobile')){
+                        infoWindow.setContent(content + contentMobile);
+                    } else {
+                        infoWindow.setContent(content);
+                    }
                     infoWindow.open(map, markerArray[rgid])
                 } else {
                     infoWindow.setContent(content + contentButton);
@@ -369,9 +386,17 @@ function objectInfoWindow(id){
                     '<a title="Info" class="btn icon btn-outline-primary mx-1" target="_blank" id="infoInfoWindow" href='+baseUrl+'/web/event/'+evid+'><i class="fa-solid fa-info"></i></a>' +
                     '<a title="Nearby" class="btn icon btn-outline-primary mx-1" id="nearbyInfoWindow" onclick="openNearby(`'+ evid +'`,'+ lat +','+ lng +')"><i class="fa-solid fa-compass"></i></a>' +
                     '</div>'
+                contentMobile =
+                    '<br><div class="text-center">' +
+                    '<a title="Route" class="btn icon btn-outline-primary mx-1" id="routeInfoWindow" onclick="routeTo('+lat+', '+lng+')"><i class="fa-solid fa-road"></i></a>' +
+                    '</div>'
 
                 if (currentUrl.includes(id)) {
-                    infoWindow.setContent(content);
+                    if (currentUrl.includes('mobile')){
+                        infoWindow.setContent(content + contentMobile);
+                    } else {
+                        infoWindow.setContent(content);
+                    }
                     infoWindow.open(map, markerArray[evid])
                 } else {
                     infoWindow.setContent(content + contentButton);
@@ -430,13 +455,17 @@ function objectInfoWindow(id){
 }
 
 // Render map to contains all object marker
-function boundToObject() {
+function boundToObject(firstTime = true) {
     if (Object.keys(markerArray).length > 0) {
         bounds = new google.maps.LatLngBounds();
         for (i in markerArray) {
             bounds.extend(markerArray[i].getPosition())
         }
-        map.fitBounds(bounds, 80);
+        if (firstTime) {
+            map.fitBounds(bounds, 80);
+        } else {
+            map.panTo(bounds.getCenter());
+        }
     } else {
         let pos = new google.maps.LatLng(-0.5242972, 100.492333);
         map.panTo(pos);
@@ -618,6 +647,7 @@ function closeNearby() {
     $('#direction-row').hide();
     $('#check-nearby-col').hide();
     $('#result-nearby-col').hide();
+    $('#list-rec-col').show();
     $('#list-rg-col').show();
     $('#list-ev-col').show();
 }
@@ -1550,6 +1580,93 @@ function deleteObject(id = null, name = null, user = false) {
                     }
                 }
             });
+        }
+    });
+}
+
+/// Android API ///
+
+// Get user's current position
+function userPositionAPI(lat = null, lng = null) {
+
+    clearRadius();
+    clearRoute();
+
+    infoWindow.close();
+    let pos = new google.maps.LatLng(lat, lng);
+
+    clearUser();
+    markerOption = {
+        position: pos,
+        map: map,
+    };
+    userMarker.setOptions(markerOption);
+
+    setUserLoc(pos.lat().toFixed(8), pos.lng().toFixed(8))
+
+}
+
+// Pan map to user position
+function panToUser() {
+    if (userLat == 0 && userLng == 0) {
+        return Swal.fire('Determine your position first!');
+    }
+    let pos = new google.maps.LatLng(userLat, userLng);
+    map.panTo(pos);
+}
+
+// Find RG on mobile
+function findRG(name = null){
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/rumahGadang/findByName',
+        type: 'POST',
+        data: {
+            name: name,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+// Find EV on mobile
+function findEV(name = null){
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/event/findByName',
+        type: 'POST',
+        data: {
+            name: name,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
         }
     });
 }
