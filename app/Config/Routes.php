@@ -78,14 +78,14 @@ $routes->group('web', ['namespace' => 'App\Controllers\Web'], function($routes) 
 // Dashboard
 $routes->group('dashboard', ['namespace' => 'App\Controllers\Web', 'filter' => 'role:admin,owner'], function($routes) {
     $routes->get('/', 'Dashboard::index');
-    $routes->get('rumahGadang', 'Dashboard::rumahGadang');
-    $routes->get('event', 'Dashboard::event');
+    $routes->get('rumahGadang', 'Dashboard::rumahGadang',  ['filter' => 'role:owner']);
+    $routes->get('event', 'Dashboard::event',  ['filter' => 'role:owner']);
     $routes->get('facility', 'Dashboard::facility', ['filter' => 'role:admin']);
-    $routes->get('recommendation', 'Dashboard::recommendation');
+    $routes->get('recommendation', 'Dashboard::recommendation',  ['filter' => 'role:admin']);
     $routes->get('users', 'Dashboard::users', ['filter' => 'role:admin']);
     
-    $routes->presenter('rumahGadang');
-    $routes->presenter('event');
+    $routes->presenter('rumahGadang',  ['filter' => 'role:owner']);
+    $routes->presenter('event',  ['filter' => 'role:owner']);
     $routes->presenter('facility', ['filter' => 'role:admin']);
     $routes->presenter('users', ['filter' => 'role:admin']);
 });

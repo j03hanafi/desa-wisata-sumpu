@@ -817,8 +817,21 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Capacity</span>: '+ item.capacity+'</p>'+
                     '<p><span class="fw-bold">Employee</span>: '+ item.employee+'</p>'+
                     '</div>'+
-                    '<div>' +
-                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
+                    '<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">' +
+                    '<ol class="carousel-indicators">' +
+                    '<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>' +
+                    '</ol><div class="carousel-inner">' +
+                    '<div class="carousel-item active">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50" alt="'+item.name+'">' +
+                    '</div></div>' +
+                    '<a style="color: #000" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">\n' +
+                    '<i class="fa-solid fa-angle-left" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Previous</span>' +
+                    ' </a>' +
+                    '<a style="color: #000" class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">' +
+                    '<i class="fa-solid fa-angle-right" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Next</span>' +
+                    '</a>' +
                     '</div>';
 
                 Swal.fire({
@@ -845,8 +858,21 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Capacity</span>: '+ item.capacity+'</p>'+
                     '<p><span class="fw-bold">Last Renovation</span>: '+ item.last_renovation+'</p>'+
                     '</div>' +
-                    '<div>' +
-                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
+                    '<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">' +
+                    '<ol class="carousel-indicators">' +
+                    '<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>' +
+                    '</ol><div class="carousel-inner">' +
+                    '<div class="carousel-item active">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50" alt="'+item.name+'">' +
+                    '</div></div>' +
+                    '<a style="color: #000" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">\n' +
+                    '<i class="fa-solid fa-angle-left" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Previous</span>' +
+                    ' </a>' +
+                    '<a style="color: #000" class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">' +
+                    '<i class="fa-solid fa-angle-right" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Next</span>' +
+                    '</a>' +
                     '</div>';
 
                 Swal.fire({
@@ -874,8 +900,21 @@ function infoModal(id) {
                     '<p><span class="fw-bold">Employee</span>: '+ item.employee+'</p>'+
                     '<p><span class="fw-bold">Open</span>: '+ open +' - '+ close+' WIB</p>'+
                     '</div>' +
-                    '<div>' +
-                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50">' +
+                    '<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">' +
+                    '<ol class="carousel-indicators">' +
+                    '<li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></li>' +
+                    '</ol><div class="carousel-inner">' +
+                    '<div class="carousel-item active">' +
+                    '<img src="/media/photos/'+item.gallery[0]+'" alt="'+ item.name +'" class="w-50" alt="'+item.name+'">' +
+                    '</div></div>' +
+                    '<a style="color: #000" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">\n' +
+                    '<i class="fa-solid fa-angle-left" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Previous</span>' +
+                    ' </a>' +
+                    '<a style="color: #000" class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">' +
+                    '<i class="fa-solid fa-angle-right" aria-hidden="true"></i>' +
+                    '<span class="visually-hidden">Next</span>' +
+                    '</a>' +
                     '</div>';
 
                 Swal.fire({
@@ -1319,6 +1358,7 @@ function updateRecom() {
         success: function (response) {
             if (response.status === 201) {
                 console.log('Success update recommendation @' + id + ':' + recom);
+                Swal.fire('Success updating Rumah Gadang ID @' + id)
             }
         }
     });
@@ -1643,6 +1683,90 @@ function findRG(name = null){
     });
 }
 
+// Find RG by Rating on Mobile
+function findByRatingRG(rating) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/rumahGadang/findByRating',
+        type: 'POST',
+        data: {
+            rating: rating,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+// Find object by Facility on Mobile
+function findByFacilityRG(facility) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/rumahGadang/findByFacility',
+        type: 'POST',
+        data: {
+            facility: facility,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+// Find RG by Category on Mobile
+function findByCategoryRG(category) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/rumahGadang/findByCategory',
+        type: 'POST',
+        data: {
+            category: category,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
 // Find EV on mobile
 function findEV(name = null){
     clearRadius();
@@ -1657,6 +1781,90 @@ function findEV(name = null){
         type: 'POST',
         data: {
             name: name,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+// Find EV by Rating on Mobile
+function findByRatingEV(rating) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/event/findByRating',
+        type: 'POST',
+        data: {
+            rating: rating,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+
+// Find EV by Category on Mobile
+function findByCategoryEV(category) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    currentUrl = 'mobile'
+    $.ajax({
+        url: baseUrl + '/api/event/findByCategory',
+        type: 'POST',
+        data: {
+            category: category,
+        },
+        dataType: 'json',
+        success: function (response) {
+            let data = response.data
+            for (i in data) {
+                let item = data[i]
+                currentUrl = currentUrl + item.id
+                objectMarker(item.id, item.lat, item.lng);
+            }
+            boundToObject();
+        }
+    });
+}
+
+// // Find EV by Date
+function findByDateEV(eventDate) {
+    clearRadius();
+    clearRoute();
+    clearMarker();
+    destinationMarker.setMap(null);
+    google.maps.event.clearListeners(map, 'click');
+
+    $.ajax({
+        url: baseUrl + '/api/event/findByDate',
+        type: 'POST',
+        data: {
+            date: eventDate,
         },
         dataType: 'json',
         success: function (response) {

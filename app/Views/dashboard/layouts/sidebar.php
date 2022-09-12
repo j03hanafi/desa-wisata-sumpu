@@ -35,18 +35,22 @@ $uri3 = $uri[3] ?? '';
                     </li>
 
                     <!-- Manage RG -->
+                    <?php if (in_groups(['owner'])): ?>
                     <li class="sidebar-item <?= ($uri1 == 'rumahGadang') ? 'active' : '' ?>">
                         <a href="<?= base_url('dashboard/rumahGadang'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-campground"></i><span> Rumah Gadang</span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
                     <!-- Manage EV -->
+                    <?php if (in_groups(['owner'])): ?>
                     <li class="sidebar-item <?= ($uri1 == 'event') ? 'active' : '' ?>">
                         <a href="<?= base_url('dashboard/event'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-bullhorn"></i><span> Event</span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
                     <!-- Manage Facility -->
                     <?php if (in_groups(['admin'])): ?>
@@ -58,11 +62,13 @@ $uri3 = $uri[3] ?? '';
                     <?php endif; ?>
 
                     <!-- Manage Recommendation -->
+                    <?php if (in_groups(['admin'])): ?>
                     <li class="sidebar-item <?= ($uri1 == 'recommendation') ? 'active' : '' ?>">
                         <a href="<?= base_url('dashboard/recommendation'); ?>" class="sidebar-link">
                             <i class="fa-solid fa-star"></i><span> Recommendation</span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
                     <!-- Manage Users -->
                     <?php if (in_groups(['admin'])): ?>

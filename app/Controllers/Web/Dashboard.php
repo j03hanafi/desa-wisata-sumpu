@@ -25,7 +25,12 @@ class Dashboard extends BaseController
     }
     public function index()
     {
-        return redirect()->to(base_url('/dashboard/rumahGadang'));
+        if (in_groups("owner")) {
+            return redirect()->to(base_url('/dashboard/rumahGadang'));
+        } elseif (in_groups("admin")) {
+            return redirect()->to(base_url('/dashboard/users'));
+        }
+        return redirect()->to(base_url('/web'));
     }
     
     public function rumahGadang()

@@ -227,12 +227,28 @@ $uri3 = $uri[3] ?? '';
                     <?php endif; ?>
                     <?php if (in_groups(['owner', 'admin'])): ?>
                     <li class="sidebar-item">
+                        <?php if (in_groups(['owner'])): ?>
                         <a href="<?= base_url('dashboard/rumahGadang'); ?>" class="sidebar-link">
+                        <?php elseif (in_groups(['admin'])): ?>
+                        <a href="<?= base_url('dashboard/users'); ?>" class="sidebar-link">
+                        <?php endif; ?>
                             <i class="bi bi-grid-fill"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <?php endif; ?>
+
+                    <li class="sidebar-item">
+                        <div class="d-flex justify-content-around">
+                            <a href="https://www.instagram.com/pesonasumpu" class="sidebar-link" target="_blank">
+                                <i class="fa-brands fa-instagram"></i><span>Instagram</span>
+                            </a>
+                            <a href="https://www.tiktok.com" class="sidebar-link" target="_blank">
+                                <i class="fa-brands fa-tiktok"></i><span>TikTok</span>
+                            </a>
+                        </div>
+                    </li>
                 </ul>
+                
             </div>
         </div>
     </div>

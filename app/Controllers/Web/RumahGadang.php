@@ -123,7 +123,7 @@ class RumahGadang extends ResourcePresenter
             'address' => $request['address'],
             'open' => $request['open'],
             'close' => $request['close'],
-            'ticket_price' => $request['ticket_price'],
+            'ticket_price' => empty($request['ticket_price']) ?? "0",
             'contact_person' => $request['contact_person'],
             'status' => $request['status'],
             'owner' => $request['owner'],
