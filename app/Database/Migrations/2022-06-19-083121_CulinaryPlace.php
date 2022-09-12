@@ -48,6 +48,14 @@ class CulinaryPlace extends Migration
                 'type' => 'GEOMETRY',
                 'null' => true,
             ],
+            'lat' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,8',
+            ],
+            'lng' => [
+                'type' => 'DECIMAL',
+                'constraint' => '11,8',
+            ],
             'description' => [
                 'type' => 'TEXT',
                 'null' => true,

@@ -28,8 +28,6 @@ class Village extends BaseController
                 'properties' => [
                     'id' => $vilProperty['id'],
                     'name' => $vilProperty['name'],
-                    'lat' => $vilProperty['lat'],
-                    'lng' => $vilProperty['lng'],
                 ]
             ];
             $response = [
@@ -49,8 +47,6 @@ class Village extends BaseController
                 'properties' => [
                     'id' => $vilProperty['id'],
                     'name' => $vilProperty['name'],
-                    'lat' => $vilProperty['lat'],
-                    'lng' => $vilProperty['lng'],
                 ]
             ];
             $response = [

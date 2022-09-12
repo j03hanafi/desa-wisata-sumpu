@@ -27,6 +27,8 @@ class RumahGadangSeeder extends Seeder
                 'owner' => $row[10],
                 'description' => $row[11],
                 'video_url' => $row[12],
+                'lat' => $row[13],
+                'lng' => $row[14],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

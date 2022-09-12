@@ -1488,18 +1488,12 @@ function initDrawingManager(edit = false) {
 // Get geoJSON of selected shape on map
 function saveSelection(shape) {
 
-    let centroid = [0.0, 0.0];
     const paths = shape.getPath().getArray();
-
+    let bounds = new google.maps.LatLngBounds();
     for (let i = 0; i < paths.length; i++) {
-        centroid[0] += paths[i].lat();
-        centroid[1] += paths[i].lng();
+        bounds.extend(paths[i])
     }
-    const totalPaths = paths.length;
-    centroid[0] = centroid[0] / totalPaths;
-    centroid[1] = centroid[1] / totalPaths;
-
-    let pos = new google.maps.LatLng(centroid[0], centroid[1]);
+    let pos = bounds.getCenter();
     map.panTo(pos);
 
     clearMarker();
@@ -1512,8 +1506,8 @@ function saveSelection(shape) {
     marker.setOptions(markerOption);
     markerArray['newRG'] = marker;
 
-    document.getElementById('latitude').value = centroid[0].toFixed(8);
-    document.getElementById('longitude').value = centroid[1].toFixed(8);
+    document.getElementById('latitude').value = pos.lat().toFixed(8);
+    document.getElementById('longitude').value = pos.lng().toFixed(8);
 
     const dataLayer = new google.maps.Data();
     dataLayer.add(new google.maps.Data.Feature({

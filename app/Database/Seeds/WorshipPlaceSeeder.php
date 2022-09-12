@@ -22,6 +22,8 @@ class WorshipPlaceSeeder extends Seeder
                 'capacity' => $row[5],
                 'last_renovation' => $row[6],
                 'description' => $row[8],
+                'lat' => $row[9],
+                'lng' => $row[10],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];

@@ -63,6 +63,14 @@ class Event extends Migration
                 'type' => 'GEOMETRY',
                 'null' => true,
             ],
+            'lat' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,8',
+            ],
+            'lng' => [
+                'type' => 'DECIMAL',
+                'constraint' => '11,8',
+            ],
             'video_url' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,

@@ -23,18 +23,18 @@ class VillageModel extends Model
 
     // API
     public function get_sumpur_api() {
-        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $query = $this->db->table($this->table)
-            ->select("id, name, {$coords}")
+            ->select("id, name")
             ->where('id', 'VIL01')
             ->get();
         return $query;
     }
     
     public function get_desa_wisata_api() {
-        $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
+        // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $query = $this->db->table($this->table)
-            ->select("id, name, {$coords}")
+            ->select("id, name")
             ->where('id', 'VIL02')
             ->get();
         return $query;

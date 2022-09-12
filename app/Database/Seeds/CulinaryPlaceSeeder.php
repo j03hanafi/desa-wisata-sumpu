@@ -23,6 +23,8 @@ class CulinaryPlaceSeeder extends Seeder
                 'close' => $row[6],
                 'employee' => $row[7],
                 'description' => $row[9],
+                'lat' => $row[10],
+                'lng' => $row[11],
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ];
