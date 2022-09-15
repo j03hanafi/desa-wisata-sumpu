@@ -1,39 +1,39 @@
 id,status,rumah_gadang_id,event_id,comment,date,rating,users_id
-RV0001,1,RG001,,Rerum sed consectetur.,2021-11-14 16:05:23,5,1
-RV0002,1,RG002,,Veritatis beatae a.,2021-11-25 16:29:14,3,2
-RV0003,1,RG003,,Ducimus non laboriosam.,2022-01-28 06:52:16,3,3
-RV0004,1,RG004,,Molestiae autem enim facere.,2022-01-18 04:44:37,3,4
-RV0005,1,RG005,,Natus ipsa est molestiae.,2022-04-28 15:54:21,3,1
-RV0006,1,RG006,,Iure dolorum molestiae debitis hic.,2021-11-21 21:00:42,4,2
-RV0007,1,RG007,,Consectetur quod temporibus alias aliquid.,2021-10-01 15:46:02,3,3
-RV0008,1,RG008,,Praesentium ipsam eius provident in.,2021-10-27 19:33:23,5,4
-RV0009,1,RG009,,Natus soluta sed modi nisi in.,2021-11-07 15:15:21,5,1
-RV0010,1,RG010,,Quo quo explicabo sint veritatis sit.,2022-04-14 16:18:26,4,2
-RV0011,2,,EV001,Nisi ea qui.,2021-12-13 17:18:12,3,1
-RV0012,2,,EV002,Enim sequi repellendus consequuntur quidem.,2022-06-01 18:12:25,5,2
-RV0013,2,,EV003,Ut id voluptatem minima.,2022-05-03 04:45:51,5,3
-RV0014,2,,EV004,Et et similique.,2022-01-22 18:06:26,5,4
+RV0001,1,RG001,,Tempat yang bagus untuk melihat dan mempelajari peninggalan sejarah,2021-11-14 16:05:23,3,1
+RV0002,1,RG002,,Fasilitas di rumah gadangnya masi autentik ,2021-11-25 16:29:14,4,2
+RV0003,1,RG003,,Tempatnya sangat mudah dikunjungi,2022-01-28 06:52:16,3,3
+RV0004,1,RG004,,Aplikasi ini memudahkan dalam mencari tempat wisata di sekitarnya,2022-01-18 04:44:37,5,4
+RV0005,1,RG005,,Menjadi salah satu tempat wisata sekaligus bisa melestarikan peninggalan sejarah,2022-04-28 15:54:21,4,1
+RV0006,1,RG006,,Tempat yang bagus untuk melihat dan mempelajari peninggalan sejarah,2021-11-21 21:00:42,4,2
+RV0007,1,RG007,,Fasilitas di rumah gadangnya masi autentik ,2021-10-01 15:46:02,3,3
+RV0008,1,RG008,,Tempatnya sangat mudah dikunjungi,2021-10-27 19:33:23,4,4
+RV0009,1,RG009,,Aplikasi ini memudahkan dalam mencari tempat wisata di sekitarnya,2021-11-07 15:15:21,5,1
+RV0010,1,RG010,,Menjadi salah satu tempat wisata sekaligus bisa melestarikan peninggalan sejarah,2022-04-14 16:18:26,5,2
+RV0011,2,,EV001,Nisi ea qui.,2021-12-13 17:18:12,5,1
+RV0012,2,,EV002,Enim sequi repellendus consequuntur quidem.,2022-06-01 18:12:25,4,2
+RV0013,2,,EV003,Ut id voluptatem minima.,2022-05-03 04:45:51,4,3
+RV0014,2,,EV004,Et et similique.,2022-01-22 18:06:26,4,4
 RV0015,2,,EV005,Necessitatibus sunt beatae quis molestias nisi.,2022-01-25 11:19:55,4,1
 RV0016,2,,EV006,Ab et aut rem.,2021-12-10 05:03:50,5,2
-RV0017,2,,EV007,Et maxime ratione quam.,2021-11-14 16:05:23,4,3
-RV0018,2,,EV008,Laboriosam expedita quia voluptatem et nostrum.,2021-11-25 16:29:14,3,4
-RV0019,2,,EV009,Eos nemo nobis qui vero.,2022-01-28 06:52:16,3,1
-RV0020,1,RG001,,Magnam nulla quia.,2022-01-18 04:44:37,5,2
-RV0021,1,RG002,,Quod quia blanditiis quia.,2022-04-28 15:54:21,3,3
-RV0022,1,RG003,,Magni quisquam inventore atque ea et.,2021-11-21 21:00:42,3,4
-RV0023,1,RG004,,Culpa explicabo quo omnis numquam.,2021-10-01 15:46:02,4,1
-RV0024,1,RG005,,Aspernatur iure voluptatem autem.,2021-10-27 19:33:23,4,2
-RV0025,1,RG006,,Fugiat libero libero qui beatae.,2021-11-07 15:15:21,4,3
-RV0026,1,RG007,,Voluptatem saepe sed magnam.,2022-04-14 16:18:26,4,4
-RV0027,1,RG008,,Eligendi eius sequi tenetur.,2021-12-13 17:18:12,3,1
-RV0028,1,RG009,,Rerum mollitia est et esse rerum.,2022-06-01 18:12:25,3,2
-RV0029,1,RG010,,Dolorem ipsa libero porro et.,2022-05-03 04:45:51,4,3
+RV0017,2,,EV007,Et maxime ratione quam.,2021-11-14 16:05:23,5,3
+RV0018,2,,EV008,Laboriosam expedita quia voluptatem et nostrum.,2021-11-25 16:29:14,5,4
+RV0019,2,,EV009,Eos nemo nobis qui vero.,2022-01-28 06:52:16,4,1
+RV0020,1,RG001,,Tempat yang bagus untuk melihat dan mempelajari peninggalan sejarah,2022-01-18 04:44:37,3,2
+RV0021,1,RG002,,Fasilitas di rumah gadangnya masi autentik ,2022-04-28 15:54:21,3,3
+RV0022,1,RG003,,Tempatnya sangat mudah dikunjungi,2021-11-21 21:00:42,5,4
+RV0023,1,RG004,,Aplikasi ini memudahkan dalam mencari tempat wisata di sekitarnya,2021-10-01 15:46:02,4,1
+RV0024,1,RG005,,Menjadi salah satu tempat wisata sekaligus bisa melestarikan peninggalan sejarah,2021-10-27 19:33:23,5,2
+RV0025,1,RG006,,Tempat yang bagus untuk melihat dan mempelajari peninggalan sejarah,2021-11-07 15:15:21,5,3
+RV0026,1,RG007,,Fasilitas di rumah gadangnya masi autentik ,2022-04-14 16:18:26,5,4
+RV0027,1,RG008,,Tempatnya sangat mudah dikunjungi,2021-12-13 17:18:12,3,1
+RV0028,1,RG009,,Aplikasi ini memudahkan dalam mencari tempat wisata di sekitarnya,2022-06-01 18:12:25,3,2
+RV0029,1,RG010,,Menjadi salah satu tempat wisata sekaligus bisa melestarikan peninggalan sejarah,2022-05-03 04:45:51,5,3
 RV0030,2,,EV001,Quod ut molestiae.,2022-01-22 18:06:26,5,4
-RV0031,2,,EV002,Dolor veniam laboriosam expedita quod qui.,2022-01-25 11:19:55,4,1
-RV0032,2,,EV003,Rem qui qui sed commodi.,2021-12-10 05:03:50,4,2
-RV0033,2,,EV004,Culpa non deleniti ipsa.,2021-11-14 16:05:23,4,3
-RV0034,2,,EV005,Omnis quia animi maxime.,2021-11-25 16:29:14,5,4
+RV0031,2,,EV002,Dolor veniam laboriosam expedita quod qui.,2022-01-25 11:19:55,5,1
+RV0032,2,,EV003,Rem qui qui sed commodi.,2021-12-10 05:03:50,5,2
+RV0033,2,,EV004,Culpa non deleniti ipsa.,2021-11-14 16:05:23,5,3
+RV0034,2,,EV005,Omnis quia animi maxime.,2021-11-25 16:29:14,4,4
 RV0035,2,,EV006,Vel tempora omnis.,2022-01-28 06:52:16,4,1
-RV0036,2,,EV007,Asperiores corporis molestias reprehenderit neque unde.,2022-01-18 04:44:37,4,2
-RV0037,2,,EV008,Officiis suscipit cumque quam.,2022-04-28 15:54:21,3,3
-RV0038,2,,EV009,Facere minima illo dolores maiores.,2021-11-21 21:00:42,4,4
+RV0036,2,,EV007,Asperiores corporis molestias reprehenderit neque unde.,2022-01-18 04:44:37,3,2
+RV0037,2,,EV008,Officiis suscipit cumque quam.,2022-04-28 15:54:21,5,3
+RV0038,2,,EV009,Facere minima illo dolores maiores.,2021-11-21 21:00:42,5,4

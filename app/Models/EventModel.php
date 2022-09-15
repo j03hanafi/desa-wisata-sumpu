@@ -84,7 +84,7 @@ class EventModel extends Model
         $radius = (int)$data['radius'] / 1000;
         $lat = $data['lat'];
         $long = $data['long'];
-        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians(ST_Y(ST_CENTROID({$this->table}.geom)))) * cos(radians(ST_X(ST_CENTROID({$this->table}.geom))) - radians({$long})) + sin(radians({$lat}))* sin(radians(ST_Y(ST_CENTROID({$this->table}.geom))))))";
+        $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians({$this->table}.lat)) * cos(radians({$this->table}.lng) - radians({$long})) + sin(radians({$lat}))* sin(radians({$this->table}.lat))))";
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.date_start,{$this->table}.date_end,{$this->table}.recurs,{$this->table}.max_recurs,{$this->table}.description,{$this->table}.ticket_price,{$this->table}.contact_person,{$this->table}.category_id,{$this->table}.owner,{$this->table}.video_url";
         $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
