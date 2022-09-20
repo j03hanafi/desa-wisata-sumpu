@@ -129,7 +129,9 @@ $edit = in_array('edit', $uri);
                                 <label for="video" class="form-label">Video</label>
                                 <input class="form-control" accept="video/*, .mkv" type="file" name="video" id="video">
                             </div>
-                            
+
+                            <input type="hidden" name="lat" id="lat">
+                            <input type="hidden" name="lng" id="lng">
                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>

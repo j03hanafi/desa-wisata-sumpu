@@ -141,10 +141,12 @@ class Event extends ResourcePresenter
             'recurs' => $request['repeat'],
             'max_recurs' => $request['occurrence'],
             'description' => $request['description'],
-            'ticket_price' => $request['ticket_price'],
+            'ticket_price' => empty($request['ticket_price']) ? "0" : $request['ticket_price'],
             'contact_person' => $request['contact_person'],
             'category_id' => $request['category'],
             'owner' => $request['owner'],
+            'lat' => $request['lat'],
+            'lng' => $request['lng'],
         ];
         foreach ($requestData as $key => $value) {
             if(empty($value)) {
@@ -233,10 +235,12 @@ class Event extends ResourcePresenter
             'date_start' => $request['date_start'],
             'date_end' => $request['date_end'],
             'description' => $request['description'],
-            'ticket_price' => $request['ticket_price'],
+            'ticket_price' => empty($request['ticket_price']) ? "0" : $request['ticket_price'],
             'contact_person' => $request['contact_person'],
             'category_id' => $request['category'],
             'owner' => $request['owner'],
+            'lat' => $request['lat'],
+            'lng' => $request['lng'],
         ];
         foreach ($requestData as $key => $value) {
             if(empty($value)) {

@@ -1401,6 +1401,8 @@ function deleteSelectedShape() {
         document.getElementById('latitude').value = '';
         document.getElementById('longitude').value = '';
         document.getElementById('geo-json').value = '';
+        document.getElementById('lat').value = '';
+        document.getElementById('lng').value = '';
         clearMarker();
         selectedShape.setMap(null);
         // To show:
@@ -1508,6 +1510,8 @@ function saveSelection(shape) {
 
     document.getElementById('latitude').value = pos.lat().toFixed(8);
     document.getElementById('longitude').value = pos.lng().toFixed(8);
+    document.getElementById('lat').value = pos.lng().toFixed(8);
+    document.getElementById('lng').value = pos.lng().toFixed(8);
 
     const dataLayer = new google.maps.Data();
     dataLayer.add(new google.maps.Data.Feature({

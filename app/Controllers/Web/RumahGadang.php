@@ -123,11 +123,13 @@ class RumahGadang extends ResourcePresenter
             'address' => $request['address'],
             'open' => $request['open'],
             'close' => $request['close'],
-            'ticket_price' => empty($request['ticket_price']) ?? "0",
+            'ticket_price' => empty($request['ticket_price']) ? "0" : $request['ticket_price'],
             'contact_person' => $request['contact_person'],
             'status' => $request['status'],
             'owner' => $request['owner'],
             'description' => $request['description'],
+            'lat' => $request['lat'],
+            'lng' => $request['lng'],
         ];
         foreach ($requestData as $key => $value) {
             if(empty($value)) {
@@ -228,11 +230,13 @@ class RumahGadang extends ResourcePresenter
             'address' => $request['address'],
             'open' => $request['open'],
             'close' => $request['close'],
-            'ticket_price' => empty($request['ticket_price']) ?? '0',
+            'ticket_price' => empty($request['ticket_price']) ? '0' : $request['ticket_price'],
             'contact_person' => $request['contact_person'],
             'status' => $request['status'],
             'owner' => $request['owner'],
             'description' => $request['description'],
+            'lat' => $request['lat'],
+            'lng' => $request['lng'],
         ];
         foreach ($requestData as $key => $value) {
             if(empty($value)) {
