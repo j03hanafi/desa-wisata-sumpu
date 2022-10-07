@@ -136,7 +136,6 @@ class Users extends ResourcePresenter
         
         if (!empty($request['password'])){
             $rules = [
-                'password'     => 'strong_password',
                 'pass_confirm' => 'matches[password]',
             ];
     

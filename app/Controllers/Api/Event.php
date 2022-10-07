@@ -415,7 +415,11 @@ class Event extends ResourceController
             $event = (array)$event;
         }
         $start_date = new DateTimeImmutable($event['date_start']);
-        if ($event['max_recurs'] == null) {
+        if ($event['max_recurs'] == null && $event['date_end'] == null)
+        {
+            $end_date = $start_date;
+        }
+        elseif ($event['max_recurs'] == null) {
             $end_date = new DateTimeImmutable($event['date_end']);
         } elseif ($event['date_end'] == null) {
             $end_date = $start_date->modify("+{$event['max_recurs']} {$event['recurs']}");
@@ -428,11 +432,13 @@ class Event extends ResourceController
                 $end_date = $dateFromEnd;
             }
         }
-    
+        
         $calendar = array();
         $now = new DateTimeImmutable('now');
         if ($event['recurs'] == 'none') {
             $calendar[] =$start_date->format('Y-m-d');
+        } elseif ($end_date == $start_date) {
+            $calendar[] = $event['date_start'];
         }
         else {
             $interval = DateInterval::createFromDateString("1 {$event['recurs']}");

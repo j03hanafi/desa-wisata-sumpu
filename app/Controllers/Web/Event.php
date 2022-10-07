@@ -338,6 +338,8 @@ class Event extends ResourcePresenter
         $now = new DateTimeImmutable('now');
         if ($event['recurs'] == 'none') {
             $calendar[] =$start_date->format('Y-m-d');
+        } elseif ($end_date == $start_date) {
+            $calendar[] = $event['date_start'];
         }
         else {
             $interval = DateInterval::createFromDateString("1 {$event['recurs']}");

@@ -83,7 +83,7 @@ function digitVillage() {
         url: baseUrl + '/api/village',
         type: 'POST',
         data: {
-            village: 'VIL02'
+            village: 'VIL01'
         },
         dataType: 'json',
         success: function (response) {
@@ -1467,7 +1467,24 @@ function initDrawingManager(edit = false) {
         newShape = drawGeom();
         newShape.type = 'polygon';
         setSelection(newShape);
-        saveSelection(newShape);
+
+        const paths = newShape.getPath().getArray();
+        let bounds = new google.maps.LatLngBounds();
+        for (let i = 0; i < paths.length; i++) {
+            bounds.extend(paths[i])
+        }
+        let pos = bounds.getCenter();
+        map.panTo(pos);
+
+        clearMarker();
+        let marker = new google.maps.Marker();
+        markerOption = {
+            position: pos,
+            animation: google.maps.Animation.DROP,
+            map: map,
+        }
+        marker.setOptions(markerOption);
+        markerArray['newRG'] = marker;
 
         google.maps.event.addListener(newShape, 'click', function() {
             setSelection(newShape);
@@ -1510,7 +1527,7 @@ function saveSelection(shape) {
 
     document.getElementById('latitude').value = pos.lat().toFixed(8);
     document.getElementById('longitude').value = pos.lng().toFixed(8);
-    document.getElementById('lat').value = pos.lng().toFixed(8);
+    document.getElementById('lat').value = pos.lat().toFixed(8);
     document.getElementById('lng').value = pos.lng().toFixed(8);
 
     const dataLayer = new google.maps.Data();

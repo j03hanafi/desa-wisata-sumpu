@@ -68,18 +68,18 @@ $edit = in_array('edit', $uri);
                             <fieldset class="form-group mb-4">
                                 <label for="repeatSelect" class="mb-2">Repeat</label>
                                 <select class="form-select" id="repeatSelect" name="repeat" onchange="triggerOccur();">
-                                    <option value="none" selected>None</option>
-                                    <option value="day">Daily</option>
-                                    <option value="week">Weekly</option>
-                                    <option value="month">Monthly</option>
-                                    <option value="year">Yearly</option>
+                                    <option value="none" <?= ($edit && $data['recurs'] == 'none') ? 'selected' : ''; ?>>None</option>
+                                    <option value="day" <?= ($edit && $data['recurs'] == 'day') ? 'selected' : ''; ?>>Daily</option>
+                                    <option value="week" <?= ($edit && $data['recurs'] == 'week') ? 'selected' : ''; ?>>Weekly</option>
+                                    <option value="month" <?= ($edit && $data['recurs'] == 'month') ? 'selected' : ''; ?>>Monthly</option>
+                                    <option value="year" <?= ($edit && $data['recurs'] == 'year') ? 'selected' : ''; ?>>Yearly</option>
                                 </select>
                             </fieldset>
                             <div class="form-group mb-4">
                                 <label for="occurrence" class="mb-2">Occurrence</label>
                                 <div class="input-group">
                                     <input type="number" id="occurrence" class="form-control"
-                                           name="occurrence" placeholder="Occurrence" readonly="readonly" min="1">
+                                           name="occurrence" placeholder="Occurrence" <?= ($edit && $data['recurs'] != 'none') ? '' : 'readonly="readonly"'; ?> min="1" value="<?= ($edit) ? $data['max_recurs'] : ''; ?>">
                                 </div>
                             </div>
                             <div class="form-group mb-4">
@@ -130,8 +130,8 @@ $edit = in_array('edit', $uri);
                                 <input class="form-control" accept="video/*, .mkv" type="file" name="video" id="video">
                             </div>
 
-                            <input type="hidden" name="lat" id="lat">
-                            <input type="hidden" name="lng" id="lng">
+                            <input type="hidden" name="lat" id="lat" value="<?= ($edit) ? $data['lat'] : old('lat'); ?>">
+                            <input type="hidden" name="lng" id="lng" value="<?= ($edit) ? $data['lng'] : old('lng'); ?>">
                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -152,13 +152,13 @@ $edit = in_array('edit', $uri);
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. -0.52435750">
+                                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. -0.52435750" value="<?= ($edit) ? $data['lat'] : ''; ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Longitude</label>
-                                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 100.49234850">
+                                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 100.49234850" value="<?= ($edit) ? $data['lng'] : ''; ?>">
                             </div>
                         </div>
                         <div class="col-auto mx-1">

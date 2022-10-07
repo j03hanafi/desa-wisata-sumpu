@@ -61,7 +61,7 @@
                                 <div class="col-12 mb-3">
                                     <div class="form-group">
                                         <label for="phone" class="mb-2">Phone</label>
-                                        <input type="number" id="phone" class="form-control"
+                                        <input type="tel" id="phone" class="form-control"
                                                name="phone" placeholder="Phone" value="<?= (user()->phone == '') ? '' : user()->phone; ?>">
                                     </div>
                                 </div>

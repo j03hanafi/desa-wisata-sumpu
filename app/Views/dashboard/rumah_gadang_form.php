@@ -126,8 +126,8 @@ $edit = in_array('edit', $uri);
                                 <input class="form-control" accept="video/*, .mkv" type="file" name="video" id="video">
                             </div>
 
-                            <input type="hidden" name="lat" id="lat">
-                            <input type="hidden" name="lng" id="lng">
+                            <input type="hidden" name="lat" id="lat" value="<?= ($edit) ? $data['lat'] : old('lat'); ?>">
+                            <input type="hidden" name="lng" id="lng" value="<?= ($edit) ? $data['lng'] : old('lng'); ?>">
                             <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1">Reset</button>
@@ -148,13 +148,13 @@ $edit = in_array('edit', $uri);
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. -0.52435750">
+                                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="eg. -0.52435750" value="<?= ($edit) ? $data['lat'] : ''; ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Longitude</label>
-                                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 100.49234850">
+                                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="eg. 100.49234850" value="<?= ($edit) ? $data['lng'] : ''; ?>">
                             </div>
                         </div>
                         <div class="col-auto mx-1">
