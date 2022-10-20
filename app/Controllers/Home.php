@@ -2,11 +2,13 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Session\Session;
 use Myth\Auth\Config\Auth as AuthConfig;
 
 class Home extends BaseController
 {
+    use ResponseTrait;
     protected $auth;
     
     /**
@@ -50,5 +52,23 @@ class Home extends BaseController
     public function error403()
     {
         return view('errors/html/error_403');
+    }
+    
+    public function dbCheck()
+    {
+        $db = db_connect();
+        $content = [
+            'Platform' => $db->getPlatform(),
+            'Version' => $db->getVersion(),
+            'Database' => $db->getDatabase(),
+        ];
+        $response = [
+            'data' => $content,
+            'status' => 200,
+            'message' => [
+                "Successfully Connected to Database"
+            ]
+        ];
+        return $this->respond($response);
     }
 }

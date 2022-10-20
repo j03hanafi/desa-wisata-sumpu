@@ -35,6 +35,7 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+$routes->get('/api/dbCheck', 'Home::dbCheck');
 $routes->get('/', 'LandingPage::index');
 $routes->get('/403', 'Home::error403');
 $routes->get('/login', 'Web\Profile::login');
