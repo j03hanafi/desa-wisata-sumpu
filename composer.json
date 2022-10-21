@@ -9,8 +9,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
-      "ext-json": "*",
-        "myth/auth": "^1.0"
+      "ext-json": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
