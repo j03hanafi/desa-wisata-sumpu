@@ -9,8 +9,8 @@
                         <h3 class="card-title">Manage <?= $category; ?></h3>
                     </div>
                     <div class="col">
-                        <a class="btn btn-primary float-end" id="recomBtnExit" onclick="changeRecom('exit');"><i class="fa-solid fa-floppy-disk me-3"></i>Exit Edit</a>
-                        <a class="btn btn-primary float-end" id="recomBtnEdit" onclick="changeRecom('edit');"><i class="fa-solid fa-pencil me-3"></i>Enter Edit</a>
+                        <a class="btn btn-primary float-end" id="recomBtnExit" onclick="changeRecom('exit');"><i class="fa-solid fa-floppy-disk me-3"></i> Save</a>
+                        <a class="btn btn-primary float-end" id="recomBtnEdit" onclick="changeRecom('edit');"><i class="fa-solid fa-pencil me-3"></i> Edit</a>
                     </div>
                 </div>
             </div>
