@@ -116,9 +116,42 @@
         styleButtonRemoveItemPosition: 'center bottom',
         credits: false,
     });
-    pond.addFile(`<?= base_url('media/photos/' . user()->avatar); ?>`);
+    pond.addFile(`<?= base_url('media/photos/' . user()->avatar); ?>`)
+        .then((file) => {
+            console.log(file.filename, "has been added")
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     FilePond.setOptions({
-        server: '/upload/avatar'
+        server: {
+            timeout: 7000,
+            process: {
+                url: '/upload/avatar',
+                onload: (response) => {
+                    console.log("processed:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+            revert: {
+                url: '/upload/avatar',
+                onload: (response) => {
+                    console.log("reverted:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+        }
     })
+    // FilePond.setOptions({
+    //     server: '/upload/avatar'
+    // })
 </script>
 <?= $this->endSection() ?>

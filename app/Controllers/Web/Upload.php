@@ -17,22 +17,35 @@ class Upload extends ResourceController
     {
         $folder = uniqid() . '-' . date('YmdHis');
         $img = $this->request->getFile('avatar');
-        $originalName = $img->getName();
-        if (!$img->hasMoved() && $originalName != 'default.jpg') {
-            $file = $img->getRandomName();
-            mkdir(WRITEPATH . 'uploads/' . $folder);
-            $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
-            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+        if ($img != null) {
+            $originalName = $img->getName();
+            if (!$img->hasMoved() && $originalName != 'default.jpg') {
+                $file = $img->getRandomName();
+                $createdFolder = mkdir(WRITEPATH . 'uploads/' . $folder);
+                if ($createdFolder) {
+                    $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
+                    return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+                }
+                $error = "failed create temp folder. Folder: " . $folder . "; Filename:" . $file;
+                return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody($error);
+            }
+            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($originalName);
         }
-        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($originalName);
+        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody("file is null, upload failed");
     }
     
     public function remove() {
         $folder = $this->request->getBody();
         if ($folder != 'default.jpg'){
             $filepath = WRITEPATH . 'uploads/' . $folder;
-            delete_files($filepath);
-            rmdir($filepath);
+            $deleteFile = delete_files($filepath);
+            if (!$deleteFile) {
+                return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody("Failed deleting files in directory: ". $filepath);
+            }
+            $removeDir = rmdir($filepath);
+            if (!$removeDir) {
+                return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody("Failed deleting directory: ". $filepath);
+            }
             return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($filepath);
         }
         return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
