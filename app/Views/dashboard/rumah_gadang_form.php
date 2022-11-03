@@ -240,6 +240,7 @@ $edit = in_array('edit', $uri);
     <?php endif; ?>
     pond.setOptions({
         server: {
+            timeout: 3600000,
             process: {
                 url: '/upload/photo',
                 onload: (response) => {
@@ -270,6 +271,7 @@ $edit = in_array('edit', $uri);
     <?php endif; ?>
     vidPond.setOptions({
         server: {
+            timeout: 86400000,
             process: {
                 url: '/upload/video',
                 onload: (response) => {

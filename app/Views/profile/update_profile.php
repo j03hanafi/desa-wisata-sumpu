@@ -125,6 +125,7 @@
         })
     FilePond.setOptions({
         server: {
+            timeout: 3600000,
             process: {
                 url: '/upload/avatar',
                 onload: (response) => {
