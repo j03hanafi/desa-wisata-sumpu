@@ -55,27 +55,41 @@ class Upload extends ResourceController
     {
         $folder = uniqid() . '-' . date('YmdHis');
         $files = $this->request->getFileMultiple('gallery');
-        foreach ($files as $img) {
-            if (!$img->hasMoved()) {
-                $file = $img->getRandomName();
-                mkdir(WRITEPATH . 'uploads/' . $folder);
-                $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
-                return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+        if ($files != null) {
+            foreach ($files as $img) {
+                if (!$img->hasMoved()) {
+                    $file = $img->getRandomName();
+                    $createdFolder = mkdir(WRITEPATH . 'uploads/' . $folder);
+                    if ($createdFolder) {
+                        $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
+                        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+                    }
+                    $error = "failed create temp folder. Folder: " . $folder . "; Filename:" . $file;
+                    return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody($error);
+                }
             }
+            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody('');
         }
-        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody('');
+        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody("file is null, upload failed");
     }
     
     public function video()
     {
         $folder = uniqid() . '-' . date('YmdHis');
         $img = $this->request->getFile('video');
-        if (!$img->hasMoved()) {
-            $file = $img->getRandomName();
-            mkdir(WRITEPATH . 'uploads/' . $folder);
-            $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
-            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+        if ($img != null) {
+            if (!$img->hasMoved()) {
+                $file = $img->getRandomName();
+                $createdFolder = mkdir(WRITEPATH . 'uploads/' . $folder);
+                if ($createdFolder) {
+                    $filepath = WRITEPATH . 'uploads/' . $img->store($folder, $file);
+                    return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody($folder);
+                }
+                $error = "failed create temp folder. Folder: " . $folder . "; Filename:" . $file;
+                return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody($error);
+            }
+            return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody('');
         }
-        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(200)->setBody('');
+        return $this->response->setHeader('Content-Type', 'text/plain')->setStatusCode(400)->setBody("file is null, upload failed");
     }
 }

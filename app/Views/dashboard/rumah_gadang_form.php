@@ -239,14 +239,60 @@ $edit = in_array('edit', $uri);
     );
     <?php endif; ?>
     pond.setOptions({
-        server: '/upload/photo'
+        server: {
+            process: {
+                url: '/upload/photo',
+                onload: (response) => {
+                    console.log("processed:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+            revert: {
+                url: '/upload/photo',
+                onload: (response) => {
+                    console.log("reverted:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+        }
     });
 
     <?php if ($edit && $data['video_url'] != null): ?>
     vidPond.addFile(`<?= base_url('media/videos/' . $data['video_url']); ?>`)
     <?php endif; ?>
     vidPond.setOptions({
-        server: '/upload/video'
+        server: {
+            process: {
+                url: '/upload/video',
+                onload: (response) => {
+                    console.log("processed:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+            revert: {
+                url: '/upload/video',
+                onload: (response) => {
+                    console.log("reverted:", response);
+                    return response
+                },
+                onerror: (response) => {
+                    console.log("error:", response);
+                    return response
+                },
+            },
+        }
     });
 </script>
 <?= $this->endSection() ?>

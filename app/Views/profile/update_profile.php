@@ -125,7 +125,6 @@
         })
     FilePond.setOptions({
         server: {
-            timeout: 7000,
             process: {
                 url: '/upload/avatar',
                 onload: (response) => {
@@ -150,8 +149,5 @@
             },
         }
     })
-    // FilePond.setOptions({
-    //     server: '/upload/avatar'
-    // })
 </script>
 <?= $this->endSection() ?>
