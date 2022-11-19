@@ -1,8 +1,8 @@
 id,souvenir_place_id,url
-IMG0001,SP001,sp001.jpg
-IMG0005,SP005,sp005a.jpeg
-IMG0006,SP005,sp005b.jpeg
-IMG0007,SP006,sp006a.jpeg
-IMG0008,SP006,sp006b.jpeg
-IMG0009,SP006,sp006c.jpeg
-IMG0010,SP006,sp006d.jpeg
+001,S1,sp001.jpg
+002,S2,sp005a.jpeg
+003,S2,sp005b.jpeg
+004,S3,sp006a.jpeg
+005,S3,sp006b.jpeg
+006,S3,sp006c.jpeg
+007,S3,sp006d.jpeg

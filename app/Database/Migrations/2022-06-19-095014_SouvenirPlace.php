@@ -11,16 +11,16 @@ class SouvenirPlace extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 2,
                 'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 40,
             ],
             'address' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 100,
                 'null' => true,
             ],
             'contact_person' => [

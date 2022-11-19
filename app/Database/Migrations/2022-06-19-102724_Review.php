@@ -11,22 +11,22 @@ class Review extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 7,
+                'constraint' => 4,
                 'unique' => true,
             ],
             'rumah_gadang_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'null' => true,
             ],
             'event_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'null' => true,
             ],
             'status' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 1,
                 'default' => 0,
             ],
             'comment' => [

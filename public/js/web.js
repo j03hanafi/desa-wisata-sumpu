@@ -83,7 +83,7 @@ function digitVillage() {
         url: baseUrl + '/api/village',
         type: 'POST',
         data: {
-            village: 'VIL01'
+            village: '1'
         },
         dataType: 'json',
         success: function (response) {
@@ -265,15 +265,15 @@ function objectMarker(id, lat, lng, anim = true) {
     let marker = new google.maps.Marker();
 
     let icon;
-    if (id.substring(0,2) === "RG") {
+    if (id.substring(0,1) === "R") {
         icon = baseUrl + '/media/icon/marker_rg.png';
-    } else if (id.substring(0,2) === "CP") {
+    } else if (id.substring(0,1) === "C") {
         icon = baseUrl + '/media/icon/marker_cp.png';
-    } else if (id.substring(0,2) === "WP") {
+    } else if (id.substring(0,1) === "W") {
         icon = baseUrl + '/media/icon/marker_wp.png';
-    } else if (id.substring(0,2) === "SP") {
+    } else if (id.substring(0,1) === "S") {
         icon = baseUrl + '/media/icon/marker_sp.png';
-    } else if (id.substring(0,2) === "EV") {
+    } else if (id.substring(0,1) === "E") {
         icon = baseUrl + '/media/icon/marker_ev.png';
     }
 
@@ -301,7 +301,7 @@ function objectInfoWindow(id){
     let contentButton = '';
     let contentMobile = '';
 
-    if (id.substring(0,2) === "RG") {
+    if (id.substring(0,1) === "R") {
         $.ajax({
             url: baseUrl + '/api/rumahGadang/' + id,
             dataType: 'json',
@@ -344,7 +344,7 @@ function objectInfoWindow(id){
                 }
             }
         });
-    } else if (id.substring(0,2) === "EV") {
+    } else if (id.substring(0,1) === "E") {
         const months = [
             'January',
             'February',
@@ -403,7 +403,7 @@ function objectInfoWindow(id){
                 }
             }
         });
-    } else if (id.substring(0,2) === "CP") {
+    } else if (id.substring(0,1) === "C") {
         $.ajax({
             url: baseUrl + '/api/culinaryPlace/' + id,
             dataType: 'json',
@@ -419,7 +419,7 @@ function objectInfoWindow(id){
                 infoWindow.setContent(content);
             }
         });
-    } else if (id.substring(0,2) === "WP") {
+    } else if (id.substring(0,1) === "W") {
         $.ajax({
             url: baseUrl + '/api/worshipPlace/' + id,
             dataType: 'json',
@@ -435,7 +435,7 @@ function objectInfoWindow(id){
                 infoWindow.setContent(content);
             }
         });
-    } else if (id.substring(0,2) === "SP") {
+    } else if (id.substring(0,1) === "S") {
         $.ajax({
             url: baseUrl + '/api/souvenirPlace/' + id,
             dataType: 'json',
@@ -799,7 +799,7 @@ function displayNearbyResult(category, response) {
 // Show modal for object
 function infoModal(id) {
     let title, content;
-    if (id.substring(0,2) === "CP") {
+    if (id.substring(0,1) === "C") {
         $.ajax({
             url: baseUrl + '/api/culinaryPlace/' + id,
             dataType: 'json',
@@ -842,7 +842,7 @@ function infoModal(id) {
                 });
             }
         });
-    } else if (id.substring(0,2) === "WP") {
+    } else if (id.substring(0,1) === "W") {
         $.ajax({
             url: baseUrl + '/api/worshipPlace/' + id,
             dataType: 'json',
@@ -883,7 +883,7 @@ function infoModal(id) {
                 });
             }
         });
-    } else if (id.substring(0,2) === "SP") {
+    } else if (id.substring(0,1) === "S") {
         $.ajax({
             url: baseUrl + '/api/souvenirPlace/' + id,
             dataType: 'json',
@@ -1594,18 +1594,18 @@ function deleteObject(id = null, name = null, user = false) {
     }
 
     let content, apiUri;
-    if (id.substring(0,2) === 'RG') {
+    if (id.substring(0,1) === 'R') {
         content = 'Rumah Gadang';
         apiUri = 'rumahGadang/';
-    } else if (id.substring(0,2) === 'EV') {
+    } else if (id.substring(0,1) === 'E') {
         content = 'Event';
         apiUri = 'event/'
-    } else if (id.substring(0,2) === 'FC') {
-        content = 'Facility';
-        apiUri = 'facility/'
     } else if (user === true) {
         content = 'User';
         apiUri = 'user/'
+    } else  {
+        content = 'Facility';
+        apiUri = 'facility/'
     }
 
     Swal.fire({

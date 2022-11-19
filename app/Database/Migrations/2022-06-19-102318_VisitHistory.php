@@ -11,7 +11,7 @@ class VisitHistory extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'unique' => true,
             ],
             'user_id' => [
@@ -21,12 +21,12 @@ class VisitHistory extends Migration
             ],
             'object_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'null' => true,
             ],
             'category' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 1,
                 'default' => '0',
             ],
             'date_visit' => [

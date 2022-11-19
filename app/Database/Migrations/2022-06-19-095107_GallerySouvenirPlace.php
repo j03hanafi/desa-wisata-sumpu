@@ -11,16 +11,16 @@ class GallerySouvenirPlace extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 7,
+                'constraint' => 3,
                 'unique' => true,
             ],
             'souvenir_place_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 2,
             ],
             'url' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 100,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',

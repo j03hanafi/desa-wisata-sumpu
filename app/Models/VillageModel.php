@@ -26,7 +26,7 @@ class VillageModel extends Model
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $query = $this->db->table($this->table)
             ->select("id, name")
-            ->where('id', 'VIL01')
+            ->where('id', '1')
             ->get();
         return $query;
     }
@@ -35,7 +35,7 @@ class VillageModel extends Model
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $query = $this->db->table($this->table)
             ->select("id, name")
-            ->where('id', 'VIL02')
+            ->where('id', '2')
             ->get();
         return $query;
     }

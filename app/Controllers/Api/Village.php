@@ -19,7 +19,7 @@ class Village extends BaseController
     {
         $request = $this->request->getPost();
         $village = $request['village'];
-        if ($village == 'VIL01') {
+        if ($village == '1') {
             $vilProperty = $this->villageModel->get_sumpur_api()->getRowArray();
             $geoJson = json_decode($this->villageModel->get_geoJson_api($village)->getRowArray()['geoJson']);
             $content = [
@@ -38,7 +38,7 @@ class Village extends BaseController
                 ]
             ];
             return $this->respond($response);
-        } elseif ($village == 'VIL02') {
+        } elseif ($village == '2') {
             $vilProperty = $this->villageModel->get_desa_wisata_api()->getRowArray();
             $geoJson = json_decode($this->villageModel->get_geoJson_api($village)->getRowArray()['geoJson']);
             $content = [

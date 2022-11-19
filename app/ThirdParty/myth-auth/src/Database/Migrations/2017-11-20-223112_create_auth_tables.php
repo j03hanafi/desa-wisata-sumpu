@@ -11,13 +11,13 @@ class CreateAuthTables extends Migration
          */
         $this->forge->addField([
             'id'               => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'email'            => ['type' => 'varchar', 'constraint' => 255],
+            'email'            => ['type' => 'varchar', 'constraint' => 50],
             'username'         => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
-            'first_name'       => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-            'last_name'        => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-            'address'          => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+            'first_name'       => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => true],
+            'last_name'        => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => true],
+            'address'          => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'phone'            => ['type' => 'VARCHAR', 'constraint' => 13, 'null' => true],
-            'avatar'            => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'default' => 'default.jpg'],
+            'avatar'            => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true, 'default' => 'default.jpg'],
             'password_hash'    => ['type' => 'varchar', 'constraint' => 255],
             'reset_hash'       => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'reset_at'         => ['type' => 'datetime', 'null' => true],

@@ -1,6 +1,6 @@
 id,worship_place_id,url
-IMG0001,WP001,wp001.jpg
-IMG0003,WP002,wp003.jpg
-IMG0004,WP003,wp004.jpg
-IMG0008,WP004,wp008.jpg
-IMG0010,WP005,wp010.jpg
+001,W1,wp001.jpg
+002,W2,wp003.jpg
+003,W3,wp004.jpg
+004,W4,wp008.jpg
+005,W5,wp010.jpg

@@ -11,7 +11,7 @@ class CategoryEvent extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 1,
                 'unique' => true,
             ],
             'category' => [

@@ -11,16 +11,16 @@ class Village extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 1,
                 'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 50,
             ],
             'district' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 30,
                 'null' => true,
             ],
             'geom' => [

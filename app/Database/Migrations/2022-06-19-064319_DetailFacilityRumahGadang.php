@@ -11,16 +11,16 @@ class DetailFacilityRumahGadang extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 6,
+                'constraint' => 3,
                 'unique' => true,
             ],
             'rumah_gadang_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
             ],
             'facility_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 2,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',

@@ -1,11 +1,11 @@
 id,facility
-FC001,Balai Pertemuan
-FC002,Cafetaria
-FC003,Jungle Tracking
-FC004,Kuliner
-FC005,Musholla
-FC006,Outbound
-FC007,Selfie Area
-FC008,Spot Foto
-FC009,Tempat makan
-FC010,Wifi Area
+01,Balai Pertemuan
+02,Cafetaria
+03,Jungle Tracking
+04,Kuliner
+05,Musholla
+06,Outbound
+07,Selfie Area
+08,Spot Foto
+09,Tempat makan
+10,Wifi Area

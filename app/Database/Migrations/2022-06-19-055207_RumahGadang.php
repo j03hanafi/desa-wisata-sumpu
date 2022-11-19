@@ -13,16 +13,16 @@ class RumahGadang extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 40,
             ],
             'address' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 100,
                 'null' => true,
             ],
             'open' => [
@@ -57,13 +57,13 @@ class RumahGadang extends Migration
             ],
             'status' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 20,
                 'null' => true,
             ],
             'recom' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
-                'default' => 'REC02',
+                'constraint' => 1,
+                'default' => '2',
                 'null' => true,
             ],
             'owner' => [
@@ -77,7 +77,7 @@ class RumahGadang extends Migration
             ],
             'video_url' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 100,
                 'null' => true,
             ],
             'created_at' => [

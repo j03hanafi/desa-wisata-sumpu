@@ -11,12 +11,12 @@ class FacilityRumahGadang extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 2,
                 'unique' => true,
             ],
             'facility' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 50,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',

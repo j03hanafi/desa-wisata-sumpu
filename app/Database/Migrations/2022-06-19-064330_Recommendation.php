@@ -11,12 +11,12 @@ class Recommendation extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 1,
                 'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 30,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',

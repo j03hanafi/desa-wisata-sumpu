@@ -11,12 +11,12 @@ class Event extends Migration
         $fields = [
             'id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 5,
+                'constraint' => 3,
                 'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 40,
             ],
             'date_start' => [
                 'type' => 'DATE',
@@ -28,7 +28,7 @@ class Event extends Migration
             ],
             'recurs' => [
                 'type' => 'VARCHAR',
-                'constraint' => 50,
+                'constraint' => 10,
                 'null' => true,
             ],
             'max_recurs' => [
@@ -73,7 +73,7 @@ class Event extends Migration
             ],
             'video_url' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 100,
                 'null' => true,
             ],
             'created_at' => [

@@ -29,7 +29,7 @@ class WorshipPlaceModel extends Model
     public function get_list_wp_api() {
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.park_area_size,{$this->table}.building_size,{$this->table}.capacity,{$this->table}.last_renovation,{$this->table}.description";
-        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $vilGeom = "village.id = '1' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
             ->select("{$columns}, worship_place.lat, worship_place.lng")
             ->from('village')
@@ -50,7 +50,7 @@ class WorshipPlaceModel extends Model
     public function get_wp_by_id_api($id = null) {
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.park_area_size,{$this->table}.building_size,{$this->table}.capacity,{$this->table}.last_renovation,{$this->table}.description";
-        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $vilGeom = "village.id = '1' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
             ->select("{$columns}, worship_place.lat, worship_place.lng")
             ->from('village')
@@ -67,7 +67,7 @@ class WorshipPlaceModel extends Model
         $jarak = "(6371 * acos(cos(radians({$lat})) * cos(radians({$this->table}.lat)) * cos(radians({$this->table}.lng) - radians({$long})) + sin(radians({$lat}))* sin(radians({$this->table}.lat))))";
         // $coords = "ST_Y(ST_Centroid({$this->table}.geom)) AS lat, ST_X(ST_Centroid({$this->table}.geom)) AS lng";
         $columns = "{$this->table}.id,{$this->table}.name,{$this->table}.address,{$this->table}.park_area_size,{$this->table}.building_size,{$this->table}.capacity,{$this->table}.last_renovation,{$this->table}.description";
-        $vilGeom = "village.id = 'VIL01' AND ST_Contains(village.geom, {$this->table}.geom)";
+        $vilGeom = "village.id = '1' AND ST_Contains(village.geom, {$this->table}.geom)";
         $query = $this->db->table($this->table)
             ->select("{$columns}, worship_place.lat, worship_place.lng, {$jarak} as jarak")
             ->from('village')
@@ -79,8 +79,8 @@ class WorshipPlaceModel extends Model
 
     public function get_new_id_api() {
         $lastId = $this->db->table($this->table)->select('id')->orderBy('id', 'ASC')->get()->getLastRow('array');
-        $count = (int)substr($lastId['id'], 2);
-        $id = sprintf('WP%03d', $count + 1);
+        $count = (int)substr($lastId['id'], 1);
+        $id = sprintf('W%01d', $count + 1);
         return $id;
     }
 
