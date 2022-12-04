@@ -93,6 +93,7 @@
 <?= $this->section('javascript'); ?>
 <script>
     FilePond.registerPlugin(
+        FilePondPluginFileValidateSize,
         FilePondPluginFileValidateType,
         FilePondPluginImageExifOrientation,
         FilePondPluginImagePreview,
@@ -106,6 +107,8 @@
 
     // Create a FilePond instance
     const pond = FilePond.create(inputElement, {
+        maxFileSize: '1920MB',
+        maxTotalFileSize: '1920MB',
         labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
         imagePreviewHeight: 300,
         imageCropAspectRatio: '1:1',

@@ -181,6 +181,7 @@ $edit = in_array('edit', $uri);
 <?= $this->endSection() ?>
 
 <?= $this->section('javascript') ?>
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
@@ -210,6 +211,7 @@ $edit = in_array('edit', $uri);
 </script>
 <script>
     FilePond.registerPlugin(
+        FilePondPluginFileValidateSize,
         FilePondPluginFileValidateType,
         FilePondPluginImageExifOrientation,
         FilePondPluginImagePreview,
@@ -223,11 +225,15 @@ $edit = in_array('edit', $uri);
 
     // Create a FilePond instance
     const pond = FilePond.create(photo, {
+        maxFileSize: '1920MB',
+        maxTotalFileSize: '1920MB',
         imageResizeTargetHeight: 720,
         imageResizeUpscale: false,
         credits: false,
     });
     const vidPond = FilePond.create(video, {
+        maxFileSize: '1920MB',
+        maxTotalFileSize: '1920MB',
         credits: false,
     })
     
