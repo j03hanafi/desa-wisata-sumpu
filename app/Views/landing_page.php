@@ -268,6 +268,43 @@
     </div>
     <!-- Award End -->
 
+    <!--  CHSE Start  -->
+    <div
+            class="container-xxl btn-primary py-5 wow fadeInUp"
+            data-wow-delay="0.1s"
+            id="award"
+    >
+        <div class="container-fluid text-center mt-3">
+            <div class="row text-white">
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 container-strech mb-3">
+                    <div class="mask-group-1 d-flex flex-row align-items-center justify-content-evenly text-center">
+                        <strong class="">CLEANLINESS</strong>
+                        <img class="" src="https://chse.kemenparekraf.go.id/themes/chse-front/assets/landing/img/icons/clean.png">
+                    </div>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 container-strech mb-3">
+                    <div class="mask-group-2 d-flex flex-row align-items-center justify-content-evenly text-center">
+                        <strong class="">HEALTH</strong>
+                        <img class="" src="https://chse.kemenparekraf.go.id/themes/chse-front/assets/landing/img/icons/health.png">
+                    </div>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 container-strech mb-3">
+                    <div class="mask-group-3 d-flex flex-row align-items-center justify-content-evenly text-center">
+                        <strong class="">SAFETY</strong>
+                        <img class="" src="https://chse.kemenparekraf.go.id/themes/chse-front/assets/landing/img/icons/safety.png">
+                    </div>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 container-strech mb-3">
+                    <div class="mask-group-1 d-flex flex-row align-items-center justify-content-space text-center">
+                        <strong class="">ENVIRONMENT SUSTAINABILITY</strong>
+                        <img class="" src="https://chse.kemenparekraf.go.id/themes/chse-front/assets/landing/img/icons/env.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  CHSE End  -->
+
     <!-- Footer Start -->
     <div
             class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn"
